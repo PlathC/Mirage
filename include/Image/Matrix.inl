@@ -14,8 +14,8 @@ namespace ImPro {
     template<typename Type>
     ImPro::Matrix<Type>::Matrix(std::string filename)
     {
-        //static_assert(false, "Not yet implemented.");
         // @TODO : Implement file read to create image
+        throw std::logic_error("This feature is not yet implemented.");
     }
 
     template<typename Type>
