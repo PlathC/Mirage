@@ -9,9 +9,8 @@ int main(int argc, char** argv)
 {
     using namespace ImPro;
 
-    int c = 4;
     Matrix<Vec4d> mat{5, 5};
-    mat = ImageParser::FromPPM<Vec4d>("../samples/StrangeSphere.ppm");
+    mat = ImageParser::FromFile<Vec4d>("../samples/StrangeSphere.ppm");
 
     std::cout << "Width " << mat.Width() << "| Height " << mat.Height() << std::endl;
     for(unsigned i = 0; i < mat.Width(); i++)

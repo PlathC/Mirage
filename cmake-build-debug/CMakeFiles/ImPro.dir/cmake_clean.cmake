@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/ImPro.dir/src/Core/Vec.cpp.obj"
   "CMakeFiles/ImPro.dir/src/Image/Matrix.cpp.obj"
   "CMakeFiles/ImPro.dir/src/Image/ImageParser.cpp.obj"
+  "CMakeFiles/ImPro.dir/src/Image/PPMParser.cpp.obj"
+  "CMakeFiles/ImPro.dir/src/Image/IParser.cpp.obj"
   "ImPro.pdb"
   "ImPro.exe"
   "ImPro.exe.manifest"

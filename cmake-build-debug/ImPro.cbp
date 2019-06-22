@@ -86,10 +86,16 @@
 		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.h">
 			<Option target="ImPro"/>
 		</Unit>
+		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/IParser.h">
+			<Option target="ImPro"/>
+		</Unit>
 		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/ImageParser.h">
 			<Option target="ImPro"/>
 		</Unit>
 		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.h">
+			<Option target="ImPro"/>
+		</Unit>
+		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/PPMParser.h">
 			<Option target="ImPro"/>
 		</Unit>
 		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/main.cpp">
@@ -98,10 +104,16 @@
 		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/src/Core/Vec.cpp">
 			<Option target="ImPro"/>
 		</Unit>
+		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/src/Image/IParser.cpp">
+			<Option target="ImPro"/>
+		</Unit>
 		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/src/Image/ImageParser.cpp">
 			<Option target="ImPro"/>
 		</Unit>
 		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/src/Image/Matrix.cpp">
+			<Option target="ImPro"/>
+		</Unit>
+		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/src/Image/PPMParser.cpp">
 			<Option target="ImPro"/>
 		</Unit>
 		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/CMakeLists.txt">

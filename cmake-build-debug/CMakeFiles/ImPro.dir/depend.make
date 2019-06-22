@@ -4,9 +4,13 @@
 CMakeFiles/ImPro.dir/main.cpp.obj: ../include/Core/Math.h
 CMakeFiles/ImPro.dir/main.cpp.obj: ../include/Core/Vec.h
 CMakeFiles/ImPro.dir/main.cpp.obj: ../include/Core/Vec.inl
+CMakeFiles/ImPro.dir/main.cpp.obj: ../include/Image/IParser.h
 CMakeFiles/ImPro.dir/main.cpp.obj: ../include/Image/ImageParser.h
 CMakeFiles/ImPro.dir/main.cpp.obj: ../include/Image/ImageParser.inl
 CMakeFiles/ImPro.dir/main.cpp.obj: ../include/Image/Matrix.h
+CMakeFiles/ImPro.dir/main.cpp.obj: ../include/Image/Matrix.inl
+CMakeFiles/ImPro.dir/main.cpp.obj: ../include/Image/PPMParser.h
+CMakeFiles/ImPro.dir/main.cpp.obj: ../include/Image/PPMParser.inl
 CMakeFiles/ImPro.dir/main.cpp.obj: ../main.cpp
 
 CMakeFiles/ImPro.dir/src/Core/Vec.cpp.obj: ../include/Core/Math.h
@@ -14,17 +18,40 @@ CMakeFiles/ImPro.dir/src/Core/Vec.cpp.obj: ../include/Core/Vec.h
 CMakeFiles/ImPro.dir/src/Core/Vec.cpp.obj: ../include/Core/Vec.inl
 CMakeFiles/ImPro.dir/src/Core/Vec.cpp.obj: ../src/Core/Vec.cpp
 
+CMakeFiles/ImPro.dir/src/Image/IParser.cpp.obj: ../include/Core/Math.h
+CMakeFiles/ImPro.dir/src/Image/IParser.cpp.obj: ../include/Core/Vec.h
+CMakeFiles/ImPro.dir/src/Image/IParser.cpp.obj: ../include/Core/Vec.inl
+CMakeFiles/ImPro.dir/src/Image/IParser.cpp.obj: ../include/Image/IParser.h
+CMakeFiles/ImPro.dir/src/Image/IParser.cpp.obj: ../include/Image/Matrix.h
+CMakeFiles/ImPro.dir/src/Image/IParser.cpp.obj: ../include/Image/Matrix.inl
+CMakeFiles/ImPro.dir/src/Image/IParser.cpp.obj: ../src/Image/IParser.cpp
+
 CMakeFiles/ImPro.dir/src/Image/ImageParser.cpp.obj: ../include/Core/Math.h
 CMakeFiles/ImPro.dir/src/Image/ImageParser.cpp.obj: ../include/Core/Vec.h
 CMakeFiles/ImPro.dir/src/Image/ImageParser.cpp.obj: ../include/Core/Vec.inl
+CMakeFiles/ImPro.dir/src/Image/ImageParser.cpp.obj: ../include/Image/IParser.h
 CMakeFiles/ImPro.dir/src/Image/ImageParser.cpp.obj: ../include/Image/ImageParser.h
 CMakeFiles/ImPro.dir/src/Image/ImageParser.cpp.obj: ../include/Image/ImageParser.inl
 CMakeFiles/ImPro.dir/src/Image/ImageParser.cpp.obj: ../include/Image/Matrix.h
+CMakeFiles/ImPro.dir/src/Image/ImageParser.cpp.obj: ../include/Image/Matrix.inl
+CMakeFiles/ImPro.dir/src/Image/ImageParser.cpp.obj: ../include/Image/PPMParser.h
+CMakeFiles/ImPro.dir/src/Image/ImageParser.cpp.obj: ../include/Image/PPMParser.inl
 CMakeFiles/ImPro.dir/src/Image/ImageParser.cpp.obj: ../src/Image/ImageParser.cpp
 
 CMakeFiles/ImPro.dir/src/Image/Matrix.cpp.obj: ../include/Core/Math.h
 CMakeFiles/ImPro.dir/src/Image/Matrix.cpp.obj: ../include/Core/Vec.h
 CMakeFiles/ImPro.dir/src/Image/Matrix.cpp.obj: ../include/Core/Vec.inl
 CMakeFiles/ImPro.dir/src/Image/Matrix.cpp.obj: ../include/Image/Matrix.h
+CMakeFiles/ImPro.dir/src/Image/Matrix.cpp.obj: ../include/Image/Matrix.inl
 CMakeFiles/ImPro.dir/src/Image/Matrix.cpp.obj: ../src/Image/Matrix.cpp
+
+CMakeFiles/ImPro.dir/src/Image/PPMParser.cpp.obj: ../include/Core/Math.h
+CMakeFiles/ImPro.dir/src/Image/PPMParser.cpp.obj: ../include/Core/Vec.h
+CMakeFiles/ImPro.dir/src/Image/PPMParser.cpp.obj: ../include/Core/Vec.inl
+CMakeFiles/ImPro.dir/src/Image/PPMParser.cpp.obj: ../include/Image/IParser.h
+CMakeFiles/ImPro.dir/src/Image/PPMParser.cpp.obj: ../include/Image/Matrix.h
+CMakeFiles/ImPro.dir/src/Image/PPMParser.cpp.obj: ../include/Image/Matrix.inl
+CMakeFiles/ImPro.dir/src/Image/PPMParser.cpp.obj: ../include/Image/PPMParser.h
+CMakeFiles/ImPro.dir/src/Image/PPMParser.cpp.obj: ../include/Image/PPMParser.inl
+CMakeFiles/ImPro.dir/src/Image/PPMParser.cpp.obj: ../src/Image/PPMParser.cpp
 

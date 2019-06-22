@@ -176,6 +176,33 @@ src/Core/Vec.cpp.s:
 	$(MAKE) -f CMakeFiles\ImPro.dir\build.make CMakeFiles/ImPro.dir/src/Core/Vec.cpp.s
 .PHONY : src/Core/Vec.cpp.s
 
+src/Image/IParser.obj: src/Image/IParser.cpp.obj
+
+.PHONY : src/Image/IParser.obj
+
+# target to build an object file
+src/Image/IParser.cpp.obj:
+	$(MAKE) -f CMakeFiles\ImPro.dir\build.make CMakeFiles/ImPro.dir/src/Image/IParser.cpp.obj
+.PHONY : src/Image/IParser.cpp.obj
+
+src/Image/IParser.i: src/Image/IParser.cpp.i
+
+.PHONY : src/Image/IParser.i
+
+# target to preprocess a source file
+src/Image/IParser.cpp.i:
+	$(MAKE) -f CMakeFiles\ImPro.dir\build.make CMakeFiles/ImPro.dir/src/Image/IParser.cpp.i
+.PHONY : src/Image/IParser.cpp.i
+
+src/Image/IParser.s: src/Image/IParser.cpp.s
+
+.PHONY : src/Image/IParser.s
+
+# target to generate assembly for a file
+src/Image/IParser.cpp.s:
+	$(MAKE) -f CMakeFiles\ImPro.dir\build.make CMakeFiles/ImPro.dir/src/Image/IParser.cpp.s
+.PHONY : src/Image/IParser.cpp.s
+
 src/Image/ImageParser.obj: src/Image/ImageParser.cpp.obj
 
 .PHONY : src/Image/ImageParser.obj
@@ -230,6 +257,33 @@ src/Image/Matrix.cpp.s:
 	$(MAKE) -f CMakeFiles\ImPro.dir\build.make CMakeFiles/ImPro.dir/src/Image/Matrix.cpp.s
 .PHONY : src/Image/Matrix.cpp.s
 
+src/Image/PPMParser.obj: src/Image/PPMParser.cpp.obj
+
+.PHONY : src/Image/PPMParser.obj
+
+# target to build an object file
+src/Image/PPMParser.cpp.obj:
+	$(MAKE) -f CMakeFiles\ImPro.dir\build.make CMakeFiles/ImPro.dir/src/Image/PPMParser.cpp.obj
+.PHONY : src/Image/PPMParser.cpp.obj
+
+src/Image/PPMParser.i: src/Image/PPMParser.cpp.i
+
+.PHONY : src/Image/PPMParser.i
+
+# target to preprocess a source file
+src/Image/PPMParser.cpp.i:
+	$(MAKE) -f CMakeFiles\ImPro.dir\build.make CMakeFiles/ImPro.dir/src/Image/PPMParser.cpp.i
+.PHONY : src/Image/PPMParser.cpp.i
+
+src/Image/PPMParser.s: src/Image/PPMParser.cpp.s
+
+.PHONY : src/Image/PPMParser.s
+
+# target to generate assembly for a file
+src/Image/PPMParser.cpp.s:
+	$(MAKE) -f CMakeFiles\ImPro.dir\build.make CMakeFiles/ImPro.dir/src/Image/PPMParser.cpp.s
+.PHONY : src/Image/PPMParser.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -245,12 +299,18 @@ help:
 	@echo ... src/Core/Vec.obj
 	@echo ... src/Core/Vec.i
 	@echo ... src/Core/Vec.s
+	@echo ... src/Image/IParser.obj
+	@echo ... src/Image/IParser.i
+	@echo ... src/Image/IParser.s
 	@echo ... src/Image/ImageParser.obj
 	@echo ... src/Image/ImageParser.i
 	@echo ... src/Image/ImageParser.s
 	@echo ... src/Image/Matrix.obj
 	@echo ... src/Image/Matrix.i
 	@echo ... src/Image/Matrix.s
+	@echo ... src/Image/PPMParser.obj
+	@echo ... src/Image/PPMParser.i
+	@echo ... src/Image/PPMParser.s
 .PHONY : help
 
 

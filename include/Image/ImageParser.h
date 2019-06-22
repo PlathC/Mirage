@@ -21,11 +21,10 @@ namespace ImPro {
     namespace ImageParser {
 
         template<typename Type>
-        Matrix<Type> FromPPM(std::string fileName);
+        Matrix<Type> FromFile(std::string fileName);
 
         template<typename Type>
-        bool ToPPM(const Matrix<Type>& mat);
-
+        bool ToFile(const Matrix<Type>& mat, std::string fileName);
     };
 }
 
