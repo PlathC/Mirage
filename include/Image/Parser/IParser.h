@@ -1,5 +1,5 @@
 //
-// Created by cypri on 22/06/2019.
+// Created by Cyprien Plateau--Holleville on 22/06/2019.
 //
 
 #ifndef IMPRO_IPARSER_H
