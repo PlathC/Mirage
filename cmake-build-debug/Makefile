@@ -176,33 +176,6 @@ src/Core/Vec.cpp.s:
 	$(MAKE) -f CMakeFiles\ImPro.dir\build.make CMakeFiles/ImPro.dir/src/Core/Vec.cpp.s
 .PHONY : src/Core/Vec.cpp.s
 
-src/Image/IParser.obj: src/Image/IParser.cpp.obj
-
-.PHONY : src/Image/IParser.obj
-
-# target to build an object file
-src/Image/IParser.cpp.obj:
-	$(MAKE) -f CMakeFiles\ImPro.dir\build.make CMakeFiles/ImPro.dir/src/Image/IParser.cpp.obj
-.PHONY : src/Image/IParser.cpp.obj
-
-src/Image/IParser.i: src/Image/IParser.cpp.i
-
-.PHONY : src/Image/IParser.i
-
-# target to preprocess a source file
-src/Image/IParser.cpp.i:
-	$(MAKE) -f CMakeFiles\ImPro.dir\build.make CMakeFiles/ImPro.dir/src/Image/IParser.cpp.i
-.PHONY : src/Image/IParser.cpp.i
-
-src/Image/IParser.s: src/Image/IParser.cpp.s
-
-.PHONY : src/Image/IParser.s
-
-# target to generate assembly for a file
-src/Image/IParser.cpp.s:
-	$(MAKE) -f CMakeFiles\ImPro.dir\build.make CMakeFiles/ImPro.dir/src/Image/IParser.cpp.s
-.PHONY : src/Image/IParser.cpp.s
-
 src/Image/ImageParser.obj: src/Image/ImageParser.cpp.obj
 
 .PHONY : src/Image/ImageParser.obj
@@ -257,32 +230,86 @@ src/Image/Matrix.cpp.s:
 	$(MAKE) -f CMakeFiles\ImPro.dir\build.make CMakeFiles/ImPro.dir/src/Image/Matrix.cpp.s
 .PHONY : src/Image/Matrix.cpp.s
 
-src/Image/PPMParser.obj: src/Image/PPMParser.cpp.obj
+src/Image/Parser/IParser.obj: src/Image/Parser/IParser.cpp.obj
 
-.PHONY : src/Image/PPMParser.obj
+.PHONY : src/Image/Parser/IParser.obj
 
 # target to build an object file
-src/Image/PPMParser.cpp.obj:
-	$(MAKE) -f CMakeFiles\ImPro.dir\build.make CMakeFiles/ImPro.dir/src/Image/PPMParser.cpp.obj
-.PHONY : src/Image/PPMParser.cpp.obj
+src/Image/Parser/IParser.cpp.obj:
+	$(MAKE) -f CMakeFiles\ImPro.dir\build.make CMakeFiles/ImPro.dir/src/Image/Parser/IParser.cpp.obj
+.PHONY : src/Image/Parser/IParser.cpp.obj
 
-src/Image/PPMParser.i: src/Image/PPMParser.cpp.i
+src/Image/Parser/IParser.i: src/Image/Parser/IParser.cpp.i
 
-.PHONY : src/Image/PPMParser.i
+.PHONY : src/Image/Parser/IParser.i
 
 # target to preprocess a source file
-src/Image/PPMParser.cpp.i:
-	$(MAKE) -f CMakeFiles\ImPro.dir\build.make CMakeFiles/ImPro.dir/src/Image/PPMParser.cpp.i
-.PHONY : src/Image/PPMParser.cpp.i
+src/Image/Parser/IParser.cpp.i:
+	$(MAKE) -f CMakeFiles\ImPro.dir\build.make CMakeFiles/ImPro.dir/src/Image/Parser/IParser.cpp.i
+.PHONY : src/Image/Parser/IParser.cpp.i
 
-src/Image/PPMParser.s: src/Image/PPMParser.cpp.s
+src/Image/Parser/IParser.s: src/Image/Parser/IParser.cpp.s
 
-.PHONY : src/Image/PPMParser.s
+.PHONY : src/Image/Parser/IParser.s
 
 # target to generate assembly for a file
-src/Image/PPMParser.cpp.s:
-	$(MAKE) -f CMakeFiles\ImPro.dir\build.make CMakeFiles/ImPro.dir/src/Image/PPMParser.cpp.s
-.PHONY : src/Image/PPMParser.cpp.s
+src/Image/Parser/IParser.cpp.s:
+	$(MAKE) -f CMakeFiles\ImPro.dir\build.make CMakeFiles/ImPro.dir/src/Image/Parser/IParser.cpp.s
+.PHONY : src/Image/Parser/IParser.cpp.s
+
+src/Image/Parser/PPMParser.obj: src/Image/Parser/PPMParser.cpp.obj
+
+.PHONY : src/Image/Parser/PPMParser.obj
+
+# target to build an object file
+src/Image/Parser/PPMParser.cpp.obj:
+	$(MAKE) -f CMakeFiles\ImPro.dir\build.make CMakeFiles/ImPro.dir/src/Image/Parser/PPMParser.cpp.obj
+.PHONY : src/Image/Parser/PPMParser.cpp.obj
+
+src/Image/Parser/PPMParser.i: src/Image/Parser/PPMParser.cpp.i
+
+.PHONY : src/Image/Parser/PPMParser.i
+
+# target to preprocess a source file
+src/Image/Parser/PPMParser.cpp.i:
+	$(MAKE) -f CMakeFiles\ImPro.dir\build.make CMakeFiles/ImPro.dir/src/Image/Parser/PPMParser.cpp.i
+.PHONY : src/Image/Parser/PPMParser.cpp.i
+
+src/Image/Parser/PPMParser.s: src/Image/Parser/PPMParser.cpp.s
+
+.PHONY : src/Image/Parser/PPMParser.s
+
+# target to generate assembly for a file
+src/Image/Parser/PPMParser.cpp.s:
+	$(MAKE) -f CMakeFiles\ImPro.dir\build.make CMakeFiles/ImPro.dir/src/Image/Parser/PPMParser.cpp.s
+.PHONY : src/Image/Parser/PPMParser.cpp.s
+
+src/Image/Parser/PngParser.obj: src/Image/Parser/PngParser.cpp.obj
+
+.PHONY : src/Image/Parser/PngParser.obj
+
+# target to build an object file
+src/Image/Parser/PngParser.cpp.obj:
+	$(MAKE) -f CMakeFiles\ImPro.dir\build.make CMakeFiles/ImPro.dir/src/Image/Parser/PngParser.cpp.obj
+.PHONY : src/Image/Parser/PngParser.cpp.obj
+
+src/Image/Parser/PngParser.i: src/Image/Parser/PngParser.cpp.i
+
+.PHONY : src/Image/Parser/PngParser.i
+
+# target to preprocess a source file
+src/Image/Parser/PngParser.cpp.i:
+	$(MAKE) -f CMakeFiles\ImPro.dir\build.make CMakeFiles/ImPro.dir/src/Image/Parser/PngParser.cpp.i
+.PHONY : src/Image/Parser/PngParser.cpp.i
+
+src/Image/Parser/PngParser.s: src/Image/Parser/PngParser.cpp.s
+
+.PHONY : src/Image/Parser/PngParser.s
+
+# target to generate assembly for a file
+src/Image/Parser/PngParser.cpp.s:
+	$(MAKE) -f CMakeFiles\ImPro.dir\build.make CMakeFiles/ImPro.dir/src/Image/Parser/PngParser.cpp.s
+.PHONY : src/Image/Parser/PngParser.cpp.s
 
 # Help Target
 help:
@@ -299,18 +326,21 @@ help:
 	@echo ... src/Core/Vec.obj
 	@echo ... src/Core/Vec.i
 	@echo ... src/Core/Vec.s
-	@echo ... src/Image/IParser.obj
-	@echo ... src/Image/IParser.i
-	@echo ... src/Image/IParser.s
 	@echo ... src/Image/ImageParser.obj
 	@echo ... src/Image/ImageParser.i
 	@echo ... src/Image/ImageParser.s
 	@echo ... src/Image/Matrix.obj
 	@echo ... src/Image/Matrix.i
 	@echo ... src/Image/Matrix.s
-	@echo ... src/Image/PPMParser.obj
-	@echo ... src/Image/PPMParser.i
-	@echo ... src/Image/PPMParser.s
+	@echo ... src/Image/Parser/IParser.obj
+	@echo ... src/Image/Parser/IParser.i
+	@echo ... src/Image/Parser/IParser.s
+	@echo ... src/Image/Parser/PPMParser.obj
+	@echo ... src/Image/Parser/PPMParser.i
+	@echo ... src/Image/Parser/PPMParser.s
+	@echo ... src/Image/Parser/PngParser.obj
+	@echo ... src/Image/Parser/PngParser.i
+	@echo ... src/Image/Parser/PngParser.s
 .PHONY : help
 
 

@@ -32,12 +32,6 @@ C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.inl
 
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.inl
 
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/IParser.h
-string
--
-Matrix.h
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.h
-
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/ImageParser.h
 string
 -
@@ -69,10 +63,10 @@ memory
 -
 algorithm
 -
-IParser.h
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/IParser.h
-PPMParser.h
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/PPMParser.h
+Parser/IParser.h
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/IParser.h
+Parser/PPMParser.h
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PPMParser.h
 
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.h
 array
@@ -86,15 +80,21 @@ C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.inl
 
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.inl
 
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/PPMParser.h
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/IParser.h
+string
+-
+../Matrix.h
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.h
+
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PPMParser.h
 IParser.h
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/IParser.h
-Matrix.h
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/IParser.h
+../Matrix.h
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.h
 PPMParser.inl
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/PPMParser.inl
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PPMParser.inl
 
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/PPMParser.inl
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PPMParser.inl
 regex
 -
 

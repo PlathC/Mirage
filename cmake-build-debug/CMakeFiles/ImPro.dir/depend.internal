@@ -5,38 +5,30 @@ CMakeFiles/ImPro.dir/main.cpp.obj
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Math.h
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.h
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.inl
- C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/IParser.h
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/ImageParser.h
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/ImageParser.inl
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.h
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.inl
- C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/PPMParser.h
- C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/PPMParser.inl
+ C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/IParser.h
+ C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PPMParser.h
+ C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PPMParser.inl
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/main.cpp
 CMakeFiles/ImPro.dir/src/Core/Vec.cpp.obj
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Math.h
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.h
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.inl
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/src/Core/Vec.cpp
-CMakeFiles/ImPro.dir/src/Image/IParser.cpp.obj
- C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Math.h
- C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.h
- C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.inl
- C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/IParser.h
- C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.h
- C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.inl
- C:/Users/cypri/Documents/ProgPerso/C++/ImPro/src/Image/IParser.cpp
 CMakeFiles/ImPro.dir/src/Image/ImageParser.cpp.obj
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Math.h
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.h
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.inl
- C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/IParser.h
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/ImageParser.h
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/ImageParser.inl
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.h
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.inl
- C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/PPMParser.h
- C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/PPMParser.inl
+ C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/IParser.h
+ C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PPMParser.h
+ C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PPMParser.inl
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/src/Image/ImageParser.cpp
 CMakeFiles/ImPro.dir/src/Image/Matrix.cpp.obj
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Math.h
@@ -45,13 +37,24 @@ CMakeFiles/ImPro.dir/src/Image/Matrix.cpp.obj
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.h
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.inl
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/src/Image/Matrix.cpp
-CMakeFiles/ImPro.dir/src/Image/PPMParser.cpp.obj
+CMakeFiles/ImPro.dir/src/Image/Parser/IParser.cpp.obj
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Math.h
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.h
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.inl
- C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/IParser.h
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.h
  C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.inl
- C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/PPMParser.h
- C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/PPMParser.inl
- C:/Users/cypri/Documents/ProgPerso/C++/ImPro/src/Image/PPMParser.cpp
+ C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/IParser.h
+ C:/Users/cypri/Documents/ProgPerso/C++/ImPro/src/Image/Parser/IParser.cpp
+CMakeFiles/ImPro.dir/src/Image/Parser/PPMParser.cpp.obj
+ C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Math.h
+ C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.h
+ C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.inl
+ C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.h
+ C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.inl
+ C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/IParser.h
+ C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PPMParser.h
+ C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PPMParser.inl
+ C:/Users/cypri/Documents/ProgPerso/C++/ImPro/src/Image/Parser/PPMParser.cpp
+CMakeFiles/ImPro.dir/src/Image/Parser/PngParser.cpp.obj
+ C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PngParser.h
+ C:/Users/cypri/Documents/ProgPerso/C++/ImPro/src/Image/Parser/PngParser.cpp

@@ -29,13 +29,12 @@ namespace ImPro {
             // Size acquisition
             std::getline(file, line);
             unsigned int height = 0, width = 0;
-            if(std::regex_search(line, match, std::regex("([0-9]+)")))
+            if(std::regex_search(line, match, std::regex("([0-9]+)\\s([0-9]+)")))
             {
-                std::stringstream streamConverter{match[0]};
-                streamConverter >> width;
-                streamConverter = std::stringstream{match[1]};
-                streamConverter >> height;
+                width = std::stoi(match[1]);
+                height = std::stoi(match[2]);
             }
+
 
             // Skip number format (temporary)
             std::getline(file, line);
@@ -45,7 +44,7 @@ namespace ImPro {
             while(std::getline(file, line))
             {
                 index++;
-                T t = T();
+                T t = T(255, 255, 255);
                 if(std::regex_search(line, match, pattern))
                 {
                     t[0] = std::stod(match[0]);
@@ -65,7 +64,16 @@ namespace ImPro {
         template<typename T>
         void PPMParser<T>::Write(Matrix<T>& mat, std::string fileName)
         {
+            std::ofstream file { fileName };
 
+            file << "P3" << std::endl;
+            file << mat.Width() << " " << mat.Height() << std::endl;
+            file << "255" << std::endl;
+            std::vector<T> data = mat.GetData();
+
+            for(auto it = data.begin(); it != data.end(); ++it) {
+                file << *it << std::endl;
+            }
         }
     }
 }

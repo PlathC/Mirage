@@ -18,10 +18,10 @@ namespace ImPro {
         Matrix();
         Matrix(const unsigned int width, const unsigned int height);
         Matrix(std::vector<Type> pixels, const unsigned int width, const unsigned int height);
-        Matrix(std::string filename);
 
         Type& Get(unsigned int w, unsigned int h);
-        void Set(unsigned int w, unsigned int h, const Type t);
+        std::vector<Type> GetData();
+        void Set(unsigned int w, unsigned int h, const Type& t);
         unsigned int Width() noexcept { return width; }
         unsigned int Height() noexcept { return height; }
 
@@ -30,8 +30,6 @@ namespace ImPro {
         unsigned int height;
         std::vector<Type> data;
     };
-
-
 }
 
 #include "Matrix.inl"

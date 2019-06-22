@@ -12,6 +12,6 @@ set(
         src/Image/ImageParser.cpp include/Image/ImageParser.h
         src/Image/Parser/PPMParser.cpp include/Image/Parser/PPMParser.h
         src/Image/Parser/IParser.cpp include/Image/Parser/IParser.h
-)
+        src/Image/Parser/PngParser.cpp include/Image/Parser/PngParser.h)
 
 add_executable(ImPro ${SOURCE_FILES})

@@ -25,16 +25,15 @@ namespace ImPro {
             PPM
         };
 
-        static const std::unordered_map<ImageFile, std::vector<std::string>> formats = {
+        const std::unordered_map<ImageFile, std::vector<std::string>> formats = {
                 {ImageFile::PPM, {"ppm", "pgm", "pmm", "pnm"}}
         };
-
 
         template<typename Type>
         Matrix<Type> FromFile(std::string fileName);
 
         template<typename Type>
-        bool ToFile(const Matrix<Type>& mat, std::string fileName);
+        void ToFile(Matrix<Type>& mat, std::string fileName);
 
     };
 }
