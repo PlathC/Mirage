@@ -1,8 +1,8 @@
 #include <memory>
 #include <algorithm>
 
-#include "IParser.h"
-#include "PPMParser.h"
+#include "Parser/IParser.h"
+#include "Parser/PPMParser.h"
 
 namespace ImPro {
     namespace ImageParser{

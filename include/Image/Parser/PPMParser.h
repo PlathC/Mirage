@@ -6,7 +6,7 @@
 #define IMPRO_PPMPARSER_H
 
 #include "IParser.h"
-#include "Matrix.h"
+#include "../Matrix.h"
 
 namespace ImPro {
     namespace ImageParser{

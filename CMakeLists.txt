@@ -10,8 +10,8 @@ set(
         include/Core/Vec.h src/Core/Vec.cpp
         include/Image/Matrix.h src/Image/Matrix.cpp
         src/Image/ImageParser.cpp include/Image/ImageParser.h
-        src/Image/PPMParser.cpp include/Image/PPMParser.h
-        src/Image/IParser.cpp include/Image/IParser.h
+        src/Image/Parser/PPMParser.cpp include/Image/Parser/PPMParser.h
+        src/Image/Parser/IParser.cpp include/Image/Parser/IParser.h
 )
 
 add_executable(ImPro ${SOURCE_FILES})
