@@ -55,6 +55,8 @@ any
 -
 utility
 -
+unordered_map
+-
 ../Core/Vec.h
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.h
 Matrix.h
@@ -64,6 +66,8 @@ C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/ImageParser.inl
 
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/ImageParser.inl
 memory
+-
+algorithm
 -
 IParser.h
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/IParser.h
@@ -105,4 +109,8 @@ include/Image/ImageParser.h
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/ImageParser.h
 include/Image/Matrix.h
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.h
+
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/src/Image/ImageParser.cpp
+../../include/Image/ImageParser.h
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/ImageParser.h
 

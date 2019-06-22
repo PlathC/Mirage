@@ -13,6 +13,7 @@
 #include <vector>
 #include <any>
 #include <utility>
+#include <unordered_map>
 
 #include "../Core/Vec.h"
 #include "Matrix.h"
@@ -20,11 +21,21 @@
 namespace ImPro {
     namespace ImageParser {
 
+        enum ImageFile {
+            PPM
+        };
+
+        static const std::unordered_map<ImageFile, std::vector<std::string>> formats = {
+                {ImageFile::PPM, {"ppm", "pgm", "pmm", "pnm"}}
+        };
+
+
         template<typename Type>
         Matrix<Type> FromFile(std::string fileName);
 
         template<typename Type>
         bool ToFile(const Matrix<Type>& mat, std::string fileName);
+
     };
 }
 

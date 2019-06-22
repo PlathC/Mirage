@@ -1,4 +1,5 @@
 #include <memory>
+#include <algorithm>
 
 #include "IParser.h"
 #include "PPMParser.h"
@@ -16,7 +17,10 @@ namespace ImPro {
             if(idx != std::string::npos)
             {
                 std::string extension = fileName.substr(idx + 1);
-                if(extension == "ppm")
+                std::transform(extension.begin(), extension.end(), extension.begin(), ::tolower);
+
+                if(std::find(formats.at(ImageFile::PPM).begin(), formats.at(ImageFile::PPM).end(), extension)
+                    != formats.at(ImageFile::PPM).end())
                 {
                     parser = std::make_unique<PPMParser<Type>>();
                 }
