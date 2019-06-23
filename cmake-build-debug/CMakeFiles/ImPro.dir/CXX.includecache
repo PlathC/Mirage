@@ -6,6 +6,26 @@
 
 #IncludeRegexTransform: 
 
+../third/lpng1637/png.h
+pnglibconf.h
+../third/lpng1637/pnglibconf.h
+pngconf.h
+../third/lpng1637/pngconf.h
+
+../third/lpng1637/pngconf.h
+limits.h
+-
+stddef.h
+-
+stdio.h
+-
+setjmp.h
+-
+time.h
+-
+
+../third/lpng1637/pnglibconf.h
+
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Math.h
 cmath
 -
@@ -63,10 +83,14 @@ memory
 -
 algorithm
 -
+functional
+-
 Parser/IParser.h
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/IParser.h
 Parser/PPMParser.h
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PPMParser.h
+Parser/PngParser.h
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PngParser.h
 
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.h
 array
@@ -98,6 +122,20 @@ C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PPMParser.inl
 regex
 -
 
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PngParser.h
+png.h
+-
+IParser.h
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/IParser.h
+PngParser.inl
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PngParser.inl
+
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PngParser.inl
+stdio.h
+-
+stdlib.h
+-
+
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/main.cpp
 iostream
 -
@@ -113,4 +151,8 @@ C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.h
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/src/Image/ImageParser.cpp
 ../../include/Image/ImageParser.h
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/ImageParser.h
+
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/src/Image/Parser/PngParser.cpp
+../../../include/Image/Parser/PngParser.h
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PngParser.h
 

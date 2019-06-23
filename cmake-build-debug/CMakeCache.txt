@@ -253,6 +253,24 @@ ImPro_BINARY_DIR:STATIC=C:/Users/cypri/Documents/ProgPerso/C++/ImPro/cmake-build
 //Value Computed by CMake
 ImPro_SOURCE_DIR:STATIC=C:/Users/cypri/Documents/ProgPerso/C++/ImPro
 
+//Path to a library.
+PNG_LIBRARY_DEBUG:FILEPATH=PNG_LIBRARY_DEBUG-NOTFOUND
+
+//Path to a library.
+PNG_LIBRARY_RELEASE:FILEPATH=C:/ProgramData/Anaconda3/Library/lib/libpng.lib
+
+//Path to a file.
+PNG_PNG_INCLUDE_DIR:PATH=C:/ProgramData/Anaconda3/Library/include
+
+//Path to a file.
+ZLIB_INCLUDE_DIR:PATH=C:/ProgramData/Anaconda3/Library/include
+
+//Path to a library.
+ZLIB_LIBRARY_DEBUG:FILEPATH=ZLIB_LIBRARY_DEBUG-NOTFOUND
+
+//Path to a library.
+ZLIB_LIBRARY_RELEASE:FILEPATH=C:/ProgramData/Anaconda3/Library/lib/z.lib
+
 
 ########################
 # INTERNAL cache entries
@@ -420,6 +438,22 @@ CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 CMAKE_STRIP-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//Details about finding PNG
+FIND_PACKAGE_MESSAGE_DETAILS_PNG:INTERNAL=[C:/ProgramData/Anaconda3/Library/lib/libpng.lib][C:/ProgramData/Anaconda3/Library/include][v1.6.35()]
+//Details about finding ZLIB
+FIND_PACKAGE_MESSAGE_DETAILS_ZLIB:INTERNAL=[C:/ProgramData/Anaconda3/Library/lib/z.lib][C:/ProgramData/Anaconda3/Library/include][v1.2.11()]
+//ADVANCED property for variable: PNG_LIBRARY_DEBUG
+PNG_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: PNG_LIBRARY_RELEASE
+PNG_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: PNG_PNG_INCLUDE_DIR
+PNG_PNG_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: ZLIB_INCLUDE_DIR
+ZLIB_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: ZLIB_LIBRARY_DEBUG
+ZLIB_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: ZLIB_LIBRARY_RELEASE
+ZLIB_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 //Components requested for this build tree.
 _Boost_COMPONENTS_SEARCHED:INTERNAL=
 //Last used Boost_INCLUDE_DIR value.

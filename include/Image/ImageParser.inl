@@ -1,8 +1,10 @@
 #include <memory>
 #include <algorithm>
+#include <functional>
 
 #include "Parser/IParser.h"
 #include "Parser/PPMParser.h"
+#include "Parser/PngParser.h"
 
 namespace ImPro {
     namespace ImageParser{
@@ -10,20 +12,29 @@ namespace ImPro {
         template<typename Type>
         Matrix<Type> FromFile(std::string fileName)
         {
-            //http://netpbm.sourceforge.net/doc/libppm.html
+
             std::unique_ptr<IParser<Type>> parser;
             Matrix<Type> result;
 
-            int idx = fileName.rfind('.');
+
+            std::string::size_type idx = fileName.rfind('.');
             if(idx != std::string::npos)
             {
                 std::string extension = fileName.substr(idx + 1);
                 std::transform(extension.begin(), extension.end(), extension.begin(), ::tolower);
 
-                if(std::find(formats.at(ImageFile::PPM).begin(), formats.at(ImageFile::PPM).end(), extension)
-                    != formats.at(ImageFile::PPM).end())
+                auto CheckExtension = [&extension](ImageFile type) -> bool {
+                    return std::find(formats.at(type).begin(),
+                                     formats.at(type).end(), extension)
+                                     != formats.at(type).end();
+                };
+
+                if(CheckExtension(ImageFile::PPM))
                 {
                     parser = std::make_unique<PPMParser<Type>>();
+                }else if(CheckExtension(ImageFile::PNG))
+                {
+                    parser = std::make_unique<PngParser<Type>>();
                 }
 
                 if(parser != nullptr)
@@ -40,16 +51,23 @@ namespace ImPro {
         void ToFile(Matrix<Type>& mat, std::string fileName)
         {
             std::unique_ptr<IParser<Type>> parser;
-            int idx = fileName.rfind('.');
+            auto idx = fileName.rfind('.');
             if(idx != std::string::npos)
             {
                 std::string extension = fileName.substr(idx + 1);
                 std::transform(extension.begin(), extension.end(), extension.begin(), ::tolower);
+                auto CheckExtension = [&extension](ImageFile type) -> bool {
+                    return std::find(formats.at(type).begin(),
+                                     formats.at(type).end(), extension)
+                           != formats.at(type).end();
+                };
 
-                if(std::find(formats.at(ImageFile::PPM).begin(), formats.at(ImageFile::PPM).end(), extension)
-                   != formats.at(ImageFile::PPM).end())
+                if(CheckExtension(ImageFile::PPM))
                 {
                     parser = std::make_unique<PPMParser<Type>>();
+                }else if(CheckExtension(ImageFile::PNG))
+                {
+                    parser = std::make_unique<PngParser<Type>>();
                 }
 
                 if(parser != nullptr)

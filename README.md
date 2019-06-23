@@ -16,10 +16,8 @@ An image processing library for learning purpose.
 
 ## Dependecies
 
-1. __Boost__
+1. __LibPNG__
 
-This project use GIL from the library BOOST to read images.
-GIL is provided with the project, but you will need to 
-download boost by yourself and to add the env variables
-BOOST_ROOT.
+This project use LibPNG to png read images. You can build for 
+UNIX, or pre-built binaries could be found.
   

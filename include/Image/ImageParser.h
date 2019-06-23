@@ -22,11 +22,13 @@ namespace ImPro {
     namespace ImageParser {
 
         enum ImageFile {
-            PPM
+            PPM,
+            PNG
         };
 
         const std::unordered_map<ImageFile, std::vector<std::string>> formats = {
-                {ImageFile::PPM, {"ppm", "pgm", "pmm", "pnm"}}
+                {ImageFile::PPM, {"ppm", "pgm", "pmm", "pnm"}},
+                {ImageFile::PNG, {"png"}}
         };
 
         template<typename Type>

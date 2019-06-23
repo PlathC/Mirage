@@ -9,8 +9,8 @@ int main(int argc, char** argv)
 {
     using namespace ImPro;
 
-    Matrix<Vec3d> mat{};
-    mat = ImageParser::FromFile<Vec3d>("../samples/StrangeSphere.ppm");
+    Matrix<Vec4d> mat{};
+    mat = ImageParser::FromFile<Vec4d>("../samples/Kendrick.png");
 
-    ImageParser::ToFile<Vec3d>(mat, "../samples/ExportSpheres2.ppm");
+    ImageParser::ToFile<Vec4d>(mat, "../samples/Kendrick2.png");
 }

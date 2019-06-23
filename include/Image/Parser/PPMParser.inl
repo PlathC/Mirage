@@ -35,7 +35,6 @@ namespace ImPro {
                 height = std::stoi(match[2]);
             }
 
-
             // Skip number format (temporary)
             std::getline(file, line);
 
@@ -44,7 +43,7 @@ namespace ImPro {
             while(std::getline(file, line))
             {
                 index++;
-                T t = T(255, 255, 255);
+                T t = T(255, 255, 255, 255);
                 if(std::regex_search(line, match, pattern))
                 {
                     t[0] = std::stod(match[0]);

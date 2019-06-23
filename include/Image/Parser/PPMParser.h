@@ -10,6 +10,8 @@
 
 namespace ImPro {
     namespace ImageParser{
+        //http://netpbm.sourceforge.net/doc/libppm.html
+
         template<typename T>
         class PPMParser : public IParser<T> {
             Matrix<T> Parse(std::string fileName) override;

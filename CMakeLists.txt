@@ -1,17 +1,34 @@
 cmake_minimum_required(VERSION 3.14)
 project(ImPro)
 
+#include_directories(third/lpng1637)
+
 set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_FLAGS " -W")
 
-set(
-        SOURCE_FILES
-        main.cpp
-        include/Core/Math.h
-        include/Core/Vec.h src/Core/Vec.cpp
-        include/Image/Matrix.h src/Image/Matrix.cpp
-        src/Image/ImageParser.cpp include/Image/ImageParser.h
-        src/Image/Parser/PPMParser.cpp include/Image/Parser/PPMParser.h
-        src/Image/Parser/IParser.cpp include/Image/Parser/IParser.h
-        src/Image/Parser/PngParser.cpp include/Image/Parser/PngParser.h)
+set(HEADERS
+    include/Core/Math.h
+    include/Core/Vec.h
+    include/Image/Matrix.h
+    include/Image/ImageParser.h
+    include/Image/Parser/PPMParser.h
+    include/Image/Parser/IParser.h
+    include/Image/Parser/PngParser.h
+    )
 
-add_executable(ImPro ${SOURCE_FILES})
+set(SOURCES
+    main.cpp
+    src/Core/Vec.cpp
+    src/Image/Matrix.cpp
+    src/Image/ImageParser.cpp
+    src/Image/Parser/PPMParser.cpp
+    src/Image/Parser/IParser.cpp
+    src/Image/Parser/PngParser.cpp
+    )
+
+
+add_executable(ImPro ${HEADERS} ${SOURCES})
+include_directories(third/lpng1637)
+
+target_link_libraries(ImPro ${CMAKE_CURRENT_SOURCE_DIR}/third/lpng1637/libpng.a -lz)
+
