@@ -14,12 +14,24 @@ namespace ImPro {
             png_bytep *rowPointers = NULL;
 
             png_structp png = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-            if(!png) abort();
+            if(!png)
+            {
+                return Matrix<T>();
+            }
 
             FILE *fp = fopen(fileName.c_str(), "rb");
+            if(!fp)
+            {
+                free(png);
+                return Matrix<T>();
+            }
 
             png_infop info = png_create_info_struct(png);
-            if(!info) abort();
+            if(!info)
+            {
+                png_destroy_write_struct(&png, &info);
+                return Matrix<T>();
+            }
 
             if(setjmp(png_jmpbuf(png))) abort();
 
@@ -85,15 +97,30 @@ namespace ImPro {
         void PngParser<T>::Write(Matrix<T>& mat, std::string fileName)
         {
             FILE *fp = fopen(fileName.c_str(), "wb");
-            if(!fp) abort();
+            if(!fp)
+            {
+                return;
+            }
 
             png_structp png = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-            if (!png) abort();
+            if (!png)
+            {
+                free(png);
+                return;
+            }
 
             png_infop info = png_create_info_struct(png);
-            if (!info) abort();
+            if (!info)
+            {
+                free(info);
+                return;
+            }
 
-            if (setjmp(png_jmpbuf(png))) abort();
+            if (setjmp(png_jmpbuf(png)))
+            {
+                png_destroy_write_struct(&png, &info);
+                return;
+            }
 
             png_init_io(png, fp);
 
@@ -139,6 +166,7 @@ namespace ImPro {
             png_destroy_write_struct(&png, &info);
 
             delete[] rowPointers;
+
             fclose(fp);
         }
     }
