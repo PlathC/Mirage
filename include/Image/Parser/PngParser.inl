@@ -8,7 +8,6 @@ namespace ImPro {
         template<typename T>
         Matrix<T> PngParser<T>::Parse(std::string fileName)
         {
-            std::cout << "Reading file..." << std::endl;
             int width, height;
             png_byte colorType;
             png_byte bitDepth;
@@ -18,8 +17,6 @@ namespace ImPro {
             if(!png) abort();
 
             FILE *fp = fopen(fileName.c_str(), "rb");
-
-            std::cout << "Found file" << std::endl;
 
             png_infop info = png_create_info_struct(png);
             if(!info) abort();
@@ -33,8 +30,6 @@ namespace ImPro {
             height    = png_get_image_height(png, info);
             colorType = png_get_color_type(png, info);
             bitDepth  = png_get_bit_depth(png, info);
-
-            std::cout << "Got header information" << std::endl;
 
             if(bitDepth == 16)
                 png_set_strip_16(png);
@@ -61,17 +56,15 @@ namespace ImPro {
             rowPointers = new png_bytep[height];
 
             for(int y = 0; y < height; y++) {
-                rowPointers[y] = new png_byte[png_get_rowbytes(png,info)];
+                rowPointers[y] = new png_byte[png_get_rowbytes(png, info)];
             }
 
             png_read_image(png, rowPointers);
-
             fclose(fp);
-
             png_destroy_read_struct(&png, &info, NULL);
 
             std::vector<T> result;
-            result.reserve(width * height);
+            result.resize(width * height);
 
             for(int y = 0; y < height; y++)
             {
@@ -79,24 +72,18 @@ namespace ImPro {
                 for(int x = 0; x < width; x++)
                 {
                     png_bytep px = &(row[x * 4]);
-                    result.push_back(T());
-                    result[x * width + y][0] = px[0];
-                    result[x * width + y][1] = px[1];
-                    result[x * width + y][2] = px[2];
-                    result[x * width + y][3] = px[3];
+                    result[x + y * width][0] = px[0];
+                    result[x + y * width][1] = px[1];
+                    result[x + y * width][2] = px[2];
+                    result[x + y * width][3] = px[3];
                 }
             }
-
-            std::cout << "File read !" << std::endl;
-
             return Matrix<T>(result, width, height);
         }
 
         template<typename T>
         void PngParser<T>::Write(Matrix<T>& mat, std::string fileName)
         {
-            std::cout << "Writing file.." << std::endl;
-
             FILE *fp = fopen(fileName.c_str(), "wb");
             if(!fp) abort();
 
@@ -128,19 +115,22 @@ namespace ImPro {
             // Use png_set_filler().
             //png_set_filler(png, 0, PNG_FILLER_AFTER);
 
-            png_bytep *rowPointers = new png_bytep[mat.Width()];
+            png_bytep *rowPointers = new png_bytep[mat.Height()];
+            std::vector<T> temp = mat.GetData();
+            int width = mat.Width();
 
             for(unsigned int j = 0; j < mat.Height(); j++)
             {
-                rowPointers[j] = new png_byte[mat.Height() * 4];
+                rowPointers[j] = new png_byte[mat.Width() * 4];
                 png_bytep row = rowPointers[j];
                 for(unsigned int i = 0; i < mat.Width(); i++)
                 {
                     png_bytep px = &(row[i * 4]);
-                    px[0] = static_cast<png_byte>(mat.Get(i, j)[0]);
-                    px[1] = static_cast<png_byte>(mat.Get(i, j)[1]);
-                    px[2] = static_cast<png_byte>(mat.Get(i, j)[2]);
-                    px[3] = static_cast<png_byte>(mat.Get(i, j)[3]);
+                    T t = temp[i + j * width];
+                    px[0] = static_cast<png_byte>(t[0]);
+                    px[1] = static_cast<png_byte>(t[1]);
+                    px[2] = static_cast<png_byte>(t[2]);
+                    px[3] = static_cast<png_byte>(t[3]);
                 }
             }
 
@@ -150,8 +140,6 @@ namespace ImPro {
 
             delete[] rowPointers;
             fclose(fp);
-
-            std::cout << "File writen" << std::endl;
         }
     }
 }

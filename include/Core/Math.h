@@ -15,7 +15,7 @@ namespace ImPro
     }
 
     template<typename T>
-    T Pow(T val, int power)
+    T Pow(T val, unsigned int power)
     {
         for(unsigned int i = 0; i < power; i++)
         {

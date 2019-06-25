@@ -17,6 +17,7 @@ namespace ImPro {
     {
         this->width = width;
         this->height = height;
+        this->data.resize(pixels.size());
         this->data = pixels;
     }
 
