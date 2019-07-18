@@ -14,9 +14,9 @@ An image processing library for learning purpose in C++17.
 | Sobel | In progress |
 | Viewer | To do |
 
-2. __Results__
+2. __Examples__
 
-a. __Sobel__
+    a. __Sobel__
 
 Sobel filter is directly implemented in the library and can be used as :
 
