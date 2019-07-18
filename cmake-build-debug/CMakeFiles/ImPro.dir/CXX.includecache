@@ -26,11 +26,11 @@ time.h
 
 ../third/lpng1637/pnglibconf.h
 
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Math.h
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Math.hpp
 cmath
 -
 
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.h
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.hpp
 array
 -
 vector
@@ -45,14 +45,14 @@ type_traits
 -
 fstream
 -
-Math.h
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Math.h
+Math.hpp
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Math.hpp
 Vec.inl
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.inl
 
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.inl
 
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/ImageParser.h
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/ImageParser.hpp
 string
 -
 regex
@@ -71,10 +71,10 @@ utility
 -
 unordered_map
 -
-../Core/Vec.h
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.h
-Matrix.h
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.h
+../Core/Vec.hpp
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.hpp
+Matrix.hpp
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.hpp
 ImageParser.inl
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/ImageParser.inl
 
@@ -85,20 +85,20 @@ algorithm
 -
 functional
 -
-Parser/IParser.h
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/IParser.h
-Parser/PPMParser.h
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PPMParser.h
-Parser/PngParser.h
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PngParser.h
+Parser/IParser.hpp
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/IParser.hpp
+Parser/PPMParser.hpp
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PPMParser.hpp
+Parser/PngParser.hpp
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PngParser.hpp
 
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.h
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.hpp
 array
 -
 type_traits
 -
-../Core/Vec.h
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.h
+../Core/Vec.hpp
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.hpp
 Matrix.inl
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.inl
 
@@ -106,17 +106,17 @@ C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.inl
 map
 -
 
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/IParser.h
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/IParser.hpp
 string
 -
-../Matrix.h
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.h
+../Matrix.hpp
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.hpp
 
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PPMParser.h
-IParser.h
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/IParser.h
-../Matrix.h
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.h
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PPMParser.hpp
+IParser.hpp
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/IParser.hpp
+../Matrix.hpp
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.hpp
 PPMParser.inl
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PPMParser.inl
 
@@ -124,11 +124,11 @@ C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PPMParser.inl
 regex
 -
 
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PngParser.h
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PngParser.hpp
 png.h
 -
-IParser.h
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/IParser.h
+IParser.hpp
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/IParser.hpp
 PngParser.inl
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PngParser.inl
 
@@ -143,30 +143,30 @@ iostream
 -
 vector
 -
-include/Core/Vec.h
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.h
-include/Image/Matrix.h
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.h
-include/Image/ImageParser.h
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/ImageParser.h
+include/Core/Vec.hpp
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.hpp
+include/Image/Matrix.hpp
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.hpp
+include/Image/ImageParser.hpp
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/ImageParser.hpp
 
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/src/Image/ImageParser.cpp
-../../include/Image/ImageParser.h
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/ImageParser.h
+../../include/Image/ImageParser.hpp
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/ImageParser.hpp
 
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/src/Image/Matrix.cpp
-../../include/Image/Matrix.h
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.h
+../../include/Image/Matrix.hpp
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.hpp
 
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/src/Image/Parser/IParser.cpp
-../../../include/Image/Parser/IParser.h
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/IParser.h
+../../../include/Image/Parser/IParser.hpp
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/IParser.hpp
 
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/src/Image/Parser/PPMParser.cpp
-../../../include/Image/Parser/PPMParser.h
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PPMParser.h
+../../../include/Image/Parser/PPMParser.hpp
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PPMParser.hpp
 
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/src/Image/Parser/PngParser.cpp
-../../../include/Image/Parser/PngParser.h
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PngParser.h
+../../../include/Image/Parser/PngParser.hpp
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PngParser.hpp
 

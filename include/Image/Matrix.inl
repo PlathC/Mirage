@@ -110,27 +110,28 @@ namespace imp {
     template<typename T>
     Matrix<Type> Matrix<Type>::Convolve(Matrix<T> kernel)
     {
-        Matrix<Type> result{0, width, height};
         int kernelCenter = Floor(kernel.Width() / 2);
 
-        for(unsigned int i = kernelCenter; i < width - kernelCenter; ++i)
+        std::vector<Type> resultData;
+        resultData.resize(height * width);
+
+        for(int i = 0 + kernelCenter; i < width - kernelCenter; i++)
         {
-            for(unsigned int j = kernelCenter; j < height - kernelCenter; ++j)
+            for(int j = 0 + kernelCenter; j < height - kernelCenter; j++)
             {
-                Type sum = 0;
-                for(int ii = (-kernelCenter); ii <= kernelCenter; ii++)
+
+                resultData[i * height + j] = 0;
+                for(int ik = (0-kernelCenter); ik < kernelCenter; ik++)
                 {
-                    for(int jj = (-kernelCenter); jj <= kernelCenter; jj++)
+                    for(int jk = (0-kernelCenter); jk < kernelCenter; jk++)
                     {
-                        Type _data = this->Get(i + ii, j + jj);
-                        T coefficients = kernel.Get(ii + kernelCenter, jj + kernelCenter);
-                        sum += _data * coefficients;
+                        resultData[i * height + j] += data[(i + ik) * height + (j + jk)] * kernel.Get(ik + kernelCenter, jk + kernelCenter);
                     }
                 }
-
-                result.Get(i, j) = sum/(height / kernel.Height());
             }
         }
+
+        Matrix<Type> result(resultData, width, height, this->channelNumber);
         return result;
     }
 
