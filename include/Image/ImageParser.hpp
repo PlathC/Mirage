@@ -2,8 +2,8 @@
 // Created by Cyprien Plateau--Holleville on 20/06/2019.
 //
 
-#ifndef IMPRO_IMAGEPARSER_H
-#define IMPRO_IMAGEPARSER_H
+#ifndef IMPRO_IMAGEPARSER_HPP
+#define IMPRO_IMAGEPARSER_HPP
 
 #include <string>
 #include <regex>
@@ -15,8 +15,8 @@
 #include <utility>
 #include <unordered_map>
 
-#include "../Core/Vec.h"
-#include "Matrix.h"
+#include "../Core/Vec.hpp"
+#include "Matrix.hpp"
 
 namespace imp {
     namespace ImageParser {
@@ -42,4 +42,4 @@ namespace imp {
 
 #include "ImageParser.inl"
 
-#endif //IMPRO_IMAGEPARSER_H
+#endif //IMPRO_IMAGEPARSER_HPP

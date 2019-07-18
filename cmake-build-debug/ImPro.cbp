@@ -82,25 +82,25 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Math.h">
+		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Math.hpp">
 			<Option target="ImPro"/>
 		</Unit>
-		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.h">
+		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.hpp">
 			<Option target="ImPro"/>
 		</Unit>
-		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/ImageParser.h">
+		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/ImageParser.hpp">
 			<Option target="ImPro"/>
 		</Unit>
-		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.h">
+		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.hpp">
 			<Option target="ImPro"/>
 		</Unit>
-		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/IParser.h">
+		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/IParser.hpp">
 			<Option target="ImPro"/>
 		</Unit>
-		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PPMParser.h">
+		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PPMParser.hpp">
 			<Option target="ImPro"/>
 		</Unit>
-		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PngParser.h">
+		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PngParser.hpp">
 			<Option target="ImPro"/>
 		</Unit>
 		<Unit filename="C:/Users/cypri/Documents/ProgPerso/C++/ImPro/main.cpp">

@@ -2,9 +2,9 @@
 #include <algorithm>
 #include <functional>
 
-#include "Parser/IParser.h"
-#include "Parser/PPMParser.h"
-#include "Parser/PngParser.h"
+#include "Parser/IParser.hpp"
+#include "Parser/PPMParser.hpp"
+#include "Parser/PngParser.hpp"
 
 namespace imp {
     namespace ImageParser{

@@ -7,13 +7,13 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "-Wall -Weffc++ -Wextra -Wsign-conversion")
 
 set(HEADERS
-    include/Core/Math.h
-    include/Core/Vec.h
-    include/Image/Matrix.h
-    include/Image/ImageParser.h
-    include/Image/Parser/PPMParser.h
-    include/Image/Parser/IParser.h
-    include/Image/Parser/PngParser.h
+        include/Core/Math.hpp
+        include/Core/Vec.hpp
+        include/Image/Matrix.hpp
+        include/Image/ImageParser.hpp
+        include/Image/Parser/PPMParser.hpp
+        include/Image/Parser/IParser.hpp
+        include/Image/Parser/PngParser.hpp
     )
 
 set(SOURCES

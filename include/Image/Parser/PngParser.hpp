@@ -2,11 +2,11 @@
 // Created by Cyprien Plateau--Holleville on 22/06/2019.
 //
 
-#ifndef IMPRO_PNGPARSER_H
-#define IMPRO_PNGPARSER_H
+#ifndef IMPRO_PNGPARSER_HPP
+#define IMPRO_PNGPARSER_HPP
 
 #include <png.h>
-#include "IParser.h"
+#include "IParser.hpp"
 
 namespace imp {
     namespace ImageParser {
@@ -22,4 +22,4 @@ namespace imp {
 
 #include "PngParser.inl"
 
-#endif //IMPRO_PNGPARSER_H
+#endif //IMPRO_PNGPARSER_HPP

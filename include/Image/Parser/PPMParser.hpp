@@ -2,11 +2,11 @@
 // Created by Cyprien Plateau--Holleville on 22/06/2019.
 //
 
-#ifndef IMPRO_PPMPARSER_H
-#define IMPRO_PPMPARSER_H
+#ifndef IMPRO_PPMPARSER_HPP
+#define IMPRO_PPMPARSER_HPP
 
-#include "IParser.h"
-#include "../Matrix.h"
+#include "IParser.hpp"
+#include "../Matrix.hpp"
 
 namespace imp {
     namespace ImageParser{
@@ -23,4 +23,4 @@ namespace imp {
 
 #include "PPMParser.inl"
 
-#endif //IMPRO_PPMPARSER_H
+#endif //IMPRO_PPMPARSER_HPP

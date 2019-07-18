@@ -1,9 +1,9 @@
 #include <iostream>
 #include <vector>
 
-#include "include/Core/Vec.h"
-#include "include/Image/Matrix.h"
-#include "include/Image/ImageParser.h"
+#include "include/Core/Vec.hpp"
+#include "include/Image/Matrix.hpp"
+#include "include/Image/ImageParser.hpp"
 
 int main()
 {

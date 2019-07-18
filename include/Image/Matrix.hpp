@@ -2,13 +2,13 @@
 // Created by Cyprien Plateau--Holleville on 20/06/2019.
 //
 
-#ifndef IMPRO_MATRIX_H
-#define IMPRO_MATRIX_H
+#ifndef IMPRO_MATRIX_HPP
+#define IMPRO_MATRIX_HPP
 
 #include <array>
 #include <type_traits>
 
-#include "../Core/Vec.h"
+#include "../Core/Vec.hpp"
 
 namespace imp {
     template<typename Type>
@@ -46,4 +46,4 @@ namespace imp {
 
 #include "Matrix.inl"
 
-#endif //IMPRO_MATRIX_H
+#endif //IMPRO_MATRIX_HPP

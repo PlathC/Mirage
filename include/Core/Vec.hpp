@@ -2,8 +2,8 @@
 // Created by Cyprien Plateau--Holleville on 20/06/2019.
 //
 
-#ifndef IMPRO_VEC_H
-#define IMPRO_VEC_H
+#ifndef IMPRO_VEC_HPP
+#define IMPRO_VEC_HPP
 
 #include <array>
 #include <vector>
@@ -13,7 +13,7 @@
 #include <type_traits>
 #include <fstream>
 
-#include "Math.h"
+#include "Math.hpp"
 
 namespace imp
 {
@@ -151,4 +151,4 @@ namespace imp
 
 #include "Vec.inl"
 
-#endif //IMPRO_VEC_H
+#endif //IMPRO_VEC_HPP

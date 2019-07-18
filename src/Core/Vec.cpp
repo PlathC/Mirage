@@ -2,4 +2,4 @@
 // Created by Cyprien Plateau--Holleville on 20/06/2019.
 //
 
-#include "../../include/Core/Vec.h"
+#include "../../include/Core/Vec.hpp"

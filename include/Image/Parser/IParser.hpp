@@ -2,11 +2,11 @@
 // Created by Cyprien Plateau--Holleville on 22/06/2019.
 //
 
-#ifndef IMPRO_IPARSER_H
-#define IMPRO_IPARSER_H
+#ifndef IMPRO_IPARSER_HPP
+#define IMPRO_IPARSER_HPP
 
 #include <string>
-#include "../Matrix.h"
+#include "../Matrix.hpp"
 
 namespace imp {
     namespace ImageParser {
@@ -21,4 +21,4 @@ namespace imp {
 }
 
 
-#endif //IMPRO_IPARSER_H
+#endif //IMPRO_IPARSER_HPP

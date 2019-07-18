@@ -2,8 +2,8 @@
 // Created by Cyprien Plateau--Holleville on 20/06/2019.
 //
 
-#ifndef IMPRO_MATH_H
-#define IMPRO_MATH_H
+#ifndef IMPRO_MATH_HPP
+#define IMPRO_MATH_HPP
 #include <cmath>
 
 namespace imp
@@ -43,4 +43,4 @@ namespace imp
     }
 }
 
-#endif //IMPRO_MATH_H
+#endif //IMPRO_MATH_HPP
