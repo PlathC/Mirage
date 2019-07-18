@@ -30,7 +30,7 @@ Sobel filter is directly implemented in the library and can be used as :
 
 Result : 
 
-![Lena Classic](samples/lena.png) ![Lena Sobel](samples/lena-sobel.png) 
+![Lena Classic](samples/lena.png) <div style="background-color = #000">![Lena Sobel](samples/lena-sobel.png)</div>
 
 ## Dependecies
 
