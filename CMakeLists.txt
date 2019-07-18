@@ -3,8 +3,8 @@ project(ImPro)
 
 #include_directories(third/lpng1637)
 
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_FLAGS " -W")
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS "-Wall -Weffc++ -Wextra -Wsign-conversion")
 
 set(HEADERS
     include/Core/Math.h

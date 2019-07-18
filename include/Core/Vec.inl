@@ -1,4 +1,4 @@
-namespace ImPro {
+namespace imp {
     template<typename T>
     Vec3<T>::Vec3()  { x = 0; y = 0; z = 0; }
 
@@ -84,11 +84,11 @@ namespace ImPro {
     template<typename T>
     double Vec3<T>::Length()
     {
-        return ImPro::Sqrt(x*x + y*y + z*z);
+        return imp::Sqrt(x * x + y * y + z * z);
     }
 
     template<typename T>
-    T Vec3<T>::Get(unsigned int index)
+    T& Vec3<T>::Get(unsigned int index)
     {
         assert(index < 3);
         switch(index)
@@ -101,6 +101,9 @@ namespace ImPro {
 
     template<typename T>
     Vec4<T>::Vec4() : x(0), y(0), z(0), a(0) { }
+
+    template<typename T>
+    Vec4<T>::Vec4(T n) : x(n), y(n), z(n), a(n) {}
 
     template<typename T>
     Vec4<T>::Vec4(T x, T y , T z, T a) : x(x), y(y), z(z), a(a) { }
@@ -150,6 +153,17 @@ namespace ImPro {
     }
 
     template<typename T>
+    Vec4<T> Vec4<T>::operator+(T const &t)
+    {
+        Vec4<T> result;
+        result.x = t + this->x;
+        result.y = t + this->y;
+        result.z = t + this->z;
+        result.a = t + this->a;
+        return result;
+    }
+
+    template<typename T>
     Vec4<T> Vec4<T>::operator+(Vec4<T> const &vec)
     {
         Vec4<T> result;
@@ -168,6 +182,39 @@ namespace ImPro {
         result.y = vec.y * this->y;
         result.z = vec.z * this->z;
         result.a = vec.a * this->a;
+        return result;
+    }
+
+    template<typename T>
+    Vec4<T> Vec4<T>::operator*(T const &t)
+    {
+        Vec4<T> result;
+        result.x = t * this->x;
+        result.y = t * this->y;
+        result.z = t * this->z;
+        result.a = t * this->a;
+        return result;
+    }
+
+    template<typename T>
+    Vec4<T> Vec4<T>::operator/(Vec4<T> const &vec)
+    {
+        Vec4<T> result;
+        result.x = vec.x / this->x;
+        result.y = vec.y / this->y;
+        result.z = vec.z / this->z;
+        result.a = vec.a / this->a;
+        return result;
+    }
+
+    template<typename T>
+    Vec4<T> Vec4<T>::operator/(T const &t)
+    {
+        Vec4<T> result;
+        result.x = t / this->x;
+        result.y = t / this->y;
+        result.z = t / this->z;
+        result.a = t / this->a;
         return result;
     }
 
@@ -206,7 +253,7 @@ namespace ImPro {
     }
 
     template<typename T>
-    T Vec4<T>::Get(unsigned int index)
+    T& Vec4<T>::Get(unsigned int index)
     {
         assert(index < 3);
         switch(index)
@@ -214,14 +261,15 @@ namespace ImPro {
             case 0 : return x;
             case 1 : return y;
             case 2 : return z;
-            default : return a;
+            case 3 : return a;
+            default : return 0;
         }
     }
 
     template<typename T>
     double Vec4<T>::Length()
     {
-        return ImPro::Sqrt(x*x + y*y + z*z + a*a);
+        return imp::Sqrt(x * x + y * y + z * z + a * a);
     }
 
     template<typename Type, unsigned int Size>
@@ -305,7 +353,7 @@ namespace ImPro {
         {
             result += this->elements[i] * this->elements[i];
         }
-        return ImPro::Sqrt(result);
+        return imp::Sqrt(result);
     }
 
     template<typename Type, unsigned int Size>
@@ -322,7 +370,7 @@ namespace ImPro {
     }
 
     template<typename Type, unsigned int Size>
-    Type Vec<Type, Size>::Get(unsigned int index)
+    Type& Vec<Type, Size>::Get(unsigned int index)
     {
         return this->elements[index];
     }

@@ -10,14 +10,25 @@
 
 #include "../Core/Vec.h"
 
-namespace ImPro {
+namespace imp {
     template<typename Type>
     class Matrix
     {
     public:
         Matrix();
-        Matrix(const unsigned int width, const unsigned int height);
-        Matrix(std::vector<Type> pixels, const unsigned int width, const unsigned int height);
+        Matrix(const unsigned int width, const unsigned int height, const unsigned int channelNumber);
+        Matrix(Type fill, const unsigned int width, const unsigned int height, const unsigned int channelNumber);
+        Matrix(std::vector<Type> pixels, const unsigned int width, const unsigned int height, const unsigned int channelNumber);
+
+        template<typename T>
+        Matrix<T> ToGrayScale();
+
+        template<typename T>
+        Matrix<Type> Convolve(Matrix<T> kernel);
+        Matrix<double> Sobel();
+
+        template<typename T>
+        Matrix<T> Threshold();
 
         Type& Get(unsigned int w, unsigned int h);
         std::vector<Type> GetData();
@@ -28,6 +39,7 @@ namespace ImPro {
     private:
         unsigned int width;
         unsigned int height;
+        unsigned int channelNumber;
         std::vector<Type> data;
     };
 }

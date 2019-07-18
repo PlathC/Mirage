@@ -15,7 +15,7 @@
 
 #include "Math.h"
 
-namespace ImPro
+namespace imp
 {
 
     template<typename T>
@@ -37,7 +37,7 @@ namespace ImPro
         Vec3<T>& operator*=(Vec3<T> const &vec);
 
         double Length();
-        T Get(unsigned int index);
+        T& Get(unsigned int index);
 
         friend std::ostream& operator<<(std::ostream& os, const Vec3<T>& v)
         {
@@ -53,6 +53,7 @@ namespace ImPro
     class Vec4 {
     public:
         Vec4();
+        Vec4(T n);
         Vec4(T x, T y , T z, T a);
 
         T& X();
@@ -64,12 +65,16 @@ namespace ImPro
         Vec4<T>& operator=(const Vec4<T>& value);
         T& operator[](const unsigned int index);
         Vec4<T> operator+(Vec4<T> const &vec);
+        Vec4<T> operator+(T const &t);
+        Vec4<T> operator*(T const &t);
         Vec4<T> operator*(Vec4<T> const &vec);
+        Vec4<T> operator/(Vec4<T> const &vec);
+        Vec4<T> operator/(T const &t);
         Vec4<T>& operator+=(Vec4<T> const &vec);
         Vec4<T>& operator*=(Vec4<T> const &vec);
 
         Vec4<T> Normalize();
-        T Get(unsigned int index);
+        T& Get(unsigned int index);
         double Length();
 
         friend std::ostream& operator<<(std::ostream& os, const Vec4<T>& v)
@@ -110,7 +115,7 @@ namespace ImPro
 
         double Length();
         Vec<Type, Size> Normalize();
-        Type Get(unsigned int index);
+        Type& Get(unsigned int index);
 
         friend std::ostream& operator<<(std::ostream& os, const Vec<Type, Size>& v)
         {

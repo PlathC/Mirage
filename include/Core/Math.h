@@ -6,7 +6,7 @@
 #define IMPRO_MATH_H
 #include <cmath>
 
-namespace ImPro
+namespace imp
 {
     template<typename T>
     double Sqrt(T val)
@@ -28,6 +28,18 @@ namespace ImPro
     double Log(T val)
     {
         return log(val);
+    }
+
+    template<typename T>
+    T Ceil(T n)
+    {
+        return std::ceil(n);
+    }
+
+    template<typename T>
+    T Floor(T n)
+    {
+        return static_cast<T>(std::floor(n));
     }
 }
 

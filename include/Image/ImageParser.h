@@ -18,7 +18,7 @@
 #include "../Core/Vec.h"
 #include "Matrix.h"
 
-namespace ImPro {
+namespace imp {
     namespace ImageParser {
 
         enum ImageFile {
@@ -32,7 +32,7 @@ namespace ImPro {
         };
 
         template<typename Type>
-        Matrix<Type> FromFile(std::string fileName);
+        Matrix<Type> FromFile(std::string fileName, const unsigned int channel);
 
         template<typename Type>
         void ToFile(Matrix<Type>& mat, std::string fileName);

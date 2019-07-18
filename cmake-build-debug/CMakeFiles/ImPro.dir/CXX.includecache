@@ -103,6 +103,8 @@ Matrix.inl
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.inl
 
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.inl
+map
+-
 
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/IParser.h
 string
@@ -143,14 +145,26 @@ vector
 -
 include/Core/Vec.h
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Core/Vec.h
-include/Image/ImageParser.h
-C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/ImageParser.h
 include/Image/Matrix.h
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.h
+include/Image/ImageParser.h
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/ImageParser.h
 
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/src/Image/ImageParser.cpp
 ../../include/Image/ImageParser.h
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/ImageParser.h
+
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/src/Image/Matrix.cpp
+../../include/Image/Matrix.h
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Matrix.h
+
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/src/Image/Parser/IParser.cpp
+../../../include/Image/Parser/IParser.h
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/IParser.h
+
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/src/Image/Parser/PPMParser.cpp
+../../../include/Image/Parser/PPMParser.h
+C:/Users/cypri/Documents/ProgPerso/C++/ImPro/include/Image/Parser/PPMParser.h
 
 C:/Users/cypri/Documents/ProgPerso/C++/ImPro/src/Image/Parser/PngParser.cpp
 ../../../include/Image/Parser/PngParser.h

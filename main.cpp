@@ -2,15 +2,19 @@
 #include <vector>
 
 #include "include/Core/Vec.h"
-#include "include/Image/ImageParser.h"
 #include "include/Image/Matrix.h"
+#include "include/Image/ImageParser.h"
 
-int main(int argc, char** argv)
+int main()
 {
-    using namespace ImPro;
+    using namespace imp;
 
     Matrix<Vec4d> mat{};
-    mat = ImageParser::FromFile<Vec4d>("../samples/Kendrick.png");
+    mat = ImageParser::FromFile<Vec4d>("../samples/engine.png", 4);
 
-    ImageParser::ToFile<Vec4d>(mat, "../samples/Kendrick2.png");
+    Matrix<uint8_t> matConvoluted = mat.Sobel().Threshold<uint8_t>();
+
+    ImageParser::ToFile(matConvoluted, "../samples/engine-sobel.png");
+
+    return EXIT_SUCCESS;
 }

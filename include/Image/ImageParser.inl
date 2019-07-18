@@ -6,11 +6,11 @@
 #include "Parser/PPMParser.h"
 #include "Parser/PngParser.h"
 
-namespace ImPro {
+namespace imp {
     namespace ImageParser{
 
         template<typename Type>
-        Matrix<Type> FromFile(std::string fileName)
+        Matrix<Type> FromFile(std::string fileName, const unsigned int channel)
         {
 
             std::unique_ptr<IParser<Type>> parser;
@@ -39,7 +39,7 @@ namespace ImPro {
 
                 if(parser != nullptr)
                 {
-                    result = parser->Parse(fileName);
+                    result = parser->Parse(fileName, channel);
                 }
             }
 

@@ -8,12 +8,13 @@
 #include <png.h>
 #include "IParser.h"
 
-namespace ImPro {
+namespace imp {
     namespace ImageParser {
 
         template<typename T>
         class PngParser : public IParser<T> {
-            Matrix<T> Parse(std::string fileName) override;
+        public:
+            Matrix<T> Parse(std::string fileName, const unsigned int channel) override;
             void Write(Matrix<T>& mat, std::string fileName) override;
         };
     }

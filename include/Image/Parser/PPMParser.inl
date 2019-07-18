@@ -1,9 +1,9 @@
 #include <regex>
 
-namespace ImPro {
+namespace imp {
     namespace ImageParser{
         template<typename T>
-        Matrix<T> PPMParser<T>::Parse(std::string fileName)
+        Matrix<T> PPMParser<T>::Parse(std::string fileName, const unsigned int channel)
         {
             std::vector<T> result;
 
@@ -31,8 +31,8 @@ namespace ImPro {
             unsigned int height = 0, width = 0;
             if(std::regex_search(line, match, std::regex("([0-9]+)\\s([0-9]+)")))
             {
-                width = std::stoi(match[1]);
-                height = std::stoi(match[2]);
+                width = static_cast<unsigned int>(std::stoi(match[1]));
+                height = static_cast<unsigned int>(std::stoi(match[2]));
             }
 
             // Skip number format (temporary)
@@ -43,12 +43,30 @@ namespace ImPro {
             while(std::getline(file, line))
             {
                 index++;
-                T t = T(255, 255, 255, 255);
+                T t;
+                if constexpr(std::is_arithmetic<T>::value)
+                {
+                    t = T(255);
+                }
+                else
+                {
+                    t = T();
+                    for(unsigned int i = 0; i < channel; i++)
+                        t[i] = 255;
+                }
+
                 if(std::regex_search(line, match, pattern))
                 {
-                    t[0] = std::stod(match[0]);
-                    t[1] = std::stod(match[1]);
-                    t[2] = std::stod(match[2]);
+                    if constexpr(std::is_arithmetic<T>::value)
+                    {
+                        t = std::stod(match[0]);
+                    }
+                    else
+                    {
+                        t[0] = std::stod(match[0]);
+                        t[1] = std::stod(match[1]);
+                        t[2] = std::stod(match[2]);
+                    }
 
                     result.push_back(t);
                 } else {
@@ -56,7 +74,7 @@ namespace ImPro {
                 }
             }
 
-            Matrix<T> resultImg = Matrix<T>( result, width, height);
+            Matrix<T> resultImg = Matrix<T>( result, width, height, channel);
             return resultImg;
         }
 

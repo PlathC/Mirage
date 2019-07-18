@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-namespace ImPro {
+namespace imp {
     namespace ImageParser {
         // Using https://gist.github.com/niw/5963798
 
         template<typename T>
-        Matrix<T> PngParser<T>::Parse(std::string fileName)
+        Matrix<T> PngParser<T>::Parse(std::string fileName, const unsigned int channel)
         {
-            int width, height;
+            unsigned int width, height;
             png_byte colorType;
             png_byte bitDepth;
             png_bytep *rowPointers = NULL;
@@ -38,8 +38,8 @@ namespace ImPro {
             png_init_io(png, fp);
             png_read_info(png, info);
 
-            width     = png_get_image_width(png, info);
-            height    = png_get_image_height(png, info);
+            width     = static_cast<unsigned int>(png_get_image_width(png, info));
+            height    = static_cast<unsigned int>(png_get_image_height(png, info));
             colorType = png_get_color_type(png, info);
             bitDepth  = png_get_bit_depth(png, info);
 
@@ -67,7 +67,7 @@ namespace ImPro {
 
             rowPointers = new png_bytep[height];
 
-            for(int y = 0; y < height; y++) {
+            for(unsigned int y = 0; y < height; y++) {
                 rowPointers[y] = new png_byte[png_get_rowbytes(png, info)];
             }
 
@@ -76,21 +76,30 @@ namespace ImPro {
             png_destroy_read_struct(&png, &info, NULL);
 
             std::vector<T> result;
-            result.resize(width * height);
+            result.resize(static_cast<unsigned int>(width * height));
 
-            for(int y = 0; y < height; y++)
+            for(unsigned int y = 0; y < height; y++)
             {
                 png_bytep row = rowPointers[y];
-                for(int x = 0; x < width; x++)
+                for(unsigned int x = 0; x < width; x++)
                 {
                     png_bytep px = &(row[x * 4]);
-                    result[x + y * width][0] = px[0];
-                    result[x + y * width][1] = px[1];
-                    result[x + y * width][2] = px[2];
-                    result[x + y * width][3] = px[3];
+
+                    if constexpr(std::is_arithmetic<T>::value)
+                    {
+                        result[x + y * width] = px[0];
+                    }
+                    else
+                    {
+                        result[x + y * width][0] = px[0];
+                        result[x + y * width][1] = px[1];
+                        result[x + y * width][2] = px[2];
+                        result[x + y * width][3] = px[3];
+                    }
                 }
             }
-            return Matrix<T>(result, width, height);
+
+            return Matrix<T>(result, width, height, channel);
         }
 
         template<typename T>
@@ -144,7 +153,7 @@ namespace ImPro {
 
             png_bytep *rowPointers = new png_bytep[mat.Height()];
             std::vector<T> temp = mat.GetData();
-            int width = mat.Width();
+            unsigned int width = mat.Width();
 
             for(unsigned int j = 0; j < mat.Height(); j++)
             {
@@ -154,10 +163,17 @@ namespace ImPro {
                 {
                     png_bytep px = &(row[i * 4]);
                     T t = temp[i + j * width];
-                    px[0] = static_cast<png_byte>(t[0]);
-                    px[1] = static_cast<png_byte>(t[1]);
-                    px[2] = static_cast<png_byte>(t[2]);
-                    px[3] = static_cast<png_byte>(t[3]);
+                    if constexpr(std::is_arithmetic<T>::value) {
+                        px[0] = t;
+                        px[1] = t;
+                        px[2] = t;
+                        px[3] = t;
+                    }else {
+                        px[0] = static_cast<png_byte>(t[0]);
+                        px[1] = static_cast<png_byte>(t[1]);
+                        px[2] = static_cast<png_byte>(t[2]);
+                        px[3] = static_cast<png_byte>(t[3]);
+                    }
                 }
             }
 
