@@ -130,7 +130,6 @@ namespace imp {
                 }
             }
         }
-
         Matrix<Type> result(resultData, width, height, this->channelNumber);
         return result;
     }

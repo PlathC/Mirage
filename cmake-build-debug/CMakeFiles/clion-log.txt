@@ -1,4 +1,0 @@
-"C:\Program Files\JetBrains\CLion 192.5118.29\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" C:\Users\cypri\Documents\ProgPerso\C++\ImPro
--- Configuring done
--- Generating done
--- Build files have been written to: C:/Users/cypri/Documents/ProgPerso/C++/ImPro/cmake-build-debug
