@@ -14,9 +14,9 @@ An image processing library for learning purpose in C++17.
 | Sobel | In progress |
 | Viewer | To do |
 
-2. Results
+2. __Results__
 
-a. Sobel
+a. __Sobel__
 
 Sobel filter is directly implemented in the library and can be used as :
 
@@ -28,11 +28,11 @@ Sobel filter is directly implemented in the library and can be used as :
     ImageParser::ToFile(matConvoluted, "../samples/lena-sobel.png");
 ```
 
-Result : 
+__Result :__ 
 
 ![Lena Classic](samples/lena.png) ![Lena Sobel](readmefiles/lena-sobel.jpg) 
 
-## Dependecies
+## Dependencies
 
 1. __LibPNG__
 
