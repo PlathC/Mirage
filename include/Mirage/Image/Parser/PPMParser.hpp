@@ -2,17 +2,18 @@
 // Created by Cyprien Plateau--Holleville on 22/06/2019.
 //
 
-#ifndef IMPRO_PNGPARSER_HPP
-#define IMPRO_PNGPARSER_HPP
+#ifndef IMPRO_PPMPARSER_HPP
+#define IMPRO_PPMPARSER_HPP
 
-#include <png.h>
 #include "IParser.hpp"
+#include "../Matrix.hpp"
 
-namespace imp {
-    namespace ImageParser {
+namespace mrg {
+    namespace ImageParser{
+        //http://netpbm.sourceforge.net/doc/libppm.html
 
         template<typename T>
-        class PngParser : public IParser<T> {
+        class PPMParser : public IParser<T> {
         public:
             Matrix<T> Parse(std::string fileName, const unsigned int channel) override;
             void Write(Matrix<T>& mat, std::string fileName) override;
@@ -20,6 +21,6 @@ namespace imp {
     }
 }
 
-#include "PngParser.inl"
+#include "PPMParser.inl"
 
-#endif //IMPRO_PNGPARSER_HPP
+#endif //IMPRO_PPMPARSER_HPP

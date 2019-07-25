@@ -6,7 +6,7 @@
 #include "Parser/PPMParser.hpp"
 #include "Parser/PngParser.hpp"
 
-namespace imp {
+namespace mrg {
     namespace ImageParser{
 
         template<typename Type>

@@ -18,7 +18,7 @@
 #include "../Core/Vec.hpp"
 #include "Matrix.hpp"
 
-namespace imp {
+namespace mrg {
     namespace ImageParser {
 
         enum ImageFile {

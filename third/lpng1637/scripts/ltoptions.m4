@@ -350,7 +350,7 @@ power*-*-aix[[5-9]]*,yes)
   if test aix != "$with_aix_soname"; then
     # For the AIX way of multilib, we name the shared archive member
     # based on the bitwidth used, traditionally 'shr.o' or 'shr_64.o',
-    # and 'shr.imp' or 'shr_64.imp', respectively, for the Import File.
+    # and 'shr.mrg' or 'shr_64.mrg', respectively, for the Import File.
     # Even when GNU compilers ignore OBJECT_MODE but need '-maix64' flag,
     # the AIX toolchain works better with OBJECT_MODE set (default 32).
     if test 64 = "${OBJECT_MODE-32}"; then

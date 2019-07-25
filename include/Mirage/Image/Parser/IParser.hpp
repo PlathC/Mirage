@@ -8,7 +8,7 @@
 #include <string>
 #include "../Matrix.hpp"
 
-namespace imp {
+namespace mrg {
     namespace ImageParser {
         template<typename T>
         class IParser {

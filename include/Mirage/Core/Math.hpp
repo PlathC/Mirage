@@ -6,7 +6,7 @@
 #define IMPRO_MATH_HPP
 #include <cmath>
 
-namespace imp
+namespace mrg
 {
     template<typename T>
     double Sqrt(T val)

@@ -15,7 +15,7 @@
 
 #include "Math.hpp"
 
-namespace imp
+namespace mrg
 {
 
     template<typename T>

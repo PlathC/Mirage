@@ -1,4 +1,4 @@
-namespace imp {
+namespace mrg {
     template<typename T>
     Vec3<T>::Vec3()  { x = 0; y = 0; z = 0; }
 
@@ -84,7 +84,7 @@ namespace imp {
     template<typename T>
     double Vec3<T>::Length()
     {
-        return imp::Sqrt(x * x + y * y + z * z);
+        return mrg::Sqrt(x * x + y * y + z * z);
     }
 
     template<typename T>
@@ -269,7 +269,7 @@ namespace imp {
     template<typename T>
     double Vec4<T>::Length()
     {
-        return imp::Sqrt(x * x + y * y + z * z + a * a);
+        return mrg::Sqrt(x * x + y * y + z * z + a * a);
     }
 
     template<typename Type, unsigned int Size>
@@ -353,7 +353,7 @@ namespace imp {
         {
             result += this->elements[i] * this->elements[i];
         }
-        return imp::Sqrt(result);
+        return mrg::Sqrt(result);
     }
 
     template<typename Type, unsigned int Size>

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-namespace imp {
+namespace mrg {
     namespace ImageParser {
         // Using https://gist.github.com/niw/5963798
 

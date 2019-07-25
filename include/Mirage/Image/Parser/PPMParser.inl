@@ -1,6 +1,6 @@
 #include <regex>
 
-namespace imp {
+namespace mrg {
     namespace ImageParser{
         template<typename T>
         Matrix<T> PPMParser<T>::Parse(std::string fileName, const unsigned int channel)

@@ -10,7 +10,7 @@
 
 #include "../Core/Vec.hpp"
 
-namespace imp {
+namespace mrg {
     template<typename Type>
     class Matrix
     {

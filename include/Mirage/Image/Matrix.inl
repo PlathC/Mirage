@@ -1,6 +1,6 @@
 #include <map>
 
-namespace imp {
+namespace mrg {
 
     template<typename Type>
     Matrix<Type>::Matrix() : width(0), height(0), channelNumber(0), data() { }
