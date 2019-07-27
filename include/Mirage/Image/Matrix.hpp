@@ -24,17 +24,17 @@ namespace mrg {
         Matrix<T> ToGrayScale();
 
         template<typename T>
-        Matrix<Type> Convolve(Matrix<T> kernel);
+        Matrix<Type> Convolve(Matrix<T> kernel) const;
         Matrix<double> Sobel();
 
         template<typename T>
-        Matrix<T> Threshold();
+        Matrix<T> Threshold() const;
 
         Type& Get(unsigned int w, unsigned int h);
-        std::vector<Type> GetData();
+        std::vector<Type>& GetData();
         void Set(unsigned int w, unsigned int h, const Type& t);
-        unsigned int Width() noexcept { return width; }
-        unsigned int Height() noexcept { return height; }
+        unsigned int Width() const noexcept { return width; }
+        unsigned int Height() const noexcept { return height; }
 
     private:
         unsigned int width;

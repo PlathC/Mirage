@@ -239,7 +239,7 @@ namespace mrg {
     }
 
     template<typename T>
-    Vec4<T> Vec4<T>::Normalize()
+    Vec4<T> Vec4<T>::Normalize() const
     {
         Vec4<T> result;
         double length = this->Length();
@@ -267,7 +267,7 @@ namespace mrg {
     }
 
     template<typename T>
-    double Vec4<T>::Length()
+    double Vec4<T>::Length() const
     {
         return mrg::Sqrt(x * x + y * y + z * z + a * a);
     }
@@ -346,7 +346,7 @@ namespace mrg {
     }
 
     template<typename Type, unsigned int Size>
-    double Vec<Type, Size>::Length()
+    double Vec<Type, Size>::Length() const
     {
         Type result = Type();
         for(int i = 0; i < Size; i++)
@@ -357,7 +357,7 @@ namespace mrg {
     }
 
     template<typename Type, unsigned int Size>
-    Vec<Type, Size> Vec<Type, Size>::Normalize()
+    Vec<Type, Size> Vec<Type, Size>::Normalize() const
     {
         Vec<Type, Size> result;
         double length = this->Length();

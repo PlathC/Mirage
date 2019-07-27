@@ -73,9 +73,9 @@ namespace mrg
         Vec4<T>& operator+=(Vec4<T> const &vec);
         Vec4<T>& operator*=(Vec4<T> const &vec);
 
-        Vec4<T> Normalize();
+        Vec4<T> Normalize() const;
         T& Get(unsigned int index);
-        double Length();
+        double Length() const;
 
         friend std::ostream& operator<<(std::ostream& os, const Vec4<T>& v)
         {
@@ -113,8 +113,8 @@ namespace mrg
         Vec<Type, Size> operator+(Vec<Type, Size> const &vec);
         Vec<Type, Size> operator*(Vec<Type, Size> const &vec);
 
-        double Length();
-        Vec<Type, Size> Normalize();
+        double Length() const;
+        Vec<Type, Size> Normalize() const;
         Type& Get(unsigned int index);
 
         friend std::ostream& operator<<(std::ostream& os, const Vec<Type, Size>& v)

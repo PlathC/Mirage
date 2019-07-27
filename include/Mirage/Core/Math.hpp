@@ -9,13 +9,13 @@
 namespace mrg
 {
     template<typename T>
-    double Sqrt(T val)
+    double Sqrt(const T val)
     {
         return sqrt(static_cast<double>(val));
     }
 
     template<typename T>
-    T Pow(T val, unsigned int power)
+    T Pow(const T val, const unsigned int power)
     {
         for(unsigned int i = 0; i < power; i++)
         {
@@ -25,19 +25,19 @@ namespace mrg
     }
 
     template<typename T>
-    double Log(T val)
+    double Log(const T val)
     {
         return log(val);
     }
 
     template<typename T>
-    T Ceil(T n)
+    T Ceil(const T n)
     {
         return std::ceil(n);
     }
 
     template<typename T>
-    T Floor(T n)
+    T Floor(const T n)
     {
         return static_cast<T>(std::floor(n));
     }

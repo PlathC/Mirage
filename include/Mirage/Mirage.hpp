@@ -8,5 +8,6 @@
 #include "Core/Vec.hpp"
 #include "Image/Matrix.hpp"
 #include "Image/ImageParser.hpp"
+#include "Viewer/Viewer.hpp"
 
 #endif //IMPRO_MIRAGE_HPP

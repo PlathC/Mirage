@@ -14,6 +14,7 @@
 #include <any>
 #include <utility>
 #include <unordered_map>
+#include <memory>
 
 #include "../Core/Vec.hpp"
 #include "Matrix.hpp"

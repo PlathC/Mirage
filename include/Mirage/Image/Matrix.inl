@@ -108,7 +108,7 @@ namespace mrg {
 
     template<typename Type>
     template<typename T>
-    Matrix<Type> Matrix<Type>::Convolve(Matrix<T> kernel)
+    Matrix<Type> Matrix<Type>::Convolve(Matrix<T> kernel) const
     {
         int kernelCenter = Floor(kernel.Width() / 2);
 
@@ -136,7 +136,7 @@ namespace mrg {
 
     template<typename Type>
     template<typename T>
-    Matrix<T> Matrix<Type>::Threshold()
+    Matrix<T> Matrix<Type>::Threshold() const
     {
         assert(channelNumber == 1);
 
@@ -203,7 +203,7 @@ namespace mrg {
     }
 
     template<typename Type>
-    std::vector<Type> Matrix<Type>::GetData()
+    std::vector<Type>& Matrix<Type>::GetData()
     {
         return this->data;
     }
