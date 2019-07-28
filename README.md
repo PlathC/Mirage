@@ -13,7 +13,7 @@ An image processing library for learning purpose in C++17.
 | Filter | To do |
 | Sobel | In progress |
 | Canny | To do |
-| Viewer | To do |
+| Viewer | In progress |
 
 ###  __Examples__
 
