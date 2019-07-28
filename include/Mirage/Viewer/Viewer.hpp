@@ -90,6 +90,10 @@ namespace mrg {
         Viewer(int width, int height);
         void Show();
         std::vector<const char*> GetRequiredExtensions();
+        void SetFramebufferResized(bool _frameBufferResized)
+        {
+            framebufferResized = _frameBufferResized;
+        }
     private:
         void InitWindow();
         void InitVulkan();
@@ -118,6 +122,8 @@ namespace mrg {
         void CreateCommandPool();
         void CreateCommandBuffers();
         void CreateSyncObjects();
+        void RecreateSwapChain();
+        void CleanupSwapChain();
 
         const std::vector<const char*> validationLayers = {
                 "VK_LAYER_LUNARG_standard_validation"
@@ -132,6 +138,7 @@ namespace mrg {
         std::vector<VkSemaphore> renderFinishedSemaphores;
         std::vector<VkFence> inFlightFences;
         size_t currentFrame = 0;
+        bool framebufferResized = false;
 
 #ifdef NDEBUG
         const bool enableValidationLayers = false;
