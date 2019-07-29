@@ -132,18 +132,27 @@ namespace mrg
 
     using Vec2c = Vec<char, 2>;
     using Vec2i = Vec<int, 2>;
+    using Vec2ui8 = Vec<uint8_t, 2>;
+    using Vec2ui16 = Vec<uint16_t, 2>;
+    using Vec2ui32 = Vec<uint32_t, 2>;
     using Vec2f = Vec<float, 2>;
     using Vec2l = Vec<long, 2>;
     using Vec2d = Vec<double, 2>;
 
     using Vec3c = Vec3<char>;
     using Vec3i = Vec3<int>;
+    using Vec3ui8 = Vec3<uint8_t>;
+    using Vec3ui16 = Vec3<uint16_t>;
+    using Vec3ui32 = Vec3<uint32_t>;
     using Vec3f = Vec3<float>;
     using Vec3l = Vec3<long>;
     using Vec3d = Vec3<double>;
 
     using Vec4c = Vec4<char>;
     using Vec4i = Vec4<int>;
+    using Vec4ui8 = Vec4<uint8_t>;
+    using Vec4ui16 = Vec4<uint16_t>;
+    using Vec4ui32 = Vec4<uint32_t>;
     using Vec4f = Vec4<float>;
     using Vec4l = Vec4<long>;
     using Vec4d = Vec4<double>;

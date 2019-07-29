@@ -17,10 +17,13 @@
 
 #include <iostream>
 #include <algorithm>
-#include <vector>
 #include <map>
+#include <vector>
 #include <set>
 #include <optional>
+#include <chrono>
+#include <thread>
+
 #include <cstring>
 #include <fstream>
 
@@ -90,10 +93,12 @@ namespace mrg {
         Viewer(int width, int height);
         void Show();
         std::vector<const char*> GetRequiredExtensions();
+
         void SetFramebufferResized(bool _frameBufferResized)
         {
             framebufferResized = _frameBufferResized;
         }
+
     private:
         void InitWindow();
         void InitVulkan();
@@ -151,25 +156,24 @@ namespace mrg {
         /* Vulkan needed class members */
         VkInstance instance;
         VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
-        VkDevice device;
-        VkQueue graphicsQueue;
-        VkSurfaceKHR surface;
-        VkDebugUtilsMessengerEXT debugMessenger;
-        VkQueue presentQueue;
-        VkSwapchainKHR swapChain;
+        VkDevice device{};
+        VkQueue graphicsQueue{};
+        VkSurfaceKHR surface{};
+        VkDebugUtilsMessengerEXT debugMessenger{};
+        VkQueue presentQueue{};
+        VkSwapchainKHR swapChain{};
         std::vector<VkImage> swapChainImages;
         VkFormat swapChainImageFormat;
-        VkExtent2D swapChainExtent;
+        VkExtent2D swapChainExtent{};
         std::vector<VkImageView> swapChainImageViews;
-        VkRenderPass renderPass;
-        VkPipelineLayout pipelineLayout;
-        VkPipeline graphicsPipeline;
+        VkRenderPass renderPass{};
+        VkPipelineLayout pipelineLayout{};
+        VkPipeline graphicsPipeline{};
         std::vector<VkFramebuffer> swapChainFramebuffers;
-        VkCommandPool commandPool;
+        VkCommandPool commandPool{};
         std::vector<VkCommandBuffer> commandBuffers;
-        VkSemaphore imageAvailableSemaphore;
-        VkSemaphore renderFinishedSemaphore;
-
+        VkSemaphore imageAvailableSemaphore{};
+        VkSemaphore renderFinishedSemaphore{};
     };
 }
 

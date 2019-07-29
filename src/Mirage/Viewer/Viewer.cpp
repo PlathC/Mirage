@@ -37,7 +37,7 @@ std::vector<const char*> mrg::Viewer::GetRequiredExtensions()
     return extensions;
 }
 
-static void FramebufferResizeCallback(GLFWwindow* window, int width, int height)
+static void FramebufferResizeCallback(GLFWwindow* window, int _width, int _height)
 {
     auto app = reinterpret_cast<mrg::Viewer*>(glfwGetWindowUserPointer(window));
     app->SetFramebufferResized(true);
@@ -76,10 +76,12 @@ void mrg::Viewer::Update()
 {
     double previousTime = glfwGetTime();
     int frameCount = 0;
+
     while (!glfwWindowShouldClose(window))
     {
         double currentTime = glfwGetTime();
         frameCount++;
+
         if ( currentTime - previousTime >= 1.0 )
         {
 #ifndef NDEBUG
@@ -898,10 +900,8 @@ void mrg::Viewer::CreateCommandBuffers()
         renderPassInfo.pClearValues = &clearColor;
 
         vkCmdBeginRenderPass(commandBuffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
-
             vkCmdBindPipeline(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
             vkCmdDraw(commandBuffers[i], 3, 1, 0, 0);
-
         vkCmdEndRenderPass(commandBuffers[i]);
 
         if (vkEndCommandBuffer(commandBuffers[i]) != VK_SUCCESS) {
