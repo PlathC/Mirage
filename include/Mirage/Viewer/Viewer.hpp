@@ -17,6 +17,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <memory>
 #include <map>
 #include <vector>
 #include <set>
@@ -29,6 +30,7 @@
 #include <fstream>
 
 #include "../Core/Vec.hpp"
+#include "../Core/Macro.hpp"
 
 namespace mrg {
 
@@ -64,37 +66,14 @@ namespace mrg {
         }
     };
 
-    const std::vector<Vertex> vertices = {
-            {{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
-            {{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
-            {{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
-            {{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}
-    };
-
-    const std::vector<uint16_t> indices = {
-            0, 1, 2, 2, 3, 0
-    };
-
-    struct QueueFamilyIndices {
-        std::optional<uint32_t> graphicsFamily;
-        std::optional<uint32_t> presentFamily;
-
-        bool isComplete() {
-            return graphicsFamily.has_value() && presentFamily.has_value();
-        }
-    };
-
-    struct SwapChainSupportDetails {
-        VkSurfaceCapabilitiesKHR capabilities;
-        std::vector<VkSurfaceFormatKHR> formats;
-        std::vector<VkPresentModeKHR> presentModes;
-    };
-
     class Viewer {
 
         static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData)
         {
-            std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
+            UNUSED_PARAMETER(messageSeverity);
+            UNUSED_PARAMETER(messageType);
+            UNUSED_PARAMETER(pUserData);
+            std::cerr << " validation layer: " << pCallbackData->pMessage << std::endl;
 
             return VK_FALSE;
         }
@@ -129,7 +108,7 @@ namespace mrg {
             size_t fileSize = (size_t) file.tellg();
             std::vector<char> buffer(fileSize);
             file.seekg(0);
-            file.read(buffer.data(), fileSize);
+            file.read(buffer.data(), static_cast<std::streamsize>(fileSize));
             file.close();
 
             return buffer;
@@ -140,8 +119,11 @@ namespace mrg {
             VkPhysicalDeviceMemoryProperties memProperties;
             vkGetPhysicalDeviceMemoryProperties(physicalDevice, &memProperties);
 
-            for (uint32_t i = 0; i < memProperties.memoryTypeCount; i++) {
-                if ((typeFilter & (1 << i)) && (memProperties.memoryTypes[i].propertyFlags & properties) == properties) {
+            for (uint32_t i = 0; i < memProperties.memoryTypeCount; i++)
+            {
+                if ((static_cast<uint32_t>(typeFilter) & (static_cast<uint32_t >(1) << i))
+                && (memProperties.memoryTypes[i].propertyFlags & properties) == properties)
+                {
                     return i;
                 }
             }
@@ -149,10 +131,10 @@ namespace mrg {
             throw std::runtime_error("failed to find suitable memory type!");
         }
 
-
-
     public:
         Viewer(int width, int height);
+        Viewer(const mrg::Viewer& v);
+
         void Show();
         std::vector<const char*> GetRequiredExtensions();
 
@@ -161,7 +143,46 @@ namespace mrg {
             framebufferResized = _frameBufferResized;
         }
 
+        Viewer& operator=(const Viewer& v);
+
+        ~Viewer();
     private:
+        const std::vector<Vertex> vertices = {
+                {{-1.f, -1.f}, {1.0f, 0.0f, 0.0f}},
+                {{1.f, -1.f}, {0.0f, 1.0f, 0.0f}},
+                {{1.f, 1.f}, {0.0f, 0.0f, 1.0f}},
+                {{-1.f, 1.f}, {1.0f, 1.0f, 1.0f}}
+        };
+
+        const std::vector<uint16_t> indices = {
+                0, 1, 2, 2, 3, 0
+        };
+
+        struct UniformBufferObject {
+            glm::mat4 model;
+            glm::mat4 view;
+            glm::mat4 proj;
+        };
+
+        struct QueueFamilyIndices {
+            std::optional<uint32_t> graphicsFamily;
+            std::optional<uint32_t> presentFamily;
+
+            bool isComplete() {
+                return graphicsFamily.has_value() && presentFamily.has_value();
+            }
+
+            QueueFamilyIndices() : graphicsFamily(), presentFamily() {}
+        };
+
+        struct SwapChainSupportDetails {
+            VkSurfaceCapabilitiesKHR capabilities;
+            std::vector<VkSurfaceFormatKHR> formats;
+            std::vector<VkPresentModeKHR> presentModes;
+            SwapChainSupportDetails() : capabilities(), formats(), presentModes() {}
+        };
+
+
         void InitWindow();
         void InitVulkan();
         void Update();
@@ -177,7 +198,7 @@ namespace mrg {
         void CreateLogicalDevice();
         void CreateSurface();
         void CreateSwapChain();
-        SwapChainSupportDetails QuerySwapChainSupport(VkPhysicalDevice device);
+        SwapChainSupportDetails QuerySwapChainSupport(VkPhysicalDevice _device);
         VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
         VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
         VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
@@ -233,7 +254,7 @@ namespace mrg {
         VkExtent2D swapChainExtent{};
         std::vector<VkImageView> swapChainImageViews;
         VkRenderPass renderPass{};
-        VkPipelineLayout pipelineLayout{};
+        VkPipelineLayout pipelineLayout;
         VkPipeline graphicsPipeline{};
         std::vector<VkFramebuffer> swapChainFramebuffers;
         VkCommandPool commandPool{};
@@ -245,7 +266,6 @@ namespace mrg {
         VkDeviceMemory vertexBufferMemory;
         VkBuffer indexBuffer;
         VkDeviceMemory indexBufferMemory;
-
     };
 }
 

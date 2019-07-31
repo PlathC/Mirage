@@ -6,11 +6,47 @@
 
 //https://vulkan-tutorial.com/en/Vertex_buffers/Vertex_buffer_creation
 
-mrg::Viewer::Viewer(int width, int height):
-width(width),
-height(height),
-window(nullptr),
-instance()
+mrg::Viewer::Viewer(int width, int height) :
+        imageAvailableSemaphores(),
+        renderFinishedSemaphores(),
+        inFlightFences(),
+        width(width),
+        height(height),
+        window(nullptr),
+        instance(),
+        swapChainImages(),
+        swapChainImageFormat(),
+        swapChainImageViews(),
+        pipelineLayout(),
+        swapChainFramebuffers(),
+        commandBuffers(),
+        imageAvailableSemaphore(),
+        vertexBuffer(),
+        vertexBufferMemory(),
+        indexBuffer(),
+        indexBufferMemory()
+{
+}
+
+mrg::Viewer::Viewer(const mrg::Viewer& v) :
+        imageAvailableSemaphores(),
+        renderFinishedSemaphores(),
+        inFlightFences(),
+        width(v.width),
+        height(v.height),
+        window(nullptr),
+        instance(),
+        swapChainImages(),
+        swapChainImageFormat(),
+        swapChainImageViews(),
+        pipelineLayout(),
+        swapChainFramebuffers(),
+        commandBuffers(),
+        imageAvailableSemaphore(),
+        vertexBuffer(),
+        vertexBufferMemory(),
+        indexBuffer(),
+        indexBufferMemory()
 {
 }
 
@@ -19,7 +55,7 @@ void mrg::Viewer::Show()
     InitWindow();
     InitVulkan();
     Update();
-    Clean();
+    //Clean();
 }
 
 std::vector<const char*> mrg::Viewer::GetRequiredExtensions()
@@ -37,8 +73,22 @@ std::vector<const char*> mrg::Viewer::GetRequiredExtensions()
     return extensions;
 }
 
+mrg::Viewer& mrg::Viewer::operator=(const Viewer& v)
+{
+    this->width = v.width;
+    this->height = v.height;
+    return *this;
+}
+
+mrg::Viewer::~Viewer()
+{
+    Clean();
+}
+
 static void FramebufferResizeCallback(GLFWwindow* window, int _width, int _height)
 {
+    UNUSED_PARAMETER(_width);
+    UNUSED_PARAMETER(_height);
     auto app = reinterpret_cast<mrg::Viewer*>(glfwGetWindowUserPointer(window));
     app->SetFramebufferResized(true);
 }
@@ -156,7 +206,7 @@ void mrg::Viewer::Draw()
         throw std::runtime_error("Failed to present swap chain image !");
     }
 
-    currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
+    currentFrame = (currentFrame + 1) % static_cast<size_t>(MAX_FRAMES_IN_FLIGHT);
 
 }
 
@@ -170,7 +220,7 @@ void mrg::Viewer::Clean()
     vkDestroyBuffer(device, vertexBuffer, nullptr);
     vkFreeMemory(device, vertexBufferMemory, nullptr);
 
-    for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
+    for (size_t i = 0; i < static_cast<size_t>(MAX_FRAMES_IN_FLIGHT); i++)
     {
         vkDestroySemaphore(device, renderFinishedSemaphores[i], nullptr);
         vkDestroySemaphore(device, imageAvailableSemaphores[i], nullptr);
@@ -195,9 +245,9 @@ void mrg::Viewer::Clean()
 }
 
 void mrg::Viewer::CleanupSwapChain() {
-    for (size_t i = 0; i < swapChainFramebuffers.size(); i++)
+    for (auto & swapChainFramebuffer : swapChainFramebuffers)
     {
-        vkDestroyFramebuffer(device, swapChainFramebuffers[i], nullptr);
+        vkDestroyFramebuffer(device, swapChainFramebuffer, nullptr);
     }
 
     vkFreeCommandBuffers(device, commandPool, static_cast<uint32_t>(commandBuffers.size()), commandBuffers.data());
@@ -206,9 +256,9 @@ void mrg::Viewer::CleanupSwapChain() {
     vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
     vkDestroyRenderPass(device, renderPass, nullptr);
 
-    for (size_t i = 0; i < swapChainImageViews.size(); i++)
+    for (auto & swapChainImageView : swapChainImageViews)
     {
-        vkDestroyImageView(device, swapChainImageViews[i], nullptr);
+        vkDestroyImageView(device, swapChainImageView, nullptr);
     }
 
     vkDestroySwapchainKHR(device, swapChain, nullptr);
@@ -365,7 +415,7 @@ void mrg::Viewer::PickPhysicalDevice()
             score += 1000;
         }
 
-        score += deviceProperties.limits.maxImageDimension2D;
+        score += static_cast<int>(deviceProperties.limits.maxImageDimension2D);
         return score;
     };
 
@@ -387,35 +437,35 @@ void mrg::Viewer::PickPhysicalDevice()
     }
 }
 
-mrg::QueueFamilyIndices mrg::Viewer::FindQueueFamilies(VkPhysicalDevice device)
+mrg::Viewer::QueueFamilyIndices mrg::Viewer::FindQueueFamilies(VkPhysicalDevice _device)
 {
-    QueueFamilyIndices indices;
+    QueueFamilyIndices _indices;
 
     uint32_t queueFamilyCount = 0;
-    vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
+    vkGetPhysicalDeviceQueueFamilyProperties(_device, &queueFamilyCount, nullptr);
 
     std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
-    vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
+    vkGetPhysicalDeviceQueueFamilyProperties(_device, &queueFamilyCount, queueFamilies.data());
 
     int i = 0;
     for (const auto& queueFamily : queueFamilies)
     {
         if (queueFamily.queueCount > 0 && queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
-            indices.graphicsFamily = i;
+            _indices.graphicsFamily = i;
 
         VkBool32 presentSupport = false;
-        vkGetPhysicalDeviceSurfaceSupportKHR(device, static_cast<uint32_t>(i), surface, &presentSupport);
+        vkGetPhysicalDeviceSurfaceSupportKHR(_device, static_cast<uint32_t>(i), surface, &presentSupport);
 
         if(queueFamily.queueCount > 0 && presentSupport)
-            indices.presentFamily = i;
+            _indices.presentFamily = i;
 
-        if (indices.isComplete())
+        if (_indices.isComplete())
             break;
 
         i++;
     }
 
-    return indices;
+    return _indices;
 };
 
 void mrg::Viewer::CreateLogicalDevice()
@@ -533,26 +583,26 @@ void mrg::Viewer::CreateSwapChain()
     swapChainExtent = extent;
 }
 
-mrg::SwapChainSupportDetails mrg::Viewer::QuerySwapChainSupport(VkPhysicalDevice device)
+mrg::Viewer::SwapChainSupportDetails mrg::Viewer::QuerySwapChainSupport(VkPhysicalDevice _device)
 {
     SwapChainSupportDetails details;
 
-    vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, surface, &details.capabilities);
+    vkGetPhysicalDeviceSurfaceCapabilitiesKHR(_device, surface, &details.capabilities);
 
     uint32_t formatCount;
-    vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &formatCount, nullptr);
+    vkGetPhysicalDeviceSurfaceFormatsKHR(_device, surface, &formatCount, nullptr);
 
     if (formatCount != 0) {
         details.formats.resize(formatCount);
-        vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &formatCount, details.formats.data());
+        vkGetPhysicalDeviceSurfaceFormatsKHR(_device, surface, &formatCount, details.formats.data());
     }
 
     uint32_t presentModeCount;
-    vkGetPhysicalDeviceSurfacePresentModesKHR(device, surface, &presentModeCount, nullptr);
+    vkGetPhysicalDeviceSurfacePresentModesKHR(_device, surface, &presentModeCount, nullptr);
 
     if (presentModeCount != 0) {
         details.presentModes.resize(presentModeCount);
-        vkGetPhysicalDeviceSurfacePresentModesKHR(device, surface, &presentModeCount, details.presentModes.data());
+        vkGetPhysicalDeviceSurfacePresentModesKHR(_device, surface, &presentModeCount, details.presentModes.data());
     }
 
     return details;
@@ -1018,9 +1068,9 @@ void mrg::Viewer::CreateCommandBuffers()
 
 void mrg::Viewer::CreateSyncObjects()
 {
-    imageAvailableSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
-    renderFinishedSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
-    inFlightFences.resize(MAX_FRAMES_IN_FLIGHT);
+    imageAvailableSemaphores.resize(static_cast<size_t>(MAX_FRAMES_IN_FLIGHT));
+    renderFinishedSemaphores.resize(static_cast<size_t>(MAX_FRAMES_IN_FLIGHT));
+    inFlightFences.resize(static_cast<size_t>(MAX_FRAMES_IN_FLIGHT));
 
     VkSemaphoreCreateInfo semaphoreInfo = {};
     semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
@@ -1029,7 +1079,7 @@ void mrg::Viewer::CreateSyncObjects()
     fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
     fenceInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
 
-    for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
+    for (size_t i = 0; i < static_cast<size_t>(MAX_FRAMES_IN_FLIGHT); i++)
     {
         if (vkCreateSemaphore(device, &semaphoreInfo, nullptr, &imageAvailableSemaphores[i]) != VK_SUCCESS ||
             vkCreateSemaphore(device, &semaphoreInfo, nullptr, &renderFinishedSemaphores[i]) != VK_SUCCESS ||

@@ -38,7 +38,7 @@ set(SOURCES
         src/Mirage/Image/Parser/PPMParser.cpp
         src/Mirage/Image/Parser/IParser.cpp
         src/Mirage/Image/Parser/PngParser.cpp
-        src/Mirage/Viewer/Viewer.cpp)
+        src/Mirage/Viewer/Viewer.cpp include/Mirage/Core/Macro.hpp)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/Mirage
         ${CMAKE_CURRENT_SOURCE_DIR}/include/Mirage/Core
