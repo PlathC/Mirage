@@ -3,9 +3,6 @@ namespace mrg {
     Vec3<T>::Vec3()  { x = 0; y = 0; z = 0; }
 
     template<typename T>
-    Vec3<T>::Vec3(T x, T y, T z) : x(x), y(y), z(z) { }
-
-    template<typename T>
     T& Vec3<T>::X() { return x; }
 
     template<typename T>
@@ -101,12 +98,6 @@ namespace mrg {
 
     template<typename T>
     Vec4<T>::Vec4() : x(0), y(0), z(0), a(0) { }
-
-    template<typename T>
-    Vec4<T>::Vec4(T n) : x(n), y(n), z(n), a(n) {}
-
-    template<typename T>
-    Vec4<T>::Vec4(T x, T y , T z, T a) : x(x), y(y), z(z), a(a) { }
 
     template<typename T>
     T& Vec4<T>::X(){ return x; }
@@ -273,15 +264,10 @@ namespace mrg {
     }
 
     template<typename Type, unsigned int Size>
-    Vec<Type, Size>::Vec()
-    {
-        this->elements.fill(0);
-    }
-
-    template<typename Type, unsigned int Size>
     Vec<Type, Size>::Vec(const Type initialise)
     {
-        elements.fill(initialise);
+        for(size_t i = 0; i < Size; i++)
+            elements[i] = initialise;
     }
 
     template<typename Type, unsigned int Size>
@@ -291,9 +277,12 @@ namespace mrg {
     }
 
     template<typename Type, unsigned int Size>
-    Vec<Type, Size>::Vec(std::array<Type, Size> elements)
+    Vec<Type, Size>::Vec(std::initializer_list<Type> l)
     {
-        this->elements = elements;
+        auto element = l.begin();
+
+        for (unsigned int i = 0; i < l.size(); ++i, ++element)
+            elements[i] = *element;
     }
 
     template<typename Type, unsigned int Size>

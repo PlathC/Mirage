@@ -11,6 +11,7 @@
 #include <cassert>
 #include <string>
 #include <type_traits>
+#include <initializer_list>
 #include <fstream>
 
 #include "Math.hpp"
@@ -22,7 +23,13 @@ namespace mrg
     class Vec3 {
     public:
         Vec3();
-        Vec3(T x, T y , T z);
+        Vec3(const Vec3& v) : x(v.x), y(v.y), z(v.z) {}
+        Vec3(T x, T y, T z) : x(x), y(y), z(z) {}
+        Vec3(std::initializer_list<T> l) :
+        x(data(l)[0]),
+        y(data(l)[1]),
+        z(data(l)[2])
+        {}
 
         T& X();
         T& Y();
@@ -53,8 +60,15 @@ namespace mrg
     class Vec4 {
     public:
         Vec4();
-        Vec4(T n);
-        Vec4(T x, T y , T z, T a);
+        Vec4(const Vec4& v) : x(v.x), y(v.y), z(v.z), a(v.a){}
+        Vec4(T n) : x(n), y(n), z(n), a(n) {}
+        Vec4(T x, T y , T z, T a) : x(x), y(y), z(z), a(a) { }
+        Vec4(std::initializer_list<T> l) :
+        x(l[0]),
+        y(l[1]),
+        z(l[2]),
+        a(l[3])
+        {}
 
         T& X();
         T& Y();
@@ -75,7 +89,7 @@ namespace mrg
 
         Vec4<T> Normalize() const;
         T& Get(unsigned int index);
-        double Length() const;
+        [[nodiscard]] double Length() const;
 
         friend std::ostream& operator<<(std::ostream& os, const Vec4<T>& v)
         {
@@ -102,10 +116,10 @@ namespace mrg
                       "The vector must contains numbers");
 
     public:
-        Vec();
-        explicit Vec(const Type initialise);
+        Vec() = default;
         Vec(const Vec<Type, Size>& vec);
-        Vec(std::array<Type, Size> elements);
+        explicit Vec(Type initialise);
+        Vec(std::initializer_list<Type> l);
 
         Type& operator[](unsigned int index);
         Vec<Type, Size>& operator=(const Type& value);
