@@ -30,6 +30,8 @@
 #include <fstream>
 
 #include "../Core/Vec.hpp"
+#include "../Image/Matrix.hpp"
+#include "../Image/ImageParser.hpp"
 #include "../Core/Macro.hpp"
 
 namespace mrg {
@@ -37,6 +39,7 @@ namespace mrg {
     struct Vertex {
         Vec2f pos;
         Vec3f color;
+        Vec2f texCoord;
 
         static VkVertexInputBindingDescription GetBindingDescription()
         {
@@ -48,9 +51,9 @@ namespace mrg {
             return bindingDescription;
         }
 
-        static std::array<VkVertexInputAttributeDescription, 2> GetAttributeDescriptions()
+        static std::array<VkVertexInputAttributeDescription, 3> GetAttributeDescriptions()
         {
-            std::array<VkVertexInputAttributeDescription, 2> attributeDescriptions = {};
+            std::array<VkVertexInputAttributeDescription, 3> attributeDescriptions = {};
 
             attributeDescriptions[0].binding = 0;
             attributeDescriptions[0].location = 0;
@@ -61,6 +64,11 @@ namespace mrg {
             attributeDescriptions[1].location = 1;
             attributeDescriptions[1].format = VK_FORMAT_R32G32B32_SFLOAT;
             attributeDescriptions[1].offset = offsetof(Vertex, color);
+
+            attributeDescriptions[2].binding = 0;
+            attributeDescriptions[2].location = 2;
+            attributeDescriptions[2].format = VK_FORMAT_R32G32_SFLOAT;
+            attributeDescriptions[2].offset = offsetof(Vertex, texCoord);
 
             return attributeDescriptions;
         }
@@ -148,10 +156,10 @@ namespace mrg {
         ~Viewer();
     private:
         const std::vector<Vertex> vertices = {
-                {{-1.f, -1.f}, {1.0f, 0.0f, 0.0f}},
-                {{1.f, -1.f}, {0.0f, 1.0f, 0.0f}},
-                {{1.f, 1.f}, {0.0f, 0.0f, 1.0f}},
-                {{-1.f, 1.f}, {1.0f, 1.0f, 1.0f}}
+                {{-1.f, -1.f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f}},
+                {{1.f, -1.f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f}},
+                {{1.f, 1.f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f}},
+                {{-1.f, 1.f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}}
         };
 
         const std::vector<uint16_t> indices = {
@@ -203,15 +211,27 @@ namespace mrg {
         VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
         VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
         void CreateImageViews();
+        void CreateDescriptorSetLayout();
         void CreateGraphicsPipeline();
         VkShaderModule CreateShaderModule(const std::vector<char>& code);
         void CreateRenderPass();
         void CreateFramebuffers();
         void CreateCommandPool();
+        void CreateTextureImage();
+        void CreateTextureImageView();
+        VkImageView CreateImageView(VkImage image, VkFormat format);
+        void CreateTextureSampler();
+        void CreateImage(uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image, VkDeviceMemory& imageMemory);
+        VkCommandBuffer BeginSingleTimeCommands();
+        void EndSingleTimeCommands(VkCommandBuffer commandBuffer);
         void CreateVertexBuffer();
         void CreateIndexBuffer();
+        void TransitionImageLayout(VkImage image, VkFormat format,VkImageLayout oldLayout, VkImageLayout newLayout);
+        void CopyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height);
         void CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
         void CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
+        void CreateDescriptorPool();
+        void CreateDescriptorSets();
         void CreateCommandBuffers();
         void CreateSyncObjects();
         void RecreateSwapChain();
@@ -254,6 +274,7 @@ namespace mrg {
         VkExtent2D swapChainExtent{};
         std::vector<VkImageView> swapChainImageViews;
         VkRenderPass renderPass{};
+        VkDescriptorSetLayout descriptorSetLayout;
         VkPipelineLayout pipelineLayout;
         VkPipeline graphicsPipeline{};
         std::vector<VkFramebuffer> swapChainFramebuffers;
@@ -266,6 +287,14 @@ namespace mrg {
         VkDeviceMemory vertexBufferMemory;
         VkBuffer indexBuffer;
         VkDeviceMemory indexBufferMemory;
+
+        VkDescriptorPool descriptorPool;
+        std::vector<VkDescriptorSet> descriptorSets;
+
+        VkImage textureImage;
+        VkDeviceMemory textureImageMemory;
+        VkImageView textureImageView;
+        VkSampler textureSampler;
     };
 }
 

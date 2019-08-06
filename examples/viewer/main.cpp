@@ -4,7 +4,7 @@ int main()
 {
     using namespace mrg;
 
-    Viewer viewer = Viewer(800, 600);
+    Viewer viewer = Viewer(800, 800);
     try{
         viewer.Show();
     }catch(std::exception& e)

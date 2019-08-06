@@ -1,6 +1,7 @@
 #include <memory>
 #include <algorithm>
 #include <functional>
+#include <io.h>
 
 #include "Parser/IParser.hpp"
 #include "Parser/PPMParser.hpp"
@@ -15,7 +16,6 @@ namespace mrg {
 
             std::unique_ptr<IParser<Type>> parser;
             Matrix<Type> result;
-
 
             std::string::size_type idx = fileName.rfind('.');
             if(idx != std::string::npos)
@@ -37,9 +37,13 @@ namespace mrg {
                     parser = std::make_unique<PngParser<Type>>();
                 }
 
-                if(parser != nullptr)
+                bool exist = access(fileName.c_str(), F_OK) != -1;
+                if(parser != nullptr && exist)
                 {
                     result = parser->Parse(fileName, channel);
+                }else if(!exist)
+                {
+                    throw std::runtime_error("Can't find the image file.");
                 }
             }
 

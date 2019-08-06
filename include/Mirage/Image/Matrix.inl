@@ -6,7 +6,7 @@ namespace mrg {
     Matrix<Type>::Matrix() : width(0), height(0), channelNumber(0), data() { }
 
     template<typename Type>
-    Matrix<Type>::Matrix(const unsigned int width, const unsigned int height, const unsigned int channelNumber) :
+    Matrix<Type>::Matrix(const uint32_t width, const uint32_t  height, const uint8_t channelNumber) :
     width(width),
     height(height),
     channelNumber(channelNumber),
@@ -16,7 +16,7 @@ namespace mrg {
     }
 
     template<typename Type>
-    Matrix<Type>::Matrix(Type fill, const unsigned int width, const unsigned int height, const unsigned int channelNumber) :
+    Matrix<Type>::Matrix(Type fill, const uint32_t width, const uint32_t height, const uint8_t channelNumber) :
     width(width),
     height(height),
     channelNumber(channelNumber),
@@ -25,12 +25,26 @@ namespace mrg {
     }
 
     template<typename Type>
-    Matrix<Type>::Matrix(std::vector<Type> pixels, const unsigned int width, const unsigned int height, const unsigned int channelNumber) :
+    Matrix<Type>::Matrix(std::vector<Type>& pixels, const uint32_t width, const uint32_t height, const uint8_t channelNumber) :
     width(width),
     height(height),
     channelNumber(channelNumber),
     data(pixels)
     {
+    }
+
+    template<typename Type>
+    Matrix<Type>::Matrix(std::initializer_list<Type> pixels, const uint32_t width, const uint32_t height, const uint8_t channelNumber):
+    width(width),
+    height(height),
+    channelNumber(channelNumber),
+    data()
+    {
+        data.resize(pixels.size());
+        for(auto ite = pixels.begin(); ite != pixels.end(); ite++)
+        {
+            data.push_back(*ite);
+        }
     }
 
     template<typename Type>
@@ -40,7 +54,7 @@ namespace mrg {
         std::vector<T> resultData;
         resultData.resize(width * height);
 
-        for(unsigned int i = 0; i < data.size(); i++)
+        for(size_t i = 0; i < data.size(); i++)
         {
             T temp = 0;
             if constexpr(std::is_arithmetic<Type>::value)
@@ -49,7 +63,7 @@ namespace mrg {
             }
             else
             {
-                for(unsigned int j = 0; j < channelNumber; j++)
+                for(uint8_t j = 0; j < channelNumber; j++)
                     temp += data[i][j];
                 resultData[i] = static_cast<T>(temp/channelNumber);
             }
@@ -77,9 +91,9 @@ namespace mrg {
         std::vector<double> resultData;
         resultData.resize(width * height);
 
-        for(unsigned int i = 1; i < width - 1; i++)
+        for(uint32_t i = 1; i < width - 1; i++)
         {
-            for(unsigned int j = 1; j < height - 1; j++)
+            for(uint32_t j = 1; j < height - 1; j++)
             {
                 double magnitudeX = 0;
                 double magnitudeY = 0;
@@ -209,8 +223,32 @@ namespace mrg {
     }
 
     template<typename Type>
-    void Matrix<Type>::Set(unsigned int w, unsigned int h, const Type& t)
+    template<typename ReturnType>
+    ReturnType* Matrix<Type>::GetRawData()
     {
-        this->data[w * width + h] = t;
+        auto* rawData = new ReturnType[width * height * channelNumber];
+        for(unsigned int y = 0; y < height; y++)
+        {
+            for(unsigned int x = 0; x < width; x++)
+            {
+                if constexpr(std::is_arithmetic<Type>::value)
+                {
+                    rawData[x * channelNumber + y * width] = data[y * width + x];
+                }else
+                {
+                    for(unsigned int k = 0; k < channelNumber; k++)
+                    {
+                        rawData[k + x * channelNumber + y * width] = data[y * width + x][k];
+                    }
+                }
+            }
+        }
+         return rawData;
+    }
+
+    template<typename Type>
+    void Matrix<Type>::Set(uint32_t w, uint32_t h, const Type& t)
+    {
+        this->data[w * height + h] = t;
     }
 }
