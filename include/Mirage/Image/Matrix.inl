@@ -238,7 +238,7 @@ namespace mrg {
                 {
                     for(unsigned int k = 0; k < channelNumber; k++)
                     {
-                        rawData[k + x * channelNumber + y * width] = data[y * width + x][k];
+                        rawData[x + y * width][k] = data[y * width + x][k];
                     }
                 }
             }

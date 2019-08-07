@@ -6,13 +6,14 @@
 
 // P207 pdf
 
-mrg::Viewer::Viewer(int width, int height) :
+mrg::Viewer::Viewer(int width, int height, Matrix<Vec4ui8> image) :
         imageAvailableSemaphores(),
         renderFinishedSemaphores(),
         inFlightFences(),
         width(width),
         height(height),
         window(nullptr),
+        image(image),
         instance(),
         swapChainImages(),
         swapChainImageFormat(),
@@ -35,6 +36,7 @@ mrg::Viewer::Viewer(const mrg::Viewer& v) :
         width(v.width),
         height(v.height),
         window(nullptr),
+        image(v.image),
         instance(),
         swapChainImages(),
         swapChainImageFormat(),
@@ -925,8 +927,7 @@ void mrg::Viewer::CreateCommandPool()
 
 void mrg::Viewer::CreateTextureImage()
 {
-    Matrix<Vec4ui8> mat = ImageParser::FromFile<Vec4ui8>("../samples/engine.png", 4);
-    VkDeviceSize imageSize = mat.Width() * mat.Height() * mat.Channel();
+    VkDeviceSize imageSize = image.Width() * image.Height() * image.Channel();
 
     VkBuffer stagingBuffer;
     VkDeviceMemory stagingBufferMemory;
@@ -939,13 +940,13 @@ void mrg::Viewer::CreateTextureImage()
     void *data;
 
     vkMapMemory(device, stagingBufferMemory, 0, imageSize, 0, &data);
-    memcpy(data, mat.GetRawData<uint8_t >(), static_cast<size_t>(imageSize));
+    memcpy(data, image.GetRawData<Vec4ui8 >(), static_cast<size_t>(imageSize));
     vkUnmapMemory(device, stagingBufferMemory);
 
-    CreateImage(mat.Width(), mat.Height(), VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, textureImage, textureImageMemory);
+    CreateImage(image.Width(), image.Height(), VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, textureImage, textureImageMemory);
 
     TransitionImageLayout(textureImage, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
-    CopyBufferToImage(stagingBuffer, textureImage, static_cast<uint32_t>(mat.Width()), static_cast<uint32_t>(mat.Height()));
+    CopyBufferToImage(stagingBuffer, textureImage, static_cast<uint32_t>(image.Width()), static_cast<uint32_t>(image.Height()));
     TransitionImageLayout(textureImage, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 
     vkDestroyBuffer(device, stagingBuffer, nullptr);

@@ -140,7 +140,7 @@ namespace mrg {
         }
 
     public:
-        Viewer(int width, int height);
+        Viewer(int width, int height, Matrix<Vec4ui8> image);
         Viewer(const mrg::Viewer& v);
 
         void Show();
@@ -259,6 +259,7 @@ namespace mrg {
 #endif
         int width, height;
         GLFWwindow* window;
+        Matrix<Vec4ui8> image;
 
         /* Vulkan needed class members */
         VkInstance instance;
