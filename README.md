@@ -8,18 +8,18 @@ An image processing library for learning purpose in C++17.
 
 | Feature | Progress |
 |---------|----------|
-| Image structure | In progress |
-| Parser (Using LibPng...) | In progress |
+| Image structure | Done |
+| Parser | Done (PNG) |
 | Filter | To do |
 | Sobel | In progress |
 | Canny | To do |
-| Viewer | In progress |
+| Viewer | Done (Vec4ui image only) |
 
 ###  __Examples__
 
 #### __Sobel__
 
-Sobel filter is directly implemented in the library and can be used as :
+A Sobel filter is directly implemented in the library and can be used as :
 
 ```cpp
 #include "Mirage/Mirage.hpp"
@@ -29,11 +29,11 @@ int main()
     using namespace mrg;
 
     Matrix<Vec4d> mat{};
-    mat = ImageParser::FromFile<Vec4d>("../samples/lena.png", 4);
+    mat = ImageParser::FromFile<Vec4d>("../../../samples/lena.png", 4);
 
-    Matrix<Vec4d> matConvoluted = mat.Convolve(mrg::gaussianBlurKernel3x3);
-    
-    ImageParser::ToFile(matConvoluted, "../samples/lena-convolve.png");
+    Matrix<double> matConvoluted = mat.Sobel();
+
+    ImageParser::ToFile(matConvoluted, "../Results/lena-convolve.png");
 
     return EXIT_SUCCESS;
 }
@@ -43,9 +43,45 @@ __Result :__
 
 ![Lena Classic](samples/lena.png) ![Lena Sobel](readmefiles/lena-sobel.jpg) 
 
+### __Viewer__
+
+The viewer can be used as follow :
+
+```cpp
+#include <Mirage/Mirage.hpp>
+
+int main()
+{
+    using namespace mrg;
+
+    Viewer viewer = Viewer(800,800, ImageParser::FromFile<Vec4ui8>("../samples/lena.png", 4));
+    try{
+        viewer.Show();
+    }catch(std::exception& e)
+    {
+        std::cerr << e.what() << std::endl;
+        return EXIT_FAILURE;
+    }
+
+    return EXIT_SUCCESS;
+}
+```
+
+__Result :__
+
+![Lena Viewer](readmefiles/viewer.jpg)
+
 ## Build
 
-This project use LibPNG to read png images. 
-It has to be generated with CMake.
+### Dependencies 
+    
+- LibPng (Read Png Images)
+- Vulkan (Image viewer)
+ 
+### CMake
 
-Build has been test on Windows with Mingw.
+This project needs CMake to be built. 
+
+### Compiler
+
+This project has been tested with MinGW and MSVC (VS2017).

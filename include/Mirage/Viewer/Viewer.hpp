@@ -140,6 +140,7 @@ namespace mrg {
         }
 
     public:
+
         Viewer(int width, int height, Matrix<Vec4ui8> image);
         Viewer(const mrg::Viewer& v);
 

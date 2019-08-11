@@ -4,8 +4,6 @@
 
 #include "../../../include/Mirage/Viewer/Viewer.hpp"
 
-// P207 pdf
-
 mrg::Viewer::Viewer(int width, int height, Matrix<Vec4ui8> image) :
         imageAvailableSemaphores(),
         renderFinishedSemaphores(),
@@ -13,7 +11,7 @@ mrg::Viewer::Viewer(int width, int height, Matrix<Vec4ui8> image) :
         width(width),
         height(height),
         window(nullptr),
-        image(image),
+        image(std::move(image)),
         instance(),
         swapChainImages(),
         swapChainImageFormat(),
@@ -928,6 +926,14 @@ void mrg::Viewer::CreateCommandPool()
 void mrg::Viewer::CreateTextureImage()
 {
     VkDeviceSize imageSize = image.Width() * image.Height() * image.Channel();
+    VkFormat format;
+    switch(image.Channel())
+    {
+        case 1 : format = VK_FORMAT_R8_UNORM; break;
+        case 2 : format = VK_FORMAT_R8G8_UNORM; break;
+        case 3 : format = VK_FORMAT_R8G8B8_UNORM; break;
+        default : format = VK_FORMAT_R8G8B8A8_UNORM; break;
+    }
 
     VkBuffer stagingBuffer;
     VkDeviceMemory stagingBufferMemory;

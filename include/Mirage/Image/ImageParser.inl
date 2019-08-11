@@ -1,7 +1,7 @@
 #include <memory>
 #include <algorithm>
 #include <functional>
-#include <io.h>
+#include <fstream>
 
 #include "Parser/IParser.hpp"
 #include "Parser/PPMParser.hpp"
@@ -37,7 +37,9 @@ namespace mrg {
                     parser = std::make_unique<PngParser<Type>>();
                 }
 
-                bool exist = access(fileName.c_str(), F_OK) != -1;
+				std::ifstream f(fileName.c_str());
+
+                bool exist = f.good();
                 if(parser != nullptr && exist)
                 {
                     result = parser->Parse(fileName, channel);

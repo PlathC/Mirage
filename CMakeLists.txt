@@ -7,18 +7,26 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS "-Wall -Weffc++ -Wextra -Wsign-conversion")
+if (CMAKE_COMPILER_IS_GNUCC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
+elseif (MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
+endif ()
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake/Modules/")
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
 find_package(Vulkan REQUIRED)
-find_package(PkgConfig REQUIRED)
-pkg_search_module(GLFW REQUIRED glfw3)
-include_directories(${GLFW_INCLUDE_DIRS})
+message(STATUS "Found Vulkan : " ${Vulkan_INCLUDE_DIRS})
+find_package(glfw3 REQUIRED)
+include_directories(${GLFW3_INCLUDE_DIRS})
+find_package(GLM REQUIRED)
+include_directories(${GLM_INCLUDE_DIRS})
 find_package(PNG REQUIRED)
+message(STATUS "Found LibPNG : " ${PNG_INCLUDE_DIRS})
 
 set(HEADERS
         include/Mirage/Core/Math.hpp
@@ -57,5 +65,5 @@ set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "Mirage$<$<CONFIG:D
 target_compile_definitions(${PROJECT_NAME} PRIVATE VK_USE_PLATFORM_WIN32_KHR)
 target_include_directories(${PROJECT_NAME} PRIVATE Vulkan::Vulkan)
 target_link_libraries(${PROJECT_NAME} Vulkan::Vulkan)
-
+target_link_libraries(${PROJECT_NAME} ${GLFW3_LIBRARY})
 add_subdirectory(examples)
