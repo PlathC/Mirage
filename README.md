@@ -6,18 +6,14 @@ An image processing library for learning purpose in C++17.
 
 ### __Tasks__
 
-<p align="center">
-
 | Feature | Progress |
 |---------|----------|
 | Image structure | Done |
 | Parser | Done (PNG) |
 | Filter | To do |
-| Sobel | In progress |
+| Sobel / Threshold | Done |
 | Canny | To do |
-| Viewer | Done (Vec4ui image only) |
-
-</p>
+| Viewer | In Progress (Vec4ui image only and distortion of the image.) |
 
 ###  __Examples__
 
@@ -45,11 +41,7 @@ int main()
 
 __Result :__ 
 
-<p align="center">
-
 ![Lena Classic](samples/lena.png) ![Lena Sobel](readmefiles/lena-sobel.jpg) 
-
-</p>
 
 ### __Viewer__
 
@@ -77,11 +69,7 @@ int main()
 
 __Result :__
 
-<p align="center">
-
 ![Lena Viewer](readmefiles/viewer.jpg)
-
-</p>
 
 ## Build
 
