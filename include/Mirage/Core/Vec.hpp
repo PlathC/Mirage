@@ -25,11 +25,7 @@ namespace mrg
         Vec3();
         Vec3(const Vec3& v) : x(v.x), y(v.y), z(v.z) {}
         Vec3(T x, T y, T z) : x(x), y(y), z(z) {}
-        Vec3(std::initializer_list<T> l) :
-        x(data(l)[0]),
-        y(data(l)[1]),
-        z(data(l)[2])
-        {}
+        Vec3(std::initializer_list<T> l);
 
         T& X();
         T& Y();
@@ -63,12 +59,7 @@ namespace mrg
         Vec4(const Vec4& v) : x(v.x), y(v.y), z(v.z), a(v.a){}
         Vec4(T n) : x(n), y(n), z(n), a(n) {}
         Vec4(T x, T y , T z, T a) : x(x), y(y), z(z), a(a) { }
-        Vec4(std::initializer_list<T> l) :
-        x(l[0]),
-        y(l[1]),
-        z(l[2]),
-        a(l[3])
-        {}
+        Vec4(std::initializer_list<T> l);
 
         T& X();
         T& Y();

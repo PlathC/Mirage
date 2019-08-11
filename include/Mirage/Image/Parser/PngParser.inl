@@ -87,14 +87,14 @@ namespace mrg {
 
                     if constexpr(std::is_arithmetic<T>::value)
                     {
-                        result[x + y * width] = px[0];
+                        //result[x + y * width] = px[0];
+                        result.push_back(px[0]);
                     }
                     else
                     {
-                        result[x + y * width][0] = px[0];
-                        result[x + y * width][1] = px[1];
-                        result[x + y * width][2] = px[2];
-                        result[x + y * width][3] = px[3];
+                        T pixel = {px[0], px[1], px[2], px[3]};
+
+                        result[x * height + y] = pixel;
                     }
                 }
             }
@@ -153,7 +153,7 @@ namespace mrg {
 
             png_bytep *rowPointers = new png_bytep[mat.Height()];
             std::vector<T> temp = mat.GetData();
-            unsigned int width = mat.Width();
+            unsigned int height = mat.Height();
 
             for(unsigned int j = 0; j < mat.Height(); j++)
             {
@@ -162,7 +162,7 @@ namespace mrg {
                 for(unsigned int i = 0; i < mat.Width(); i++)
                 {
                     png_bytep px = &(row[i * 4]);
-                    T t = temp[i + j * width];
+                    T t = temp[i * height + j];
                     if constexpr(std::is_arithmetic<T>::value) {
                         px[0] = t;
                         px[1] = t;

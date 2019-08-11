@@ -1,6 +1,18 @@
+
+#include "Vec.hpp"
+
 namespace mrg {
     template<typename T>
     Vec3<T>::Vec3()  { x = 0; y = 0; z = 0; }
+
+    template <typename T>
+    Vec3<T>::Vec3(std::initializer_list<T> l)
+    {
+        auto begin = l.begin();
+        x = *(begin++);
+        y = *(begin++);
+        z = *(begin);
+    }
 
     template<typename T>
     T& Vec3<T>::X() { return x; }
@@ -98,6 +110,16 @@ namespace mrg {
 
     template<typename T>
     Vec4<T>::Vec4() : x(0), y(0), z(0), a(0) { }
+
+    template<typename T>
+    Vec4<T>::Vec4(std::initializer_list<T> l)
+    {
+        auto begin = l.begin();
+        x = *(begin++);
+        y = *(begin++);
+        z = *(begin++);
+        a = *(begin);
+    }
 
     template<typename T>
     T& Vec4<T>::X(){ return x; }

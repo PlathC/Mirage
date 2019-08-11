@@ -205,7 +205,6 @@ namespace mrg {
             threshData[i] = (data[i] < threshold) ? 0 : 65535;
         }
 
-        std::cout << "Threshold : " << threshold << std::endl;
         return Matrix<T>(threshData, width, height, 1);
     }
 
@@ -227,18 +226,18 @@ namespace mrg {
     ReturnType* Matrix<Type>::GetRawData()
     {
         auto* rawData = new ReturnType[width * height * channelNumber];
-        for(unsigned int y = 0; y < height; y++)
+        for(unsigned int x = 0; x < width; x++)
         {
-            for(unsigned int x = 0; x < width; x++)
+            for(unsigned int y = 0; y < height; y++)
             {
                 if constexpr(std::is_arithmetic<Type>::value)
                 {
-                    rawData[x * channelNumber + y * width] = data[y * width + x];
+                    rawData[y * channelNumber + x * height] = data[x * height + y];
                 }else
                 {
                     for(unsigned int k = 0; k < channelNumber; k++)
                     {
-                        rawData[x + y * width][k] = data[y * width + x][k];
+                        rawData[y + x * height][k] = data[x * height + y][k];
                     }
                 }
             }
