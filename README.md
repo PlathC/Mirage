@@ -6,6 +6,8 @@ An image processing library for learning purpose in C++17.
 
 ### __Tasks__
 
+<p align="center">
+
 | Feature | Progress |
 |---------|----------|
 | Image structure | Done |
@@ -14,6 +16,8 @@ An image processing library for learning purpose in C++17.
 | Sobel | In progress |
 | Canny | To do |
 | Viewer | Done (Vec4ui image only) |
+
+</p>
 
 ###  __Examples__
 
@@ -41,7 +45,11 @@ int main()
 
 __Result :__ 
 
+<p align="center">
+
 ![Lena Classic](samples/lena.png) ![Lena Sobel](readmefiles/lena-sobel.jpg) 
+
+</p>
 
 ### __Viewer__
 
@@ -69,7 +77,11 @@ int main()
 
 __Result :__
 
+<p align="center">
+
 ![Lena Viewer](readmefiles/viewer.jpg)
+
+</p>
 
 ## Build
 
@@ -77,6 +89,8 @@ __Result :__
     
 - LibPng (Read Png Images)
 - Vulkan (Image viewer)
+- GLM
+- GLFW3
  
 ### CMake
 
