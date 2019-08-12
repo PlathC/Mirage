@@ -4,5 +4,16 @@ compiler:
   - gcc
 os:
   - linux
+
+addons:
+  apt:
+    sources:
+      - george-edison55-precise-backports
+    packages:
+      - cmake-data
+      - cmake
+
 before_install:
-  - scripts/install.sh
+  - sudo apt-get install libpng-dev
+  - sudo apt-get install zlib1g-dev
+  - cmake %1 -G -BUILD_VIEWER=OFF -BUILD_EXAMPLE=ON
