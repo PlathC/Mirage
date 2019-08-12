@@ -19,7 +19,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
-option(BUILD_VIEWER "Build Mirage viewer (only for Computer)" ON)
+option(BUILD_VIEWER "Build Mirage viewer (only for Computer)" OFF)
 option(BUILD_EXAMPLES "Build Mirage examples" ON)
 
 find_package(PNG REQUIRED)
