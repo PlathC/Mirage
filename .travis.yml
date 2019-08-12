@@ -20,4 +20,4 @@ before_install:
 install:
   - ls
   - cmake -G "Unix Makefiles" -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc -DCMAKE_BUILD_TYPE=Debug .
-  - make -j4 &&
+  - make -j4 .
