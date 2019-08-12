@@ -5,6 +5,9 @@ compiler:
 os:
   - linux
 
+git:
+  depth: false
+
 addons:
   apt:
     sources:
@@ -18,6 +21,6 @@ before_install:
   - sudo apt-get install zlib1g-dev
 
 install:
-  - ls
   - cmake -G "Unix Makefiles" -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc -DCMAKE_BUILD_TYPE=Debug .
-  - make -j4 .
+
+script: make -j4 .
