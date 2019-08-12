@@ -1,0 +1,8 @@
+language : cpp
+sudo: required
+compiler:
+  - gcc
+os:
+  - linux
+before_install:
+  - scripts/install.sh

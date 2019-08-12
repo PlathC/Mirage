@@ -77,12 +77,13 @@ The viewer can be used as follow :
 
 ```cpp
 #include <Mirage/Mirage.hpp>
+#include <Mirage/Viewer/Viewer.hpp>
 
 int main()
 {
     using namespace mrg;
-
-    Viewer viewer = Viewer(800,800, ImageParser::FromFile<Vec4ui8>("../samples/lena.png", 4));
+    Matrix<Vec4ui8> mat = ImageParser::FromFile<Vec4ui8>("../samples/tiled4x3.png", 4);
+    Viewer viewer = Viewer(800,800, mat);
     try{
         viewer.Show();
     }catch(std::exception& e)

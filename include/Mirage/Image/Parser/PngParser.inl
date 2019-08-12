@@ -87,12 +87,11 @@ namespace mrg {
 
                     if constexpr(std::is_arithmetic<T>::value)
                     {
-                        //result[x + y * width] = px[0];
                         result.push_back(px[0]);
                     }
                     else
                     {
-                        T pixel = {px[0], px[1], px[2], px[3]};
+                        T pixel = T(px[0], px[1], px[2], px[3]);
 
                         result[x * height + y] = pixel;
                     }

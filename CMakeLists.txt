@@ -19,34 +19,60 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
-find_package(Vulkan REQUIRED)
-message(STATUS "Found Vulkan : " ${Vulkan_INCLUDE_DIRS})
-find_package(glfw3 REQUIRED)
-include_directories(${GLFW3_INCLUDE_DIRS})
-find_package(GLM REQUIRED)
-include_directories(${GLM_INCLUDE_DIRS})
+option(BUILD_VIEWER "Build Mirage viewer (only for Computer)" ON)
+option(BUILD_EXAMPLES "Build Mirage examples" ON)
+
 find_package(PNG REQUIRED)
 message(STATUS "Found LibPNG : " ${PNG_INCLUDE_DIRS})
 
-set(HEADERS
-        include/Mirage/Core/Math.hpp
-        include/Mirage/Core/Vec.hpp
-        include/Mirage/Image/Matrix.hpp
-        include/Mirage/Image/ImageParser.hpp
-        include/Mirage/Image/Parser/PPMParser.hpp
-        include/Mirage/Image/Parser/IParser.hpp
-        include/Mirage/Image/Parser/PngParser.hpp
-        include/Mirage/Mirage.hpp
-        include/Mirage/Viewer/Viewer.hpp)
+if(${BUILD_VIEWER})
+    find_package(Vulkan REQUIRED)
+    message(STATUS "Found Vulkan : " ${Vulkan_INCLUDE_DIRS})
+    find_package(glfw3 REQUIRED)
+    include_directories(${GLFW3_INCLUDE_DIRS})
+    find_package(GLM REQUIRED)
+    include_directories(${GLM_INCLUDE_DIRS})
 
-set(SOURCES
-        src/Mirage/Core/Vec.cpp
-        src/Mirage/Image/Matrix.cpp
-        src/Mirage/Image/ImageParser.cpp
-        src/Mirage/Image/Parser/PPMParser.cpp
-        src/Mirage/Image/Parser/IParser.cpp
-        src/Mirage/Image/Parser/PngParser.cpp
-        src/Mirage/Viewer/Viewer.cpp include/Mirage/Core/Macro.hpp)
+    set(HEADERS
+            include/Mirage/Core/Math.hpp
+            include/Mirage/Core/Vec.hpp
+            include/Mirage/Image/Matrix.hpp
+            include/Mirage/Image/ImageParser.hpp
+            include/Mirage/Image/Parser/PPMParser.hpp
+            include/Mirage/Image/Parser/IParser.hpp
+            include/Mirage/Image/Parser/PngParser.hpp
+            include/Mirage/Mirage.hpp
+            include/Mirage/Viewer/Viewer.hpp
+            include/Mirage/Core/Macro.hpp)
+
+    set(SOURCES
+            src/Mirage/Core/Vec.cpp
+            src/Mirage/Image/Matrix.cpp
+            src/Mirage/Image/ImageParser.cpp
+            src/Mirage/Image/Parser/PPMParser.cpp
+            src/Mirage/Image/Parser/IParser.cpp
+            src/Mirage/Image/Parser/PngParser.cpp
+            src/Mirage/Viewer/Viewer.cpp )
+else()
+    set(HEADERS
+            include/Mirage/Core/Math.hpp
+            include/Mirage/Core/Vec.hpp
+            include/Mirage/Image/Matrix.hpp
+            include/Mirage/Image/ImageParser.hpp
+            include/Mirage/Image/Parser/PPMParser.hpp
+            include/Mirage/Image/Parser/IParser.hpp
+            include/Mirage/Image/Parser/PngParser.hpp
+            include/Mirage/Mirage.hpp
+            include/Mirage/Core/Macro.hpp)
+
+    set(SOURCES
+            src/Mirage/Core/Vec.cpp
+            src/Mirage/Image/Matrix.cpp
+            src/Mirage/Image/ImageParser.cpp
+            src/Mirage/Image/Parser/PPMParser.cpp
+            src/Mirage/Image/Parser/IParser.cpp
+            src/Mirage/Image/Parser/PngParser.cpp)
+endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/Mirage
         ${CMAKE_CURRENT_SOURCE_DIR}/include/Mirage/Core
@@ -62,8 +88,13 @@ target_link_libraries(${PROJECT_NAME}
 
 set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "Mirage$<$<CONFIG:Debug>:d>")
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE VK_USE_PLATFORM_WIN32_KHR)
-target_include_directories(${PROJECT_NAME} PRIVATE Vulkan::Vulkan)
-target_link_libraries(${PROJECT_NAME} Vulkan::Vulkan)
-target_link_libraries(${PROJECT_NAME} ${GLFW3_LIBRARY})
-add_subdirectory(examples)
+if(${BUILD_VIEWER})
+    target_compile_definitions(${PROJECT_NAME} PRIVATE VK_USE_PLATFORM_WIN32_KHR)
+    target_include_directories(${PROJECT_NAME} PRIVATE Vulkan::Vulkan)
+    target_link_libraries(${PROJECT_NAME} Vulkan::Vulkan)
+    target_link_libraries(${PROJECT_NAME} ${GLFW3_LIBRARY})
+endif()
+
+if(${BUILD_EXAMPLES})
+    add_subdirectory(examples)
+endif()

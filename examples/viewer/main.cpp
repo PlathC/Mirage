@@ -1,4 +1,5 @@
 #include <Mirage/Mirage.hpp>
+#include <Mirage/Viewer/Viewer.hpp>
 
 int main()
 {
