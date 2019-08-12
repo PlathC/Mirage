@@ -81,7 +81,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/Mirage
         ${CMAKE_CURRENT_SOURCE_DIR}/include/Mirage/Viewer)
 
 add_library(Mirage STATIC ${HEADERS} ${SOURCES})
-target_compile_options(${PROJECT_NAME} INTERFACE std=c++17)
+target_compile_options(${PROJECT_NAME} INTERFACE -std=c++17)
 
 target_link_libraries(${PROJECT_NAME}
         PNG::PNG
