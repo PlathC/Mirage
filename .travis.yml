@@ -16,4 +16,4 @@ addons:
 before_install:
   - sudo apt-get install libpng-dev
   - sudo apt-get install zlib1g-dev
-  - ccmake %1 -G -BUILD_VIEWER=OFF -BUILD_EXAMPLE=ON
+  - ccmake -G -BUILD_VIEWER=OFF -BUILD_EXAMPLE=ON
