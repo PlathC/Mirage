@@ -40,7 +40,7 @@ namespace mrg {
     channelNumber(channelNumber),
     data()
     {
-        data.resize(pixels.size());
+        data.reserve(pixels.size());
         for(auto ite = pixels.begin(); ite != pixels.end(); ite++)
         {
             data.push_back(*ite);
@@ -97,9 +97,9 @@ namespace mrg {
             {
                 double magnitudeX = 0;
                 double magnitudeY = 0;
-                for(unsigned int ik = 0; ik < 3; ik++)
+                for(uint8_t ik = 0; ik < 3; ik++)
                 {
-                    for(unsigned int jk = 0; jk < 3; jk++)
+                    for(uint8_t jk = 0; jk < 3; jk++)
                     {
                         unsigned int xn = i + ik - 1;
                         unsigned int yn = j + jk - 1;
@@ -122,28 +122,31 @@ namespace mrg {
 
     template<typename Type>
     template<typename T>
-    Matrix<Type> Matrix<Type>::Convolve(Matrix<T> kernel) const
+    Matrix<Type> Matrix<Type>::Convolve(Matrix<T> kernel)
     {
         int kernelCenter = Floor(kernel.Width() / 2);
+        std::vector<Type> resultData(data);
 
-        std::vector<Type> resultData;
-        resultData.resize(height * width);
-
-        for(int i = 0 + kernelCenter; i < width - kernelCenter; i++)
+        for(uint32_t i = 0 + kernelCenter; i < width - kernelCenter; i++)
         {
-            for(int j = 0 + kernelCenter; j < height - kernelCenter; j++)
+            for(uint32_t j = 0 + kernelCenter; j < height - kernelCenter; j++)
             {
-
-                resultData[i * height + j] = 0;
-                for(int ik = (0-kernelCenter); ik < kernelCenter; ik++)
+                Type value = 0;
+                for(int ik = 0; ik < kernel.Width(); ik++)
                 {
-                    for(int jk = (0-kernelCenter); jk < kernelCenter; jk++)
+                    for(int jk = 0; jk < kernel.Height(); jk++)
                     {
-                        resultData[i * height + j] += data[(i + ik) * height + (j + jk)] * kernel.Get(ik + kernelCenter, jk + kernelCenter);
+                        unsigned int xn = i + ik - kernelCenter;
+                        unsigned int yn = j + jk - kernelCenter;
+
+                        unsigned int index = xn * height + yn;
+                        value += data[index] * kernel.Get(ik, jk);
                     }
                 }
+                resultData[i * height + j] = value;
             }
         }
+
         Matrix<Type> result(resultData, width, height, this->channelNumber);
         return result;
     }

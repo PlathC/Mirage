@@ -6,20 +6,24 @@ An image processing library for learning purpose in C++17.
 
 ### __Tasks__
 
-| Feature | Progress |
-|---------|----------|
-| Image structure | Done |
-| Parser | Done (PNG) |
-| Filter | To do |
+| Feature           | Progress |
+|-------------------|----------|
+| Image structure   | Done |
+| Bit depth         | To do |
+| Parser            | Done (PNG) |
+| Filter            | To do |
 | Sobel / Threshold | Done |
-| Canny | To do |
-| Viewer | In Progress (Vec4ui image only and distortion of the image.) |
+| Canny             | To do |
+| Viewer            | In Progress (Vec4ui image only and distortion of the image.) |
 
 ###  __Examples__
 
-#### __Sobel__
+#### __Filter__ 
 
-A Sobel filter is directly implemented in the library and can be used as :
+One can use the Convolve function to filter an image with a kernel.
+
+The following example show how to apply a Gaussian Blur to an image using 
+a kernel provide in the library.
 
 ```cpp
 #include "Mirage/Mirage.hpp"
@@ -28,12 +32,36 @@ int main()
 {
     using namespace mrg;
 
-    Matrix<Vec4d> mat{};
-    mat = ImageParser::FromFile<Vec4d>("../../../samples/lena.png", 4);
+    Matrix<Vec4d> mat = ImageParser::FromFile<Vec4d>("../samples/rubberwhale.png", 4);
+    Matrix<Vec4d> matConvolve = mat.Convolve(mrg::gaussianBlurKernel5x5);
+    ImageParser::ToFile(matConvolve, "../examples/filter/Results/rubberwhale-convolve.png");
 
-    Matrix<double> matConvoluted = mat.Sobel();
+    return EXIT_SUCCESS;
+}
+```
 
-    ImageParser::ToFile(matConvoluted, "../Results/lena-convolve.png");
+__Results :__
+
+![RubberWhale classic](samples/rubberwhale.png) ![RubberWhale convoluted](readmefiles/rubberwhale-convolve.png) 
+
+#### __Sobel__
+
+The Sobel function allow the user to apply the Sobel operator to an image.
+
+One can use the Threshold function to highlight output edges.
+
+```cpp
+#include "Mirage/Mirage.hpp"
+
+int main()
+{
+    using namespace mrg;
+
+    Matrix<Vec4d> mat = ImageParser::FromFile<Vec4d>("../samples/lena.png", 4);
+
+    Matrix<double> matConvoluted = mat.Sobel().Threshold<double>();
+
+    ImageParser::ToFile(matConvoluted, "../examples/sobel/Results/lena.png");
 
     return EXIT_SUCCESS;
 }

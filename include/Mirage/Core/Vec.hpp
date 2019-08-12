@@ -84,7 +84,7 @@ namespace mrg
 
         friend std::ostream& operator<<(std::ostream& os, const Vec4<T>& v)
         {
-            os << v.x << " " << v.y << " " << v.z << " " << v.a;
+            os << +v.x << " " << +v.y << " " << +v.z << " " << +v.a;
             return os;
         }
 
