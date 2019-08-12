@@ -19,8 +19,6 @@ matrix:
           packages:
             - gcc-8
             - g++-8
-      env:
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
 addons:
   apt:
@@ -31,7 +29,7 @@ addons:
       - cmake
 
 before_install:
-  - eval "${MATRIX_EVAL}"
+  - eval ${MATRIX_EVAL}
   - sudo apt-get install libpng-dev
   - sudo apt-get install zlib1g-dev
 
