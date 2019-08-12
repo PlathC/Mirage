@@ -18,5 +18,5 @@ before_install:
   - sudo apt-get install zlib1g-dev
 
 install:
-  - ccmake -G "Unix Makefiles"
+  - ccmake -G "Unix Makefiles" -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc -DCMAKE_BUILD_TYPE=Debug .. &&
   - make -j4 &&
