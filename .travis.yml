@@ -17,6 +17,7 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
+            - gcc-8
             - g++-8
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
