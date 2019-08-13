@@ -12,6 +12,7 @@ git:
 addons:
   apt:
     sources:
+      - george-edison55-precise-backports
       - ubuntu-toolchain-r-test
     packages:
       - gcc-7
