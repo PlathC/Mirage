@@ -13,7 +13,6 @@ addons:
   apt:
     sources:
       - george-edison55-precise-backports
-      - ubuntu-toolchain-r-test
     packages:
       - gcc-7
       - g++-7
@@ -24,6 +23,7 @@ addons:
 before_install:
   - sudo apt-get install libpng-dev
   - sudo apt-get install zlib1g-dev
+  - cmake --version
 
 install:
   - cmake -G "Unix Makefiles" -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc -DCMAKE_BUILD_TYPE=Debug .
