@@ -29,7 +29,6 @@ addons:
       - cmake
 
 before_install:
-  - eval ${MATRIX_EVAL}
   - sudo apt-get install libpng-dev
   - sudo apt-get install zlib1g-dev
 
