@@ -18,15 +18,16 @@ __Library features__
 
 __Image processing features__ 
 
-| Feature                | Progress |
-|------------------------|----------|
-| Image structure        | Done |
-| Bit depth              | To do |
-| DFT                    | To do |
-| Filter                 | Done |
-| Sobel / Threshold      | Done |
-| Histogram Equalization | Done (Only for grayscale image) |
-| Canny                  | To do |
+| Feature                          | Progress |
+|----------------------------------|----------|
+| Image structure                  | Done |
+| Bit depth                        | To do |
+| DFT                              | To do |
+| Filter                           | Done |
+| Sobel / Threshold                | Done |
+| Histogram Equalization           | Done (Only for grayscale image) |
+| Adaptive Histogram Equalization  | To do |
+| Canny                            | To do |
 
 ###  __Examples__
 
@@ -79,9 +80,45 @@ int main()
 }
 ```
 
-__Result :__ 
+__Results :__ 
 
 ![Lena Classic](samples/lena.png) ![Lena Sobel](readmefiles/lena-sobel.jpg) 
+
+### Histogram Equalization
+
+The library provide an histogram equalization function. Currently, the 
+function is simple and does not implement adaptive equalization and remains
+a bit slow on big image.
+
+```cpp
+#include "Mirage/Mirage.hpp"
+
+int main()
+{
+    using namespace mrg;
+
+    Matrix<Vec4d> mat = ImageParser::FromFile<Vec4d>("../samples/lena.png", 4);
+    Timer timer{};
+
+    timer.Start();
+    Matrix<double> matGrayScale = mat.ToGrayScale<double>();
+    Matrix<double> matEq = matGrayScale.HistogramEqualization();
+    timer.Stop();
+
+    std::cout << "Duration : " << timer.Duration() << std::endl;
+
+    ImageParser::ToFile(matEq, "../examples/histeq/Results/lena-eq.png");
+
+    return EXIT_SUCCESS;
+}
+```
+
+
+__Results :__ 
+
+![Lena Gray](readmefiles/lena-gray.png) ![Equalized Lena](readmefiles/lena-eq.png) 
+
+![Stars](readmefiles/Stars.png) ![Equalized Stars](readmefiles/Stars-eq.png) 
 
 ### __Viewer__
 
@@ -108,7 +145,7 @@ int main()
 }
 ```
 
-__Result :__
+__Results :__
 
 ![Lena Viewer](readmefiles/viewer.jpg)
 
