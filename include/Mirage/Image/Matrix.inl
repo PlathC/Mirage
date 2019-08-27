@@ -213,11 +213,12 @@ namespace mrg {
     template<typename Type>
     Matrix<Type> Matrix<Type>::HistogramEqualization()
     {
+        //https://en.wikipedia.org/wiki/Histogram_equalization#Implementation
+
         std::vector<Type> resultData = std::vector<Type>(this->data);
 
         if constexpr(std::is_arithmetic<Type>::value)
         {
-            //https://en.wikipedia.org/wiki/Histogram_equalization#Implementation
             std::map<Type, double> normHistogram = ComputeNormalizeHistogram(resultData, width, height);
             std::map<Type, double> cumulativeHistogram;
 
@@ -237,9 +238,6 @@ namespace mrg {
         }
         else
         {
-            //https://en.wikipedia.org/wiki/Histogram_equalization#Of_color_images
-            //static_assert("The histogram equalization for color image is not yet implemented.");
-
             auto t = data[0][0];
             std::vector<decltype(t)> red;
             std::vector<decltype(t)> green;
