@@ -8,7 +8,7 @@ int main()
 {
     using namespace mrg;
 
-    Matrix<Vec4d> mat = ImageParser::FromFile<Vec4d>("../samples/lena.png", 4);
+    Matrix<Vec4d> mat = ImageParser::FromFile<Vec4d>("../readmefiles/Stars.png", 4);
     Timer timer{};
 
     timer.Start();
@@ -18,7 +18,7 @@ int main()
 
     std::cout << "Duration : " << timer.Duration() << std::endl;
 
-    ImageParser::ToFile(matEq, "../examples/histeq/Results/lena-eq.png");
+    ImageParser::ToFile(matEq, "../readmefiles/Stars-eq.png");
 
     return EXIT_SUCCESS;
 }
