@@ -26,6 +26,28 @@ option(BUILD_EXAMPLES "Build Mirage examples" ON)
 find_package(PNG REQUIRED)
 message(STATUS "Found LibPNG : " ${PNG_INCLUDE_DIRS})
 
+set(HEADERS
+        include/Mirage/Core/Math.hpp
+        include/Mirage/Core/Vec.hpp
+        include/Mirage/Core/Timer.hpp
+        include/Mirage/Core/Macro.hpp
+        include/Mirage/Image/Matrix.hpp
+        include/Mirage/Image/ImageParser.hpp
+        include/Mirage/Image/Parser/PPMParser.hpp
+        include/Mirage/Image/Parser/IParser.hpp
+        include/Mirage/Image/Parser/PngParser.hpp
+        include/Mirage/Mirage.hpp)
+
+
+set(SOURCES
+        src/Mirage/Core/Vec.cpp
+        src/Mirage/Core/Timer.cpp
+        src/Mirage/Image/Matrix.cpp
+        src/Mirage/Image/ImageParser.cpp
+        src/Mirage/Image/Parser/PPMParser.cpp
+        src/Mirage/Image/Parser/IParser.cpp
+        src/Mirage/Image/Parser/PngParser.cpp)
+
 if(${BUILD_VIEWER})
     find_package(Vulkan REQUIRED)
     message(STATUS "Found Vulkan : " ${Vulkan_INCLUDE_DIRS})
@@ -35,44 +57,12 @@ if(${BUILD_VIEWER})
     include_directories(${GLM_INCLUDE_DIRS})
 
     set(HEADERS
-            include/Mirage/Core/Math.hpp
-            include/Mirage/Core/Vec.hpp
-            include/Mirage/Image/Matrix.hpp
-            include/Mirage/Image/ImageParser.hpp
-            include/Mirage/Image/Parser/PPMParser.hpp
-            include/Mirage/Image/Parser/IParser.hpp
-            include/Mirage/Image/Parser/PngParser.hpp
-            include/Mirage/Mirage.hpp
-            include/Mirage/Viewer/Viewer.hpp
-            include/Mirage/Core/Macro.hpp)
+            ${HEADERS}
+            include/Mirage/Viewer/Viewer.hpp)
 
     set(SOURCES
-            src/Mirage/Core/Vec.cpp
-            src/Mirage/Image/Matrix.cpp
-            src/Mirage/Image/ImageParser.cpp
-            src/Mirage/Image/Parser/PPMParser.cpp
-            src/Mirage/Image/Parser/IParser.cpp
-            src/Mirage/Image/Parser/PngParser.cpp
-            src/Mirage/Viewer/Viewer.cpp )
-else()
-    set(HEADERS
-            include/Mirage/Core/Math.hpp
-            include/Mirage/Core/Vec.hpp
-            include/Mirage/Image/Matrix.hpp
-            include/Mirage/Image/ImageParser.hpp
-            include/Mirage/Image/Parser/PPMParser.hpp
-            include/Mirage/Image/Parser/IParser.hpp
-            include/Mirage/Image/Parser/PngParser.hpp
-            include/Mirage/Mirage.hpp
-            include/Mirage/Core/Macro.hpp)
-
-    set(SOURCES
-            src/Mirage/Core/Vec.cpp
-            src/Mirage/Image/Matrix.cpp
-            src/Mirage/Image/ImageParser.cpp
-            src/Mirage/Image/Parser/PPMParser.cpp
-            src/Mirage/Image/Parser/IParser.cpp
-            src/Mirage/Image/Parser/PngParser.cpp)
+            ${SOURCES}
+            src/Mirage/Viewer/Viewer.cpp)
 endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/Mirage

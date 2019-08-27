@@ -36,6 +36,7 @@ namespace mrg
         T& operator[](const unsigned int index);
         Vec3<T> operator+(Vec3<T> const &vec);
         Vec3<T> operator*(Vec3<T> const &vec);
+        Vec3<T> operator*(T const value);
         Vec3<T>& operator+=(Vec3<T> const &vec);
         Vec3<T>& operator*=(Vec3<T> const &vec);
 
@@ -134,6 +135,29 @@ namespace mrg
     private:
         std::array<Type, Size> elements{};
     };
+
+    template<typename T>
+    Vec3<T> Sqrt(Vec3<T> val)
+    {
+        return Vec3<T>(mrg::Sqrt(val.X()), mrg::Sqrt(val.Y()), mrg::Sqrt(val.Z()));
+    }
+
+    template<typename T>
+    Vec4<T> Sqrt(Vec4<T> val)
+    {
+        return Vec4<T>(mrg::Sqrt(val.X()), mrg::Sqrt(val.Y()), mrg::Sqrt(val.Z()), mrg::Sqrt(val.A()));
+    }
+
+    template<typename T, unsigned int Size>
+    Vec<T, Size> Sqrt(Vec<T, Size> val)
+    {
+        Vec<T, Size> result;
+        for(unsigned int i = 0; i < Size; i++)
+        {
+            result[i] = mrg::Sqrt(val[i]);
+        }
+        return result;
+    }
 
     using Vec2c = Vec<char, 2>;
     using Vec2i = Vec<int, 2>;

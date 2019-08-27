@@ -17,6 +17,12 @@ namespace mrg {
             std::unique_ptr<IParser<Type>> parser;
             Matrix<Type> result;
 
+            std::ifstream f(fileName.c_str());
+            if(!f.good())
+            {
+                throw std::runtime_error("Can't find the image file.");
+            }
+
             std::string::size_type idx = fileName.rfind('.');
             if(idx != std::string::npos)
             {
@@ -36,17 +42,7 @@ namespace mrg {
                 {
                     parser = std::make_unique<PngParser<Type>>();
                 }
-
-				std::ifstream f(fileName.c_str());
-
-                bool exist = f.good();
-                if(parser != nullptr && exist)
-                {
-                    result = parser->Parse(fileName, channel);
-                }else if(!exist)
-                {
-                    throw std::runtime_error("Can't find the image file.");
-                }
+                result = parser->Parse(fileName, channel);
             }
 
             return result;

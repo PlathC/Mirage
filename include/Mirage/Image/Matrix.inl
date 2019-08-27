@@ -1,4 +1,3 @@
-#include <map>
 
 namespace mrg {
 
@@ -110,7 +109,7 @@ namespace mrg {
                     }
                 }
 
-                resultData[i * height + j] = Sqrt<double>(magnitudeX * magnitudeX
+                resultData[i * height + j] = mrg::Sqrt(magnitudeX * magnitudeX
                                                           + magnitudeY * magnitudeY);
             }
         }
@@ -212,6 +211,55 @@ namespace mrg {
     }
 
     template<typename Type>
+    Matrix<Type> Matrix<Type>::HistogramEqualization()
+    {
+        std::vector<Type> resultData = std::vector<Type>(this->data);
+        if constexpr(std::is_arithmetic<Type>::value)
+        {
+            //https://en.wikipedia.org/wiki/Histogram_equalization#Implementation
+            std::map<Type, double> normHistogram = ComputeNormalizeHistogram(resultData, width, height);
+            std::map<Type, double> cumulativeHistogram;
+
+            // Compute cumulative histogram
+            double sum = 0;
+            for (auto it = normHistogram.begin(); it != normHistogram.end(); it++ )
+            {
+                sum += normHistogram[it->first];
+                cumulativeHistogram[it->first] = sum;
+            }
+
+            // Applying equalization
+            for(auto& pixel : resultData)
+            {
+                pixel = (256 - 1) * cumulativeHistogram[pixel];
+            }
+        }
+        else
+        {
+            //https://en.wikipedia.org/wiki/Histogram_equalization#Of_color_images
+            static_assert("The histogram equalization for color image is not yet implemented.");
+
+            auto ApplyEqualization = [] (std::vector<decltype(*(data[0][0]))> &channelData, const std::map<Type, int> &hist) -> void
+            {
+
+            };
+
+            std::vector<decltype(*(data[0][0]))> red;
+            std::vector<decltype(*(data[0][1]))> green;
+            std::vector<decltype(*(data[0][2]))> blue;
+
+            for(size_t i = 0; i < data.size(); i++)
+            {
+                red.push_back(data[i][0]);
+                green.push_back(data[i][1]);
+                blue.push_back(data[i][2]);
+            }
+        }
+
+        return Matrix<Type>(resultData, width, height, channelNumber);
+    }
+
+    template<typename Type>
     Type& Matrix<Type>::Get(unsigned int w, unsigned int h)
     {
         assert(w < width  && h < height);
@@ -253,4 +301,33 @@ namespace mrg {
     {
         this->data[w * height + h] = t;
     }
+
+    template<typename T>
+    static std::map<T, int> ComputeHistogram(const std::vector<T> &channel)
+    {
+        std::map<T, int> hist;
+        for(auto pixel : channel)
+        {
+            if(hist.count(pixel) <= 0)
+                hist[pixel] = 0;
+            hist[pixel]++;
+        }
+        return hist;
+    }
+
+    template<typename T>
+    static std::map<T, double> ComputeNormalizeHistogram(const std::vector<T> &channel, uint32_t width, uint32_t height)
+    {
+        std::map<T, int> histogram = ComputeHistogram(channel);
+        uint32_t totalPixelNumber = height * width;
+        std::map<T, double> normHistogram;
+
+        for (auto it = histogram.begin(); it != histogram.end(); it++ )
+        {
+            double newValue = static_cast<float>(it->second) / static_cast<float>(totalPixelNumber);
+            normHistogram[it->first] = newValue;
+        }
+        return normHistogram;
+    }
 }
+

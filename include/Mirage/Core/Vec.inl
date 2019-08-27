@@ -73,6 +73,16 @@ namespace mrg {
     }
 
     template<typename T>
+    Vec3<T> Vec3<T>::operator*(T const value)
+    {
+        Vec3<T> result;
+        result.x = value * this->x;
+        result.y = value * this->y;
+        result.z = value * this->z;
+        return result;
+    }
+
+    template<typename T>
     Vec3<T>& Vec3<T>::operator+=(Vec3<T> const &vec)
     {
         this->x += vec.x;

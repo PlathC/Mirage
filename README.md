@@ -8,15 +8,25 @@ Build status (GCC/Linux) : [![Build Status](https://travis-ci.org/PlathC/Mirage.
 
 ### __Tasks__
 
+__Library features__
+
 | Feature           | Progress |
 |-------------------|----------|
 | Image structure   | Done |
-| Bit depth         | To do |
 | Parser            | Done (PNG) |
-| Filter            | To do |
-| Sobel / Threshold | Done |
-| Canny             | To do |
 | Viewer            | In Progress (Vec4ui image only and distortion of the image.) |
+
+__Image processing features__ 
+
+| Feature                | Progress |
+|------------------------|----------|
+| Image structure        | Done |
+| Bit depth              | To do |
+| DFT                    | To do |
+| Filter                 | Done |
+| Sobel / Threshold      | Done |
+| Histogram Equalization | Done (Only for grayscale image) |
+| Canny                  | To do |
 
 ###  __Examples__
 

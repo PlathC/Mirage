@@ -8,37 +8,46 @@
 
 namespace mrg
 {
-    template<typename T>
-    double Sqrt(const T val)
+    constexpr double Pi = 3.14159265358979323846;
+
+    double Sqrt(const double val)
     {
-        return sqrt(static_cast<double>(val));
+        return sqrt(val);
     }
 
     template<typename T>
     T Pow(const T val, const unsigned int power)
     {
-        for(unsigned int i = 0; i < power; i++)
-        {
-            val *= val;
-        }
-        return val;
+        static_assert(std::is_arithmetic<T>::value, "This function only works with numbers.");
+        return std::pow(val, power);
     }
 
-    template<typename T>
-    double Log(const T val)
+    double Log(const double val)
     {
-        return log(val);
+        return std::log(val);
+    }
+
+    double Sin(const double val)
+    {
+        return std::sin(val);
+    }
+
+    double Cos(const double val)
+    {
+        return std::cos(val);
     }
 
     template<typename T>
     T Ceil(const T n)
     {
+        static_assert(std::is_arithmetic<T>::value, "This function only works with numbers.");
         return std::ceil(n);
     }
 
     template<typename T>
     T Floor(const T n)
     {
+        static_assert(std::is_arithmetic<T>::value, "This function only works with numbers.");
         return static_cast<T>(std::floor(n));
     }
 }
