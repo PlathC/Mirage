@@ -116,7 +116,7 @@ int main()
 
 __Results :__ 
 
-![Lena Gray](readmefiles/lena-gray.png) ![Equalized Lena](readmefiles/lena-eq.png) 
+![Lena Gray](readmefiles/lena-gray.jpg) ![Equalized Lena](readmefiles/lena-eq.jpg) 
 
 ![Stars](readmefiles/Stars.png) ![Equalized Stars](readmefiles/Stars-eq.png) 
 
