@@ -18,8 +18,7 @@ int main()
 
     std::cout << "Duration : " << timer.Duration() << std::endl;
 
-    ImageParser::ToFile(matGrayScale, "../examples/histeq/Results/country-gray.png");
-    ImageParser::ToFile(matEq, "../examples/histeq/Results/country-eq.png");
+    ImageParser::ToFile(matEq, "../examples/histeq/Results/lena-eq.png");
 
     return EXIT_SUCCESS;
 }
