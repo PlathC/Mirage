@@ -12,13 +12,13 @@ int main()
     Timer timer{};
 
     timer.Start();
-    Matrix<double> matGrayScale = mat.ToGrayScale<double>();
-    Matrix<double> matEq = matGrayScale.HistogramEqualization();
+    //Matrix<double> matGrayScale = mat.ToGrayScale<double>();
+    Matrix<Vec4d> matEq = mat.HistogramEqualization();
     timer.Stop();
 
     std::cout << "Duration : " << timer.Duration() << std::endl;
 
-    ImageParser::ToFile(matEq, "../examples/histeq/Results/lena-eq.png");
+    ImageParser::ToFile(matEq, "../examples/histeq/Results/lenaC-eq.png");
 
     return EXIT_SUCCESS;
 }

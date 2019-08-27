@@ -25,7 +25,7 @@ __Image processing features__
 | DFT                              | To do |
 | Filter                           | Done |
 | Sobel / Threshold                | Done |
-| Histogram Equalization           | Done (Only for grayscale image) |
+| Histogram Equalization           | Done |
 | Adaptive Histogram Equalization  | To do |
 | Canny                            | To do |
 
@@ -86,9 +86,8 @@ __Results :__
 
 ### Histogram Equalization
 
-The library provide an histogram equalization function. Currently, the 
-function is simple and does not implement adaptive equalization and remains
-a bit slow on big image.
+The library provide an histogram equalization function for grayscale and 
+color image.
 
 ```cpp
 #include "Mirage/Mirage.hpp"
@@ -117,6 +116,8 @@ int main()
 __Results :__ 
 
 ![Lena Gray](readmefiles/lena-gray.jpg) ![Equalized Lena](readmefiles/lena-eq.jpg) 
+
+![Lena Gray](samples/lena.png) ![Equalized Lena](readmefiles/lenaC-eq.png) 
 
 ![Stars](readmefiles/Stars.jpg) ![Equalized Stars](readmefiles/Stars-eq.jpg) 
 

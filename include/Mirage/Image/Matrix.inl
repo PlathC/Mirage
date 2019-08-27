@@ -214,6 +214,7 @@ namespace mrg {
     Matrix<Type> Matrix<Type>::HistogramEqualization()
     {
         std::vector<Type> resultData = std::vector<Type>(this->data);
+
         if constexpr(std::is_arithmetic<Type>::value)
         {
             //https://en.wikipedia.org/wiki/Histogram_equalization#Implementation
@@ -237,22 +238,49 @@ namespace mrg {
         else
         {
             //https://en.wikipedia.org/wiki/Histogram_equalization#Of_color_images
-            static_assert("The histogram equalization for color image is not yet implemented.");
+            //static_assert("The histogram equalization for color image is not yet implemented.");
 
-            auto ApplyEqualization = [] (std::vector<decltype(*(data[0][0]))> &channelData, const std::map<Type, int> &hist) -> void
-            {
-
-            };
-
-            std::vector<decltype(*(data[0][0]))> red;
-            std::vector<decltype(*(data[0][1]))> green;
-            std::vector<decltype(*(data[0][2]))> blue;
+            auto t = data[0][0];
+            std::vector<decltype(t)> red;
+            std::vector<decltype(t)> green;
+            std::vector<decltype(t)> blue;
 
             for(size_t i = 0; i < data.size(); i++)
             {
                 red.push_back(data[i][0]);
                 green.push_back(data[i][1]);
                 blue.push_back(data[i][2]);
+            }
+
+            auto computeEqualization = [](std::vector<decltype(t)> &result, uint32_t _width, uint32_t _height) -> void
+            {
+                std::map<decltype(t), double> normHistogram = ComputeNormalizeHistogram(result, _width, _height);
+                std::map<decltype(t), double> cumulativeHistogram;
+
+                // Compute cumulative histogram
+                double sum = 0;
+                for (auto it = normHistogram.begin(); it != normHistogram.end(); it++ )
+                {
+                    sum += normHistogram[it->first];
+                    cumulativeHistogram[it->first] = sum;
+                }
+
+                // Applying equalization
+                for(auto& pixel : result)
+                {
+                    pixel = (256 - 1) * cumulativeHistogram[pixel];
+                }
+            };
+
+            computeEqualization(red, width, height);
+            computeEqualization(green, width, height);
+            computeEqualization(blue, width, height);
+
+            for(size_t i = 0; i < data.size(); i++)
+            {
+                resultData[i][0] = red[i];
+                resultData[i][1] = green[i];
+                resultData[i][2] = blue[i];
             }
         }
 
