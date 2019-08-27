@@ -118,7 +118,7 @@ __Results :__
 
 ![Lena Gray](readmefiles/lena-gray.jpg) ![Equalized Lena](readmefiles/lena-eq.jpg) 
 
-![Stars](readmefiles/Stars.png) ![Equalized Stars](readmefiles/Stars-eq.png) 
+![Stars](readmefiles/Stars.jpg) ![Equalized Stars](readmefiles/Stars-eq.jpg) 
 
 ### __Viewer__
 
