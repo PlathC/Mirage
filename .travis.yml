@@ -9,25 +9,52 @@ os:
 git:
   depth: false
 
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-      - george-edison55-precise-backports
-    packages:
-      - gcc-7
-      - g++-7
-      - cmake
-      - cmake-data
+matrix:
+  include:
+    - os : linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - george-edison55-precise-backports
+          packages:
+            - gcc-7
+            - g++-7
+            - cmake
+            - cmake-data
+            - libpng-dev
+            - zlib1g-dev
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+        - LINKER_FLAGS=""
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-6.0
+            - sourceline: 'deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-6.0 main'
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+          packages:
+            - clang-6.0
+            - libstdc++6
+            - libpng-dev
+            - zlib1g-dev
+      env:
+        - MATRIX_EVAL="CC=clang-6.0 && CXX=clang-6.0"
+        - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
+
+
 
 
 before_install:
-  - sudo apt-get install libpng-dev
-  - sudo apt-get install zlib1g-dev
-  - cmake --version
+  #- sudo apt-get install libpng-dev
+  #- sudo apt-get install zlib1g-dev
+  #- cmake --version
+  - eval "${MATRIX_EVAL}"
 
 install:
-  - cmake -G "Unix Makefiles" -DCMAKE_CXX_COMPILER=g++-7 -DCMAKE_C_COMPILER=gcc-7 -DCMAKE_BUILD_TYPE=Debug .
+  - cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug .
 
 script:
   - make -j4
