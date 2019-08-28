@@ -130,10 +130,10 @@ namespace mrg {
         {
             for(uint32_t j = 0 + kernelCenter; j < height - kernelCenter; j++)
             {
-                Type value = 0;
-                for(int ik = 0; ik < kernel.Width(); ik++)
+                Type value = Type(0);
+                for(uint32_t ik = 0; ik < kernel.Width(); ik++)
                 {
-                    for(int jk = 0; jk < kernel.Height(); jk++)
+                    for(uint32_t jk = 0; jk < kernel.Height(); jk++)
                     {
                         unsigned int xn = i + ik - kernelCenter;
                         unsigned int yn = j + jk - kernelCenter;
