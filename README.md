@@ -1,4 +1,4 @@
-# Mirage
+<h1 align="center">Mirage</h1> 
 
 An image processing library for learning purpose in C++17.
 
