@@ -12,7 +12,6 @@ int main()
     Timer timer{};
 
     timer.Start();
-    //Matrix<double> matGrayScale = mat.ToGrayScale<double>();
     Matrix<Vec4d> matEq = mat.HistogramEqualization();
     timer.Stop();
 

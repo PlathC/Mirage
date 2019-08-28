@@ -1,43 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "PngParser.hpp"
+
 
 namespace mrg {
     namespace ImageParser {
         // Using https://gist.github.com/niw/5963798
 
         template<typename T>
-        Matrix<T> PngParser<T>::Parse(std::string fileName, const unsigned int channel)
+        Matrix<T> PngParser<T>::Parse(std::string _fileName, const unsigned int channel)
         {
-            unsigned int width, height;
-            png_byte colorType;
-            png_byte bitDepth;
-            png_bytep *rowPointers = NULL;
+            fileName = _fileName;
 
-            png_structp png = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-            if(!png)
-            {
+            if(!Init(ActionType::Read))
                 return Matrix<T>();
-            }
 
-            FILE *fp = fopen(fileName.c_str(), "rb");
-            if(!fp)
-            {
-                free(png);
-                return Matrix<T>();
-            }
-
-            png_infop info = png_create_info_struct(png);
-            if(!info)
-            {
-                png_destroy_write_struct(&png, &info);
-                return Matrix<T>();
-            }
-
-            if(setjmp(png_jmpbuf(png))) abort();
-
-            png_init_io(png, fp);
             png_read_info(png, info);
 
+            unsigned int width, height;
             width     = static_cast<unsigned int>(png_get_image_width(png, info));
             height    = static_cast<unsigned int>(png_get_image_height(png, info));
             colorType = png_get_color_type(png, info);
@@ -72,7 +52,7 @@ namespace mrg {
             }
 
             png_read_image(png, rowPointers);
-            fclose(fp);
+            fclose(file);
             png_destroy_read_struct(&png, &info, NULL);
 
             std::vector<T> result;
@@ -102,35 +82,11 @@ namespace mrg {
         }
 
         template<typename T>
-        void PngParser<T>::Write(Matrix<T>& mat, std::string fileName)
+        void PngParser<T>::Write(Matrix<T>& mat, std::string _fileName)
         {
-            FILE *fp = fopen(fileName.c_str(), "wb");
-            if(!fp)
-            {
+            fileName = _fileName;
+            if(!Init(ActionType::Write))
                 return;
-            }
-
-            png_structp png = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-            if (!png)
-            {
-                free(png);
-                return;
-            }
-
-            png_infop info = png_create_info_struct(png);
-            if (!info)
-            {
-                free(info);
-                return;
-            }
-
-            if (setjmp(png_jmpbuf(png)))
-            {
-                png_destroy_write_struct(&png, &info);
-                return;
-            }
-
-            png_init_io(png, fp);
 
             // Output is 8bit depth, RGBA format.
             png_set_IHDR(
@@ -150,7 +106,7 @@ namespace mrg {
             // Use png_set_filler().
             //png_set_filler(png, 0, PNG_FILLER_AFTER);
 
-            png_bytep *rowPointers = new png_bytep[mat.Height()];
+            rowPointers = new png_bytep[mat.Height()];
             std::vector<T> temp = mat.GetData();
             unsigned int height = mat.Height();
 
@@ -182,7 +138,47 @@ namespace mrg {
 
             delete[] rowPointers;
 
-            fclose(fp);
+            fclose(file);
+        }
+
+        template<typename T>
+        bool PngParser<T>::Init(ActionType actionType) {
+            if(actionType == ActionType::Read)
+                png = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
+            else
+                png = png_create_write_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
+
+            if(!png)
+            {
+                return false;
+            }
+
+            if(actionType == ActionType::Read)
+                file = fopen(fileName.c_str(), "rb");
+            else
+                file = fopen(fileName.c_str(), "wb");
+            if(!file)
+            {
+                free(png);
+                return false;
+            }
+
+            info = png_create_info_struct(png);
+            if(!info)
+            {
+                png_destroy_write_struct(&png, &info);
+                return false;
+            }
+
+            if(setjmp(png_jmpbuf(png)))
+            {
+                if(actionType == ActionType::Write)
+                    png_destroy_write_struct(&png, &info);
+                return false;
+            }
+
+            png_init_io(png, file);
+            return true;
         }
     }
 }

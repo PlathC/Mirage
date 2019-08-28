@@ -7,8 +7,7 @@
 #include "Parser/PPMParser.hpp"
 #include "Parser/PngParser.hpp"
 
-namespace mrg {
-    namespace ImageParser{
+namespace mrg::ImageParser{
 
         template<typename Type>
         Matrix<Type> FromFile(std::string fileName, const unsigned int channel)
@@ -80,4 +79,3 @@ namespace mrg {
 
         }
     }
-}
