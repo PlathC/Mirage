@@ -31,17 +31,17 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-7.0
-            - sourceline: 'deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-7.0 main'
+            - llvm-toolchain-trusty-6.0
+            - sourceline: 'deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-6.0 main'
               key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
           packages:
-            - clang-7.0
-            - libstdc++7
+            - clang-6.0
+            - libstdc++6
             - libpng-dev
             - zlib1g-dev
       env:
-        - MATRIX_EVAL="CC=clang-7.0 && CXX=clang-7.0"
-        - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
+        - MATRIX_EVAL="CC=clang-6.0 && CXX=clang-6.0"
+        - LINKER_FLAGS="-std=c++17 -stdlib=libc++ -lc++abi"
 
 install:
   - eval "${MATRIX_EVAL}"
