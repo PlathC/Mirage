@@ -1,8 +1,7 @@
 language : cpp
 dist: trusty
 sudo: required
-compiler:
-  - gcc
+
 os:
   - linux
 
@@ -44,17 +43,9 @@ matrix:
         - MATRIX_EVAL="CC=clang-6.0 && CXX=clang-6.0"
         - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
 
-
-
-
-before_install:
-  #- sudo apt-get install libpng-dev
-  #- sudo apt-get install zlib1g-dev
-  #- cmake --version
+install:
   - eval "${MATRIX_EVAL}"
 
-install:
-  - cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug .
-
 script:
-  - make -j4
+  - cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXE_LINKER_FLAGS=${LINKER_FLAGS} .
+  - cmake --build . --VERBOSE=1
