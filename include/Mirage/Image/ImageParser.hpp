@@ -23,12 +23,14 @@ namespace mrg {
 
         enum ImageFile {
             PPM,
-            PNG
+            PNG,
+            JPEG
         };
 
         const std::unordered_map<ImageFile, std::vector<std::string>> formats = {
                 {ImageFile::PPM, {"ppm", "pgm", "pmm", "pnm"}},
-                {ImageFile::PNG, {"png"}}
+                {ImageFile::PNG, {"png"}},
+                {ImageFile::JPEG, {"jpeg", "jpg"}}
         };
 
         template<typename Type>

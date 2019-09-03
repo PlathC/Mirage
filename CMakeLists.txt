@@ -25,6 +25,9 @@ option(BUILD_EXAMPLES "Build Mirage examples" ON)
 
 find_package(PNG REQUIRED)
 message(STATUS "Found LibPNG : " ${PNG_INCLUDE_DIRS})
+find_package(JPEGTURBO REQUIRED)
+message(STATUS "Found JpegTurbo : " ${JPEGTURBO_INCLUDE_DIR})
+include_directories(${JPEGTURBO_INCLUDE_DIR})
 
 set(HEADERS
         include/Mirage/Core/Math.hpp
@@ -36,6 +39,7 @@ set(HEADERS
         include/Mirage/Image/Parser/PPMParser.hpp
         include/Mirage/Image/Parser/IParser.hpp
         include/Mirage/Image/Parser/PngParser.hpp
+        include/Mirage/Image/Parser/JpegParser.hpp
         include/Mirage/Mirage.hpp)
 
 
@@ -46,7 +50,8 @@ set(SOURCES
         src/Mirage/Image/ImageParser.cpp
         src/Mirage/Image/Parser/PPMParser.cpp
         src/Mirage/Image/Parser/IParser.cpp
-        src/Mirage/Image/Parser/PngParser.cpp)
+        src/Mirage/Image/Parser/PngParser.cpp
+        src/Mirage/Image/Parser/JpegParser.cpp)
 
 if(${BUILD_VIEWER})
     find_package(Vulkan REQUIRED)
@@ -76,6 +81,7 @@ target_compile_options(${PROJECT_NAME} INTERFACE -std=c++17)
 
 target_link_libraries(${PROJECT_NAME}
         PNG::PNG
+        ${TURBOJPEG_LIBRARIES}
         ${GLFW_STATIC_LIBRARIES})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "Mirage$<$<CONFIG:Debug>:d>")

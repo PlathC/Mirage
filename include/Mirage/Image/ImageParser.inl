@@ -6,6 +6,7 @@
 #include "Parser/IParser.hpp"
 #include "Parser/PPMParser.hpp"
 #include "Parser/PngParser.hpp"
+#include "Parser/JpegParser.hpp"
 
 namespace mrg::ImageParser{
 
@@ -40,6 +41,9 @@ namespace mrg::ImageParser{
                 }else if(CheckExtension(ImageFile::PNG))
                 {
                     parser = std::make_unique<PngParser<Type>>();
+                }else if(CheckExtension(ImageFile::JPEG))
+                {
+                    parser = std::make_unique<JpegParser<Type>>();
                 }
                 result = parser->Parse(fileName, channel);
             }
@@ -69,6 +73,9 @@ namespace mrg::ImageParser{
                 }else if(CheckExtension(ImageFile::PNG))
                 {
                     parser = std::make_unique<PngParser<Type>>();
+                }else if(CheckExtension(ImageFile::JPEG))
+                {
+                    parser = std::make_unique<JpegParser<Type>>();
                 }
 
                 if(parser != nullptr)

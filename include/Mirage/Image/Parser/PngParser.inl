@@ -1,5 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include "PngParser.hpp"
 
 
@@ -64,7 +64,6 @@ namespace mrg {
                 for(unsigned int x = 0; x < width; x++)
                 {
                     png_bytep px = &(row[x * 4]);
-
                     if constexpr(std::is_arithmetic<T>::value)
                     {
                         result.push_back(px[0]);
@@ -154,9 +153,9 @@ namespace mrg {
             }
 
             if(actionType == ActionType::Read)
-                file = fopen(fileName.c_str(), "rb");
+                file = std::fopen(fileName.c_str(), "rb");
             else
-                file = fopen(fileName.c_str(), "wb");
+                file = std::fopen(fileName.c_str(), "wb");
             if(!file)
             {
                 free(png);
