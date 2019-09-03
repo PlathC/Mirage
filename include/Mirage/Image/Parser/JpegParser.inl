@@ -11,18 +11,42 @@ namespace mrg::ImageParser {
     template<typename T>
     Matrix<T> JpegParser<T>::Parse(std::string _fileName, const unsigned int channel)
     {
+        FILE *f = fopen(_fileName.c_str(), "rb");
+        fseek(f, 0, SEEK_END);
+        long fsize = ftell(f);
+        fseek(f, 0, SEEK_SET);  /* same as rewind(f); */
 
-        long unsigned int _jpegSize = 0; //!< _jpegSize from above
-        unsigned char *_compressedImage = nullptr; //!< _compressedImage from above
-        int jpegSubsamp, width, height;
+        auto *content = new unsigned char[fsize + 1];
+        fread(content, 1, fsize, f);
+        fclose(f);
+
+        content[fsize] = 0;
+        int jpegSubsamp = 0, width = 0, height = 0;
+        int pixelFormat;
+        if(channel == 1)
+        {
+            pixelFormat = TJPF_GRAY;
+        }
+        else if(channel == 3)
+        {
+            pixelFormat = TJPF_RGB;
+        }
+        else if(channel == 4)
+        {
+            pixelFormat = TJPF_RGBA;
+        }
+        else
+        {
+            throw std::runtime_error("Unsupported format.");
+        }
 
         tjhandle _jpegDecompressor = tjInitDecompress();
 
-        tjDecompressHeader2(_jpegDecompressor, _compressedImage, _jpegSize, &width, &height, &jpegSubsamp);
+        tjDecompressHeader2(_jpegDecompressor, content, fsize-1, &width, &height, &jpegSubsamp);
 
         unsigned char buffer[width*height*channel]; //!< will contain the decompressed image
 
-        tjDecompress2(_jpegDecompressor, _compressedImage, _jpegSize, buffer, width, 0/*pitch*/, height, TJPF_RGB, TJFLAG_FASTDCT);
+        tjDecompress2(_jpegDecompressor, content, fsize, buffer, width, 0/*pitch*/, height, pixelFormat, TJFLAG_FASTDCT);
 
         std::vector<T> resultData(width * height * channel);
 
@@ -39,13 +63,17 @@ namespace mrg::ImageParser {
                 }
                 else
                 {
+                    T t = T();
+                    for(uint32_t c = 0; c < channel; c++)
+                        t[c] = buffer[(j * width + i) * channel + c];
+                    resultData.push_back(t);
                     //buffer[(j * width + i) * channel + c] = resultData[i * height + j][c];
                 }
             }
         }
 
         tjDestroy(_jpegDecompressor);
-
+        delete[] content;
         return Matrix<T>(resultData, width, height, channel);
     }
 
@@ -72,14 +100,18 @@ namespace mrg::ImageParser {
         {
             pixelFormat = TJPF_GRAY;
             jpegSubsamp = TJSAMP_GRAY;
-        }else if(nbands == 3){
+        }
+        else if(nbands == 3)
+        {
             pixelFormat = TJPF_RGB;
             jpegSubsamp = TJSAMP_444;
-        }else if(nbands == 4)
+        }
+        else if(nbands == 4)
         {
             pixelFormat = TJPF_RGBA;
             jpegSubsamp = TJSAMP_444;
-        }else
+        }
+        else
         {
             throw std::runtime_error("Unsupported format.");
         }
