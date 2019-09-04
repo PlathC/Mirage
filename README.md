@@ -27,7 +27,8 @@ __Image processing features__
 | Sobel / Threshold                | Done |
 | Histogram Equalization           | Done |
 | Adaptive Histogram Equalization  | To do |
-| Canny                            | To do |
+| Canny                            | In Progress |
+| Scale/Transform/Rotate           | To Do |
 
 ###  __Examples__
 
