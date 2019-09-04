@@ -154,7 +154,8 @@ __Results :__
 
 ### Dependencies 
     
-- LibPng (Read Png Images)
+- LibPng
+- LibJpeg-turbo
 - Vulkan (Image viewer)
 - GLM
 - GLFW3
