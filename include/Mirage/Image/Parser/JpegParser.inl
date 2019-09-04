@@ -46,7 +46,7 @@ namespace mrg::ImageParser {
         {
             delete[] content;
             tjDestroy(_jpegDecompressor);
-            throw std::runtime_error("Error on decompressing header : " + std::string(tjGetErrorStr2(_jpegDecompressor)));
+            throw std::runtime_error("Error on decompressing header");
         }
 
         auto *buffer = new unsigned char[width * height * channel]; //!< will contain the decompressed image
@@ -59,7 +59,7 @@ namespace mrg::ImageParser {
             tjDestroy(_jpegDecompressor);
             delete[] content;
             delete[] buffer;
-            throw std::runtime_error("Error on decompressing :" + std::string(tjGetErrorStr2(_jpegDecompressor)));
+            throw std::runtime_error("Error on decompressing image file.");
         }
 
         std::vector<T> resultData;
