@@ -13,7 +13,7 @@ __Library features__
 | Feature           | Progress |
 |-------------------|----------|
 | Image structure   | Done |
-| Parser            | Done (PNG) |
+| Parser            | Done (PNG/JPEG) |
 | Viewer            | In Progress (Vec4ui image only and distortion of the image.) |
 
 __Image processing features__ 
