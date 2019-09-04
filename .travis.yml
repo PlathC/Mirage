@@ -22,6 +22,7 @@ matrix:
             - cmake
             - cmake-data
             - libpng-dev
+            - libjpeg-turbo8-dev
             - zlib1g-dev
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
