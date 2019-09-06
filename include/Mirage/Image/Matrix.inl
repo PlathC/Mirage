@@ -69,8 +69,7 @@ namespace mrg {
 
         }
 
-        Matrix<T> result = Matrix<T>(resultData, width, height, 1);
-        return result;
+        return Matrix<T>(resultData, width, height, 1);;
     }
 
     template<typename Type>
@@ -114,9 +113,141 @@ namespace mrg {
             }
         }
 
-        Matrix<double> result = Matrix<double>(resultData, width, height, 1);
+        return Matrix<double>(resultData, width, height, 1);;
+    }
 
-        return result;
+    template<typename Type>
+    Matrix<double> Matrix<Type>::Canny()
+    {
+        // Based on https://towardsdatascience.com/canny-edge-detection-step-by-step-in-python-computer-vision-b49c3a2d8123
+
+        Matrix<Type> blurred = this->Convolve(mrg::gaussianBlurKernel5x5);
+
+        Matrix<double> gray = blurred.ToGrayScale<double>();
+        const double kernelH[3][3] = {{-1, 0, 1},
+                                      {-2, 0, 2},
+                                      {-1, 0, 1}};
+
+        const double kernelV[3][3] = {{-1, -2, -1},
+                                      { 0,  0,  0},
+                                      { 1,  2,  1}};
+        std::vector<double> grayData = gray.GetData();
+
+        std::vector<double> gradientData;
+        gradientData.resize(width * height);
+        std::vector<double> directionData;
+        directionData.resize(width * height);
+        double maximumValue = 0;
+
+        for(uint32_t i = 1; i < width - 1; i++)
+        {
+            for(uint32_t j = 1; j < height - 1; j++)
+            {
+                double magnitudeX = 0;
+                double magnitudeY = 0;
+                for(uint8_t ik = 0; ik < 3; ik++)
+                {
+                    for(uint8_t jk = 0; jk < 3; jk++)
+                    {
+                        unsigned int xn = i + ik - 1;
+                        unsigned int yn = j + jk - 1;
+
+                        unsigned int index = xn * height + yn;
+                        magnitudeX += grayData[index] * kernelH[ik][jk];
+                        magnitudeY += grayData[index] * kernelV[ik][jk];
+                    }
+                }
+
+                double currentValue = mrg::Sqrt(magnitudeX * magnitudeX
+                                               + magnitudeY * magnitudeY);
+                gradientData[i * height + j] = currentValue;
+                directionData[i * height + j] = (mrg::Atan(magnitudeX / magnitudeY) * 180.0) / mrg::Pi;
+                if(directionData[i * height + j] < 0)
+                    directionData[i * height + j] += 180;
+
+                if(currentValue > maximumValue)
+                    maximumValue = currentValue;
+            }
+        }
+
+        // Non Maximum Suppression
+        std::vector<double> resultData = std::vector<double>(width * height);
+        for(uint32_t i = 1; i < width-1; i++)
+        {
+            for(uint32_t j = 1; j < height-1; j++)
+            {
+                double q = maximumValue;
+                double r = maximumValue;
+                double currentAngle = directionData[i * height + j];
+
+                if(0 <= currentAngle || (157.5 <= currentAngle && currentAngle <= 180))
+                {
+                    q = directionData[i * height + (j+1)];
+                    r = directionData[i * height + (j-1)];
+                }
+                else if(22.5 <= currentAngle && currentAngle < 67.5)
+                {
+                    q = directionData[(i+1) * height + (j-1)];
+                    r = directionData[(i-1) * height + (j+1)];
+                }
+                else if(67.5 <= currentAngle && currentAngle < 112.5)
+                {
+                    q = directionData[(i+1) * height + j];
+                    r = directionData[(i-1) * height + j];
+                }
+                else if(112.5 <= currentAngle && currentAngle < 157.5)
+                {
+                    q = directionData[(i-1) * height + (j-1)];
+                    r = directionData[(i+1) * height + (j+1)];
+                }
+
+                if(gradientData[i * height + j] >= q && gradientData[i * height + j] >= r)
+                    resultData[i * height + j] = gradientData[i * height + j];
+                else
+                    resultData[i * height + j] = 0;
+            }
+        }
+
+
+        double highTreshold = maximumValue * 0.09;
+        double lowTreshold = highTreshold * 0.05;
+
+        for(double &i : resultData)
+        {
+            if(i <= lowTreshold)
+                i = 0.0;
+            else if(lowTreshold < i && i < highTreshold)
+                i = 127.0;
+            else
+                i = 255.0;
+        }
+
+        for(uint32_t i = 1; i < width-1; i++)
+        {
+            for(uint32_t j = 1; j < height-1; j++)
+            {
+                if(resultData[i * height + j] == 127.0)
+                {
+                    double ul = resultData[(i-1) * height + (j+1)];
+                    double uu = resultData[(i) * height + (j+1)];
+                    double ur = resultData[(i+1) * height + (j+1)];
+                    double l  = resultData[(i-1) * height + (j)];
+                    double r  = resultData[(i+1) * height + (j)];
+                    double dl = resultData[(i-1) * height + (j-1)];
+                    double du = resultData[(i) * height + (j-1)];
+                    double dr = resultData[(i+1) * height + (j-1)];
+
+                    if(ul == 255.0 || uu == 255.0 || ur == 255.0 ||
+                       l == 255.0 || r == 255.0 ||
+                       dl == 255.0 || du == 255.0 || dr == 255.0)
+                        resultData[i * height + j] = 255.0;
+                    else
+                        resultData[i * height + j] = 0.0;
+                }
+            }
+        }
+
+        return Matrix<double>(resultData, width, height, 1);;
     }
 
     template<typename Type>
@@ -135,10 +266,10 @@ namespace mrg {
                 {
                     for(uint32_t jk = 0; jk < kernel.Height(); jk++)
                     {
-                        unsigned int xn = i + ik - kernelCenter;
-                        unsigned int yn = j + jk - kernelCenter;
+                        uint32_t xn = i + ik - kernelCenter;
+                        uint32_t yn = j + jk - kernelCenter;
 
-                        unsigned int index = xn * height + yn;
+                        uint32_t index = xn * height + yn;
                         value += data[index] * kernel.Get(ik, jk);
                     }
                 }
@@ -146,8 +277,7 @@ namespace mrg {
             }
         }
 
-        Matrix<Type> result(resultData, width, height, this->channelNumber);
-        return result;
+        return Matrix<Type>(resultData, width, height, this->channelNumber);
     }
 
     template<typename Type>
@@ -286,7 +416,7 @@ namespace mrg {
     }
 
     template<typename Type>
-    Type& Matrix<Type>::Get(unsigned int w, unsigned int h)
+    Type Matrix<Type>::Get(unsigned int w, unsigned int h) const
     {
         assert(w < width  && h < height);
         return this->data[w * height + h];
@@ -355,5 +485,26 @@ namespace mrg {
         }
         return normHistogram;
     }
+
+    template<uint8_t kernelSize>
+    static Matrix<double> GenerateGaussianKernel(int sigma)
+    {
+        static_assert(kernelSize % 2 != 0, "The kernel k must be odd.");
+        uint8_t k = static_cast<uint8_t>(mrg::Floor(static_cast<double>(kernelSize) / 2.0));
+        std::vector<double> resultKernel{kernelSize};
+
+        for(uint8_t i = 1; i <= kernelSize; i++)
+        {
+            for(uint8_t j = 1; j <= kernelSize; j++)
+            {
+                double f = (1.0/(2.0 * mrg::Pi * sigma * sigma));
+                auto n = static_cast<double>(mrg::Pow(i - (k + 1), 2) + mrg::Pow(j - (k + 1), 2));
+                auto d = static_cast<double>(2 * sigma * sigma);
+                resultKernel[(i-1) * kernelSize + (j-1)] = f * mrg::Exp(- n / d);
+            }
+        }
+        return Matrix<double>(resultKernel, kernelSize, kernelSize, 1);
+    }
+
 }
 

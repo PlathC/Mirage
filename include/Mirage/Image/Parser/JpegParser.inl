@@ -63,7 +63,7 @@ namespace mrg::ImageParser {
         }
 
         std::vector<T> resultData;
-        resultData.resize(width * height * channel);
+        resultData.resize(width * height);
         for(uint32_t j = 0; j < static_cast<uint32_t>(height); j++)
         {
             for(uint32_t i = 0; i < static_cast<uint32_t>(width); i++)

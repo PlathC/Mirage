@@ -26,6 +26,8 @@ namespace mrg {
         Matrix<T> ToGrayScale();
 
         Matrix<double> Sobel();
+        Matrix<double> Canny();
+
         template<typename T>
         Matrix<Type> Convolve(Matrix<T> kernel);
 
@@ -34,7 +36,7 @@ namespace mrg {
 
         Matrix<Type> HistogramEqualization();
 
-        Type& Get(unsigned int w, unsigned int h);
+        Type Get(unsigned int w, unsigned int h) const;
         std::vector<Type>& GetData();
 
         template<typename ReturnType>
@@ -50,6 +52,9 @@ namespace mrg {
         uint8_t channelNumber;
         std::vector<Type> data;
     };
+
+    template<int kernelSize>
+    static Matrix<double> GenerateGaussianKernel(int sigma);
 
     template<typename T>
     static std::map<T, int> ComputeHistogram(const std::vector<T> &channel);

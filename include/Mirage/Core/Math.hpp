@@ -10,6 +10,16 @@ namespace mrg
 {
     constexpr double Pi = 3.14159265358979323846;
 
+    double Atan(const double val)
+    {
+        return std::atan(val);
+    }
+
+    double Exp(const double val)
+    {
+        return std::exp(val);
+    }
+
     double Sqrt(const double val)
     {
         return sqrt(val);

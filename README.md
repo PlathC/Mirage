@@ -27,7 +27,7 @@ __Image processing features__
 | Sobel / Threshold                | Done |
 | Histogram Equalization           | Done |
 | Adaptive Histogram Equalization  | To do |
-| Canny                            | In Progress |
+| Canny                            | Done |
 | Scale/Transform/Rotate           | To Do |
 
 ###  __Examples__
@@ -58,11 +58,10 @@ __Results :__
 
 ![RubberWhale classic](samples/rubberwhale.png) ![RubberWhale convoluted](readmefiles/rubberwhale-convolve.png) 
 
-#### __Sobel__
+#### __Edges detection__
 
-The Sobel function allow the user to apply the Sobel operator to an image.
-
-One can use the Threshold function to highlight output edges.
+The library provides Canny and Sobel algorithm which allow to extract 
+contour lines within a given image.
 
 ```cpp
 #include "Mirage/Mirage.hpp"
@@ -71,11 +70,23 @@ int main()
 {
     using namespace mrg;
 
-    Matrix<Vec4d> mat = ImageParser::FromFile<Vec4d>("../samples/lena.png", 4);
+    Matrix<Vec4d> mat = ImageParser::FromFile<Vec4d>("../samples/HouseDublin.jpg", 4);
 
-    Matrix<double> matConvoluted = mat.Sobel().Threshold<double>();
+    Timer sobelTimer{}, cannyTimer{};
 
-    ImageParser::ToFile(matConvoluted, "../examples/sobel/Results/lena.png");
+    sobelTimer.Start();
+    Matrix<double> matSobel = mat.Sobel().Threshold<double>();
+    sobelTimer.Stop();
+
+    cannyTimer.Start();
+    Matrix<double> matCanny = mat.Canny();
+    cannyTimer.Stop();
+
+    std::cout << "Sobel compute time : " << sobelTimer.Duration() << std::endl;
+    std::cout << "Canny compute time : " << cannyTimer.Duration() << std::endl;
+
+    ImageParser::ToFile(matSobel, "../examples/edgedetection/Results/HouseDublin-Sobel.png");
+    ImageParser::ToFile(matCanny, "../examples/edgedetection/Results/HouseDublin-Canny.png");
 
     return EXIT_SUCCESS;
 }
@@ -83,7 +94,17 @@ int main()
 
 __Results :__ 
 
-![Lena Classic](samples/lena.png) ![Lena Sobel](readmefiles/lena-sobel.jpg) 
+Original : 
+
+![Dublin Classic](readmefiles/HouseDublin.jpg) 
+
+Canny :
+
+![Dublin Canny](readmefiles/HouseDublin-Canny.jpg)
+
+Canny :
+
+![Dublin Canny](readmefiles/HouseDublin-Canny.jpg) 
 
 ### Histogram Equalization
 
