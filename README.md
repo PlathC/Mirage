@@ -30,7 +30,25 @@ __Image processing features__
 | Canny                            | Done |
 | Scale/Transform/Rotate           | To Do |
 
-###  __Examples__
+<h2 align="center">Build</h2>
+
+### Dependencies 
+    
+- LibPng
+- LibJpeg-turbo
+- Vulkan (Image viewer)
+- GLM
+- GLFW3
+ 
+### CMake
+
+This project needs CMake to be built. 
+
+### Compiler
+
+This project has been tested with MinGW and MSVC (VS2017).
+
+<h2 align="center">Examples</h2>
 
 #### __Filter__ 
 
@@ -171,21 +189,3 @@ int main()
 __Results :__
 
 ![Lena Viewer](readmefiles/viewer.jpg)
-
-<h2 align="center">Build</h2>
-
-### Dependencies 
-    
-- LibPng
-- LibJpeg-turbo
-- Vulkan (Image viewer)
-- GLM
-- GLFW3
- 
-### CMake
-
-This project needs CMake to be built. 
-
-### Compiler
-
-This project has been tested with MinGW and MSVC (VS2017).
