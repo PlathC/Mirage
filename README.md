@@ -56,7 +56,7 @@ int main()
 
 __Results :__
 
-![RubberWhale classic](samples/rubberwhale.png) ![RubberWhale convoluted](readmefiles/rubberwhale-convolve.png) 
+![RubberWhale classic](readmefiles/rubberwhale.png) ![RubberWhale convolve](readmefiles/rubberwhale-convolve.png) 
 
 #### __Edges detection__
 
