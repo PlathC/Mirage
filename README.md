@@ -102,9 +102,9 @@ Canny :
 
 ![Dublin Canny](readmefiles/HouseDublin-Canny.jpg)
 
-Canny :
+Sobel :
 
-![Dublin Canny](readmefiles/HouseDublin-Canny.jpg) 
+![Dublin Canny](readmefiles/HouseDublin-Sobel.jpg) 
 
 ### Histogram Equalization
 
