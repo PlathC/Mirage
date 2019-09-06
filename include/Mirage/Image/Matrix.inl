@@ -69,7 +69,7 @@ namespace mrg {
 
         }
 
-        return Matrix<T>(resultData, width, height, 1);;
+        return Matrix<T>(resultData, width, height, 1);
     }
 
     template<typename Type>
@@ -113,7 +113,7 @@ namespace mrg {
             }
         }
 
-        return Matrix<double>(resultData, width, height, 1);;
+        return Matrix<double>(resultData, width, height, 1);
     }
 
     template<typename Type>
@@ -247,7 +247,7 @@ namespace mrg {
             }
         }
 
-        return Matrix<double>(resultData, width, height, 1);;
+        return Matrix<double>(resultData, width, height, 1);
     }
 
     template<typename Type>
@@ -316,8 +316,8 @@ namespace mrg {
 
             sumB += static_cast<float>(it->first * it->second);
 
-            float meanBackground = sumB / weightBackground;
-            float meanForeground = (sum - sumB) / weightForeground;
+            float meanBackground = sumB / static_cast<float>(weightBackground);
+            float meanForeground = (sum - sumB) / static_cast<float>(weightForeground);
 
             float varBetween = static_cast<float>(weightBackground) * static_cast<float>(weightForeground) *
                               (static_cast<float>(meanBackground) - static_cast<float>(meanForeground)) *
@@ -490,7 +490,7 @@ namespace mrg {
     static Matrix<double> GenerateGaussianKernel(int sigma)
     {
         static_assert(kernelSize % 2 != 0, "The kernel k must be odd.");
-        uint8_t k = static_cast<uint8_t>(mrg::Floor(static_cast<double>(kernelSize) / 2.0));
+        auto k = static_cast<uint8_t>(mrg::Floor(static_cast<double>(kernelSize) / 2.0));
         std::vector<double> resultKernel{kernelSize};
 
         for(uint8_t i = 1; i <= kernelSize; i++)

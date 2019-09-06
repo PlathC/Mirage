@@ -33,10 +33,10 @@ namespace mrg
 
         Vec3<T>& operator=(const T& value);
         Vec3<T>& operator=(const Vec3<T>& value);
-        T& operator[](const unsigned int index);
+        T& operator[](unsigned int index);
         Vec3<T> operator+(Vec3<T> const &vec);
         Vec3<T> operator*(Vec3<T> const &vec);
-        Vec3<T> operator*(T const value);
+        Vec3<T> operator*(T value);
         Vec3<T>& operator+=(Vec3<T> const &vec);
         Vec3<T>& operator*=(Vec3<T> const &vec);
 
@@ -69,7 +69,7 @@ namespace mrg
 
         Vec4<T>& operator=(const T& value);
         Vec4<T>& operator=(const Vec4<T>& value);
-        T& operator[](const unsigned int index);
+        T& operator[](unsigned int index);
         Vec4<T> operator+(Vec4<T> const &vec);
         Vec4<T> operator+(T const &t);
         Vec4<T> operator*(T const &t);
@@ -105,7 +105,7 @@ namespace mrg
                       || std::is_same<Type, unsigned int>::value
                       || std::is_same<Type, int>::value
                       || std::is_same<Type, char>::value,
-                      "The vector must contains numbers");
+                      "The vector must store numbers");
 
     public:
         Vec() = default;
@@ -119,7 +119,7 @@ namespace mrg
         Vec<Type, Size> operator+(Vec<Type, Size> const &vec);
         Vec<Type, Size> operator*(Vec<Type, Size> const &vec);
 
-        double Length() const;
+        [[nodiscard]] double Length() const;
         Vec<Type, Size> Normalize() const;
         Type& Get(unsigned int index);
 
@@ -177,14 +177,14 @@ namespace mrg
     using Vec3l    = Vec3<long>;
     using Vec3d    = Vec3<double>;
 
-    using Vec4c = Vec4<char>;
-    using Vec4i = Vec4<int>;
-    using Vec4ui8 = Vec4<uint8_t>;
+    using Vec4c    = Vec4<char>;
+    using Vec4i    = Vec4<int>;
+    using Vec4ui8  = Vec4<uint8_t>;
     using Vec4ui16 = Vec4<uint16_t>;
     using Vec4ui32 = Vec4<uint32_t>;
-    using Vec4f = Vec4<float>;
-    using Vec4l = Vec4<long>;
-    using Vec4d = Vec4<double>;
+    using Vec4f    = Vec4<float>;
+    using Vec4l    = Vec4<long>;
+    using Vec4d    = Vec4<double>;
 }
 
 #include "Vec.inl"

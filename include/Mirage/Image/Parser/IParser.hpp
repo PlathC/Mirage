@@ -8,17 +8,15 @@
 #include <string>
 #include "../Matrix.hpp"
 
-namespace mrg {
-    namespace ImageParser {
+namespace mrg::ImageParser {
         template<typename T>
         class IParser {
         public:
-            virtual Matrix<T> Parse(std::string fileName, const unsigned int channel) = 0;
+            virtual Matrix<T> Parse(std::string fileName, unsigned int channel) = 0;
             virtual void Write(Matrix<T>& mat, std::string fileName) = 0;
             virtual ~IParser() { };
         };
     }
-}
 
 
 #endif //IMPRO_IPARSER_HPP

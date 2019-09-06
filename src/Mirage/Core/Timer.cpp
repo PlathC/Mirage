@@ -11,7 +11,7 @@ void Timer::Start()
 
 void Timer::Stop()
 {
-    duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+    duration = ( std::clock() - start ) / static_cast<double>(CLOCKS_PER_SEC);
 }
 
 double Timer::Duration()

@@ -34,7 +34,7 @@ namespace mrg {
         };
 
         template<typename Type>
-        Matrix<Type> FromFile(std::string fileName, const unsigned int channel);
+        Matrix<Type> FromFile(std::string fileName, unsigned int channel);
 
         template<typename Type>
         void ToFile(Matrix<Type>& mat, std::string fileName);
