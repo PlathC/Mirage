@@ -40,10 +40,6 @@ __Image processing features__
 - GLM
 - GLFW3
  
-### CMake
-
-This project needs CMake to be built. 
-
 ### Compiler
 
 This project has been tested with MinGW and MSVC (VS2017).
