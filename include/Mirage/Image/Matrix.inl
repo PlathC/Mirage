@@ -33,6 +33,21 @@ namespace mrg {
     }
 
     template<typename Type>
+    template<std::size_t Size>
+    Matrix<Type>::Matrix(const std::array<Type, Size>& pixels, uint32_t width, uint32_t height, uint8_t channelNumber):
+    width(width),
+    height(height),
+    channelNumber(channelNumber),
+    data()
+    {
+        data.resize(Size);
+        for(size_t i = 0; i < Size; i++)
+        {
+            data[i] = pixels[i];
+        }
+    }
+
+    template<typename Type>
     Matrix<Type>::Matrix(std::initializer_list<Type> pixels, const uint32_t width, const uint32_t height, const uint8_t channelNumber):
     width(width),
     height(height),

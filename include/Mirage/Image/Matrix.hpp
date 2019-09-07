@@ -17,10 +17,14 @@ namespace mrg {
     {
     public:
         Matrix();
-        Matrix(const uint32_t width, const uint32_t height, const uint8_t channelNumber);
-        Matrix(Type fill, const uint32_t width, const uint32_t height, const uint8_t channelNumber);
-        Matrix(std::vector<Type>& pixels, const uint32_t width, const uint32_t height, const uint8_t channelNumber);
-        Matrix(std::initializer_list<Type> pixels, const uint32_t width, const uint32_t height, const uint8_t channelNumber);
+        Matrix(uint32_t width, uint32_t height, uint8_t channelNumber);
+        Matrix(Type fill, uint32_t width, uint32_t height, uint8_t channelNumber);
+        Matrix(std::vector<Type>& pixels, uint32_t width, uint32_t height, uint8_t channelNumber);
+
+        template<std::size_t Size>
+        Matrix(const std::array<Type, Size>& pixels, uint32_t width, uint32_t height, uint8_t channelNumber);
+
+        Matrix(std::initializer_list<Type> pixels, uint32_t width, uint32_t height, uint8_t channelNumber);
 
         template<typename T>
         Matrix<T> ToGrayScale();
@@ -60,6 +64,17 @@ namespace mrg {
     static std::map<T, int> ComputeHistogram(const std::vector<T> &channel);
     template<typename T>
     static std::map<T, double> ComputeNormalizeHistogram(const std::vector<T> &channel, uint32_t width, uint32_t height);
+
+    template<std::size_t size>
+    constexpr std::array<double, size> AverageKernelGenerator = [] { // OR: constexpr auto table
+        std::array<double, size> A = {};
+        for (size_t i = 0; i < size; i++) {
+            A[i] = 1.0 / static_cast<double>(size);
+        }
+        return A;
+    }();
+
+    const static Matrix<double> averageKernel5x5 = Matrix<double>(AverageKernelGenerator<25>,5, 5, 1);
 
     const static Matrix<double> gaussianBlurKernel5x5 = Matrix<double>({1.0/256.0, 4.0/256.0,  6.0/256.0,  4.0/256.0,  1.0/256.0,
                                                                         4.0/256.0, 16.0/256.0, 24.0/256.0, 16.0/256.0, 4.0/256.0,
