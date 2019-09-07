@@ -3,18 +3,18 @@
 //
 
 #include "Timer.hpp"
+namespace mrg {
 
-void Timer::Start()
-{
-    start = std::clock();
-}
+    void Timer::Start() {
+        start = std::clock();
+    }
 
-void Timer::Stop()
-{
-    duration = ( std::clock() - start ) / static_cast<double>(CLOCKS_PER_SEC);
-}
+    void Timer::Stop() {
+        duration = (std::clock() - start) / static_cast<double>(CLOCKS_PER_SEC);
+    }
 
-double Timer::Duration()
-{
-    return duration;
+    double Timer::Duration() {
+        return duration;
+    }
+    
 }

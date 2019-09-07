@@ -6,18 +6,20 @@
 #define MIRAGE_TIMER_HPP
 
 #include <ctime>
+namespace mrg {
+    class Timer
+    {
+    public:
+        void Start();
+        void Stop();
+        double Duration();
 
-class Timer
-{
-public:
-    void Start();
-    void Stop();
-    double Duration();
+    private:
+        std::clock_t start;
+        double duration;
+    };
 
-private:
-    std::clock_t start;
-    double duration;
-};
+}
 
 
 #endif //MIRAGE_TIMER_HPP
