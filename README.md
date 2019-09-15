@@ -28,7 +28,6 @@ __Image processing features__
 | Histogram Equalization           | Done |
 | Adaptive Histogram Equalization  | To do |
 | Canny                            | Done |
-| Scale/Transform/Rotate           | To Do |
 
 <h2 align="center">Build</h2>
 
