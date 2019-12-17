@@ -36,11 +36,11 @@ __Image processing features__
 
 ### Dependencies 
 
-  - LibPng
-  - LibJpeg-turbo
-  - Vulkan (Image viewer)
-  - GLM
-  - GLFW3
+- LibPng
+- LibJpeg-turbo
+- Vulkan (Image viewer)
+- GLM
+- GLFW3
  
 ### Compiler
 
