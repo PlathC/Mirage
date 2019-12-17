@@ -10,34 +10,35 @@ Build status (GCC/Linux) : [![Build Status](https://travis-ci.org/PlathC/Mirage.
 
 __Library features__
 
-| Feature           | Progress |
-|-------------------|----------|
-| Image structure   | Done |
-| Parser            | Done (PNG/JPEG) |
+| Feature           | Progress                                                     |
+|-------------------|--------------------------------------------------------------|
+| Image structure   | Done                                                         |
+| Parser            | Done (PNG/JPEG)                                              |
 | Viewer            | In Progress (Vec4ui image only and distortion of the image.) |
+| QTViewer          | To do, to replace old viewer.                                |
 
 __Image processing features__ 
 
 | Feature                          | Progress |
 |----------------------------------|----------|
-| Image structure                  | Done |
-| Bit depth                        | To do |
-| DFT                              | To do |
-| Filter                           | Done |
-| Sobel / Threshold                | Done |
-| Histogram Equalization           | Done |
-| Adaptive Histogram Equalization  | To do |
-| Canny                            | Done |
+| Image structure                  | Done     |
+| Bit depth                        | To do    |
+| DFT                              | To do    |
+| Filter                           | Done     |
+| Sobel / Threshold                | Done     |
+| Histogram Equalization           | Done     |
+| Adaptive Histogram Equalization  | To do    |
+| Canny                            | Done     |
 
 <h2 align="center">Build</h2>
 
 ### Dependencies 
-    
-- LibPng
-- LibJpeg-turbo
-- Vulkan (Image viewer)
-- GLM
-- GLFW3
+
+  - LibPng
+  - LibJpeg-turbo
+  - Vulkan (Image viewer)
+  - GLM
+  - GLFW3
  
 ### Compiler
 
@@ -67,7 +68,7 @@ int main()
 }
 ```
 
-__Results :__
+###### Results 
 
 ![RubberWhale classic](readmefiles/rubberwhale.png) ![RubberWhale convolve](readmefiles/rubberwhale-convolve.png) 
 
@@ -105,7 +106,7 @@ int main()
 }
 ```
 
-__Results :__ 
+###### Results
 
 Original : 
 
@@ -147,8 +148,7 @@ int main()
 }
 ```
 
-
-__Results :__ 
+###### Results 
 
 ![Lena Gray](readmefiles/lena-gray.jpg) ![Equalized Lena](readmefiles/lena-eq.jpg) 
 
@@ -181,6 +181,6 @@ int main()
 }
 ```
 
-__Results :__
+###### Results
 
 ![Lena Viewer](readmefiles/viewer.jpg)
