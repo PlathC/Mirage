@@ -66,7 +66,8 @@ std::vector<const char*> mrg::Viewer::GetRequiredExtensions()
 
     std::vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
 
-    if (enableValidationLayers) {
+    if (enableValidationLayers)
+    {
         extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
     }
 
@@ -77,6 +78,8 @@ mrg::Viewer& mrg::Viewer::operator=(const Viewer& v)
 {
     this->width = v.width;
     this->height = v.height;
+    this->window = v.window;
+
     return *this;
 }
 
@@ -926,14 +929,6 @@ void mrg::Viewer::CreateCommandPool()
 void mrg::Viewer::CreateTextureImage()
 {
     VkDeviceSize imageSize = image.Width() * image.Height() * image.Channel();
-    VkFormat format;
-    switch(image.Channel())
-    {
-        case 1 : format = VK_FORMAT_R8_UNORM; break;
-        case 2 : format = VK_FORMAT_R8G8_UNORM; break;
-        case 3 : format = VK_FORMAT_R8G8B8_UNORM; break;
-        default : format = VK_FORMAT_R8G8B8A8_UNORM; break;
-    }
 
     VkBuffer stagingBuffer;
     VkDeviceMemory stagingBufferMemory;

@@ -10,6 +10,8 @@ namespace mrg {
     class Timer
     {
     public:
+        Timer();
+
         void Start();
         void Stop();
         double Duration();

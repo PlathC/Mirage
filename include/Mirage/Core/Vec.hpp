@@ -25,7 +25,7 @@ namespace mrg
         Vec3();
         Vec3(const Vec3& v) : x(v.x), y(v.y), z(v.z) {}
         Vec3(T x, T y, T z) : x(x), y(y), z(z) {}
-        Vec3(std::initializer_list<T> l);
+        explicit Vec3(std::initializer_list<T> l);
 
         T& X();
         T& Y();
@@ -60,7 +60,7 @@ namespace mrg
         Vec4(const Vec4& v) : x(v.x), y(v.y), z(v.z), a(v.a){}
         explicit Vec4(T n) : x(n), y(n), z(n), a(n) {}
         Vec4(T x, T y , T z, T a) : x(x), y(y), z(z), a(a) { }
-        Vec4(std::initializer_list<T> l);
+        explicit Vec4(std::initializer_list<T> l);
 
         T& X();
         T& Y();
@@ -111,7 +111,7 @@ namespace mrg
         Vec() = default;
         Vec(const Vec<Type, Size>& vec);
         explicit Vec(Type initialise);
-        Vec(std::initializer_list<Type> l);
+        explicit Vec(std::initializer_list<Type> l);
 
         Type& operator[](unsigned int index);
         Vec<Type, Size>& operator=(const Type& value);

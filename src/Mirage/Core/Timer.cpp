@@ -4,16 +4,25 @@
 
 #include "Timer.hpp"
 namespace mrg {
+    Timer::Timer() :
+        start(0),
+        duration(0)
+    {
 
-    void Timer::Start() {
+    }
+
+    void Timer::Start()
+    {
         start = std::clock();
     }
 
-    void Timer::Stop() {
+    void Timer::Stop()
+    {
         duration = (std::clock() - start) / static_cast<double>(CLOCKS_PER_SEC);
     }
 
-    double Timer::Duration() {
+    double Timer::Duration()
+    {
         return duration;
     }
     

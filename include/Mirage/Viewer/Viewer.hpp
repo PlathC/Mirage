@@ -116,7 +116,8 @@ namespace mrg {
             size_t fileSize = (size_t) file.tellg();
             std::vector<char> buffer(fileSize);
             file.seekg(0);
-            file.read(buffer.data(), static_cast<std::streamsize>(fileSize));
+            if(fileSize > 0)
+                file.read(buffer.data(), static_cast<std::streamsize>(fileSize));
             file.close();
 
             return buffer;
@@ -254,9 +255,9 @@ namespace mrg {
         bool framebufferResized = false;
 
 #ifdef NDEBUG
-        const bool enableValidationLayers = false;
+        constexpr bool enableValidationLayers = false;
 #else
-        const bool enableValidationLayers = true;
+        constexpr bool enableValidationLayers = true;
 #endif
         int width, height;
         GLFWwindow* window;

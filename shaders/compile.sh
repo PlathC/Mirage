@@ -1,3 +1,4 @@
+#!/bin/sh
 echo 'Please enter glslValidator.exe path : '
 read validatorPath
 
