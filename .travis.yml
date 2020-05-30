@@ -17,15 +17,15 @@ matrix:
             - ubuntu-toolchain-r-test
             - george-edison55-precise-backports
           packages:
-            - gcc-7
-            - g++-7
+            - gcc-8
+            - g++-8
             - cmake
             - cmake-data
             - libpng-dev
             - libjpeg-turbo8-dev
             - zlib1g-dev
       env:
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
         - LINKER_FLAGS=""
 install:
   - eval "${MATRIX_EVAL}"
