@@ -20,7 +20,7 @@ namespace mrg
 {
     template<typename T>
     class Vec3 {
-        static_assert(std::is_arithmetic<Type>::value,
+        static_assert(std::is_arithmetic<T>::value,
                       "The vector must store numbers");
     public:
         Vec3();
@@ -56,7 +56,7 @@ namespace mrg
 
     template<typename T>
     class Vec4 {
-        static_assert(std::is_arithmetic<Type>::value,
+        static_assert(std::is_arithmetic<T>::value,
                       "The vector must store numbers");
     public:
         Vec4();
