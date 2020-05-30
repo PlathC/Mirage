@@ -53,10 +53,9 @@ namespace mrg {
 
             png_read_image(png, rowPointers);
             fclose(file);
-            png_destroy_read_struct(&png, &info, NULL);
+            png_destroy_read_struct(&png, &info, nullptr);
 
-            std::vector<T> result;
-            result.resize(static_cast<unsigned int>(width * height));
+            std::vector<T> result(static_cast<unsigned int>(width * height * channel));
 
             for(unsigned int y = 0; y < height; y++)
             {
@@ -64,15 +63,9 @@ namespace mrg {
                 for(unsigned int x = 0; x < width; x++)
                 {
                     png_bytep px = &(row[x * 4]);
-                    if constexpr(std::is_arithmetic<T>::value)
+                    for(unsigned int k = 0; k < channel; k++)
                     {
-                        result.push_back(px[0]);
-                    }
-                    else
-                    {
-                        T pixel = T(px[0], px[1], px[2], px[3]);
-
-                        result[x * height + y] = pixel;
+                        result[(y * width + x) * channel + k] = px[k];
                     }
                 }
             }
@@ -106,8 +99,7 @@ namespace mrg {
             //png_set_filler(png, 0, PNG_FILLER_AFTER);
 
             rowPointers = new png_bytep[mat.Height()];
-            std::vector<T> temp = mat.GetData();
-            unsigned int height = mat.Height();
+            std::vector<T>& temp = mat.GetData();
 
             for(unsigned int j = 0; j < mat.Height(); j++)
             {
@@ -116,17 +108,29 @@ namespace mrg {
                 for(unsigned int i = 0; i < mat.Width(); i++)
                 {
                     png_bytep px = &(row[i * 4]);
-                    T t = temp[i * height + j];
-                    if constexpr(std::is_arithmetic<T>::value) {
-                        px[0] = t;
-                        px[1] = t;
-                        px[2] = t;
-                        px[3] = t;
-                    }else {
-                        px[0] = static_cast<png_byte>(t[0]);
-                        px[1] = static_cast<png_byte>(t[1]);
-                        px[2] = static_cast<png_byte>(t[2]);
-                        px[3] = static_cast<png_byte>(t[3]);
+                    if(mat.Channel() > 1)
+                    {
+                        for(unsigned int k = 0; k < 4; k++)
+                        {
+                            if(k < mat.Channel())
+                            {
+                                px[k] = temp[(j * mat.Width() + i) * mat.Channel() + k];
+                            }
+                            else
+                            {
+                                if(k == 3)
+                                    px[k] = 255;
+                                else
+                                    px[k] = 0;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        px[0] = temp[(j * mat.Width() + i) * mat.Channel()];
+                        px[1] = temp[(j * mat.Width() + i) * mat.Channel()];
+                        px[2] = temp[(j * mat.Width() + i) * mat.Channel()];
+                        px[3] = temp[255];
                     }
                 }
             }

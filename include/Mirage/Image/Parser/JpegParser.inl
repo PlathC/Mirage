@@ -16,8 +16,8 @@ namespace mrg::ImageParser {
         long fsize = ftell(f);
         fseek(f, 0, SEEK_SET);  /* same as rewind(f); */
 
-        auto *content = new unsigned char[fsize + 1];
-        fread(content, 1, fsize, f);
+        std::vector<unsigned char> content = std::vector<unsigned char>(fsize + 1);
+        fread(content.data(), 1, fsize, f);
         fclose(f);
 
         content[fsize] = 0;
@@ -42,52 +42,36 @@ namespace mrg::ImageParser {
 
         tjhandle _jpegDecompressor = tjInitDecompress();
 
-        if(tjDecompressHeader2(_jpegDecompressor, content, fsize, &width, &height, &jpegSubsamp) != 0)
+        if(tjDecompressHeader2(_jpegDecompressor, content.data(), fsize, &width, &height, &jpegSubsamp) != 0)
         {
-            delete[] content;
             tjDestroy(_jpegDecompressor);
             throw std::runtime_error("Error on decompressing header");
         }
 
-        auto *buffer = new unsigned char[width * height * channel]; //!< will contain the decompressed image
-
+        std::vector<unsigned char> buffer = std::vector<unsigned char>(width * height * channel);
         if(tjDecompress2(_jpegDecompressor,
-                content, fsize, buffer, width,
+                content.data(), fsize, buffer.data(), width,
                 0/*pitch*/, height, pixelFormat, TJFLAG_FASTDCT)
                 != 0)
         {
             tjDestroy(_jpegDecompressor);
-            delete[] content;
-            delete[] buffer;
             throw std::runtime_error("Error on decompressing image file.");
         }
 
         std::vector<T> resultData;
-        resultData.resize(width * height);
+        resultData.resize(width * height * channel);
         for(uint32_t j = 0; j < static_cast<uint32_t>(height); j++)
         {
             for(uint32_t i = 0; i < static_cast<uint32_t>(width); i++)
             {
-                if constexpr (std::is_arithmetic<T>::value)
+                for(uint32_t c = 0; c < channel; c++)
                 {
-                    for(uint32_t c = 0; c < channel; c++)
-                    {
-                        resultData[i * height + j * channel + c] = buffer[(j * width + i) * channel + c];
-                    }
-                }
-                else
-                {
-                    T t = T();
-                    for(uint32_t c = 0; c < channel; c++)
-                        t[c] = buffer[(j * width + i) * channel + c];
-                    resultData[i * height + j] = t;
+                    resultData[(j * width + i) * channel + c] = buffer[(j * width + i) * channel + c];
                 }
             }
         }
 
         tjDestroy(_jpegDecompressor);
-        delete[] content;
-        delete[] buffer;
         return Matrix<T>(resultData, width, height, channel);
     }
 
@@ -106,6 +90,7 @@ namespace mrg::ImageParser {
         uint32_t height = mat.Height();
         uint8_t nbands = mat.Channel();
         int flags = 0;
+
         unsigned char* jpegBuf = nullptr;
         uint32_t pitch = width * nbands;
         int pixelFormat;
@@ -133,33 +118,25 @@ namespace mrg::ImageParser {
         unsigned long jpegSize = 0;
 
         std::vector<T> data = mat.GetData();
-        auto* srcBuf = new unsigned char[width * height * nbands];
+        std::vector<unsigned char> srcBuf = std::vector<unsigned char>(width * height * nbands);
         for(uint32_t j = 0; j < height; j++)
         {
             for(uint32_t i = 0; i < width; i++)
             {
                 for(uint8_t c = 0; c < nbands; c++)
                 {
-                    if constexpr (std::is_arithmetic<T>::value)
-                    {
-                        srcBuf[(j * width + i) * nbands + c] = data[i * height + j * nbands + c];
-                    }
-                    else
-                    {
-                        srcBuf[(j * width + i) * nbands + c] = data[i * height + j][c];
-                    }
+                    srcBuf[(j * width + i) * nbands + c] = data[(j * width + i) * nbands + c];
                 }
             }
         }
 
-        int tj_stat = tjCompress2( handle, srcBuf, width, pitch, height,
+        int tj_stat = tjCompress2( handle, srcBuf.data(), width, pitch, height,
                                    pixelFormat, &(jpegBuf), &jpegSize, jpegSubsamp, jpegQual, flags);
         if(tj_stat != 0)
         {
             const char *err = (const char *) tjGetErrorStr();
             tjDestroy(handle);
             handle = nullptr;
-            delete[] srcBuf;
             throw std::runtime_error("Libjpeg error" + std::string(err));
         }
 
@@ -173,7 +150,6 @@ namespace mrg::ImageParser {
         }
 
         fclose(file);
-        delete[] srcBuf;
         tjDestroy(handle); //should deallocate data buffer
     }
 }

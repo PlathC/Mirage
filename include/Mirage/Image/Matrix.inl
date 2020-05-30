@@ -11,7 +11,7 @@ namespace mrg {
     m_channelNumber(channelNumber),
     m_data()
     {
-        this->m_data.resize(width * height);
+        this->m_data.resize(width * height * channelNumber);
     }
 
     template<typename Type>
@@ -68,20 +68,17 @@ namespace mrg {
         std::vector<T> resultData;
         resultData.resize(m_width * m_height);
 
-        for(size_t i = 0; i < m_data.size(); i++)
+        for(unsigned int x = 0; x < m_width; x++)
         {
-            T temp = 0;
-            if constexpr(std::is_arithmetic<Type>::value)
+            for(unsigned int y = 0; y < m_height; y++)
             {
-                resultData[i] = static_cast<T>(m_data[i]);
+                double pixel = 0;
+                for(unsigned int k = 0; k < m_channelNumber; k++)
+                {
+                    pixel += m_data[(x * m_height + y) * m_channelNumber + k];
+                }
+                resultData[x * m_height + y] = static_cast<T>(mrg::Floor(pixel / m_channelNumber));
             }
-            else
-            {
-                for(uint8_t j = 0; j < m_channelNumber; j++)
-                    temp += m_data[i][j];
-                resultData[i] = static_cast<T>(temp / m_channelNumber);
-            }
-
         }
 
         return Matrix<T>(resultData, m_width, m_height, 1);
@@ -90,26 +87,26 @@ namespace mrg {
     template<typename Type>
     Matrix<double> Matrix<Type>::Sobel()
     {
-        Matrix<double> gray = this->ToGrayScale<double>();
+        Matrix<double> gray = ToGrayScale<double>();
 
-        const double kernelH[3][3] = {{-1, 0, 1},
-                                      {-2, 0, 2},
-                                      {-1, 0, 1}};
+        const double kernelH[3][3] = {{-1., 0., 1.},
+                                      {-2., 0., 2.},
+                                      {-1., 0., 1.}};
 
-        const double kernelV[3][3] = {{-1, -2, -1},
-                                      { 0,  0,  0},
-                                      { 1,  2,  1}};
+        const double kernelV[3][3] = {{-1., -2., -1.},
+                                      { 0.,  0.,  0.},
+                                      { 1.,  2.,  1.}};
 
         std::vector<double> grayData = gray.GetData();
         std::vector<double> resultData;
         resultData.resize(m_width * m_height);
 
-        for(uint32_t i = 1; i < m_width - 1; i++)
+        for(uint32_t i = 1; i < m_height - 1; i++)
         {
-            for(uint32_t j = 1; j < m_height - 1; j++)
+            for(uint32_t j = 1; j < m_width - 1; j++)
             {
-                double magnitudeX = 0;
-                double magnitudeY = 0;
+                double magnitudeX = 0.;
+                double magnitudeY = 0.;
                 for(uint8_t ik = 0; ik < 3; ik++)
                 {
                     for(uint8_t jk = 0; jk < 3; jk++)
@@ -117,7 +114,7 @@ namespace mrg {
                         unsigned int xn = i + ik - 1;
                         unsigned int yn = j + jk - 1;
 
-                        unsigned int index = xn * m_height + yn;
+                        unsigned int index = xn * m_width + yn;
                         magnitudeX += grayData[index] * kernelH[ik][jk];
                         magnitudeY += grayData[index] * kernelV[ik][jk];
                     }
@@ -362,69 +359,22 @@ namespace mrg {
 
         std::vector<Type> resultData = std::vector<Type>(this->m_data);
 
-        if constexpr(std::is_arithmetic<Type>::value)
+        std::map<Type, double> normHistogram = ComputeNormalizeHistogram(resultData, m_width, m_height);
+        std::map<Type, double> cumulativeHistogram;
+
+        // Compute cumulative histogram
+        double sum = 0;
+        for (auto it = normHistogram.begin(); it != normHistogram.end(); it++ )
         {
-            std::map<Type, double> normHistogram = ComputeNormalizeHistogram(resultData, m_width, m_height);
-            std::map<Type, double> cumulativeHistogram;
-
-            // Compute cumulative histogram
-            double sum = 0;
-            for (auto it = normHistogram.begin(); it != normHistogram.end(); it++ )
-            {
-                sum += normHistogram[it->first];
-                cumulativeHistogram[it->first] = sum;
-            }
-
-            // Applying equalization
-            for(auto& pixel : resultData)
-            {
-                pixel = (256 - 1) * cumulativeHistogram[pixel];
-            }
+            sum += normHistogram[it->first];
+            cumulativeHistogram[it->first] = sum;
         }
-        else
+
+        // Applying equalization
+        for(auto& pixel : resultData)
         {
-            auto t = m_data[0][0];
-            std::vector<decltype(t)> red;
-            std::vector<decltype(t)> green;
-            std::vector<decltype(t)> blue;
-
-            for(size_t i = 0; i < m_data.size(); i++)
-            {
-                red.push_back(m_data[i][0]);
-                green.push_back(m_data[i][1]);
-                blue.push_back(m_data[i][2]);
-            }
-
-            auto computeEqualization = [](std::vector<decltype(t)> &result, uint32_t _width, uint32_t _height) -> void
-            {
-                std::map<decltype(t), double> normHistogram = ComputeNormalizeHistogram(result, _width, _height);
-                std::map<decltype(t), double> cumulativeHistogram;
-
-                // Compute cumulative histogram
-                double sum = 0;
-                for (auto it = normHistogram.begin(); it != normHistogram.end(); it++ )
-                {
-                    sum += normHistogram[it->first];
-                    cumulativeHistogram[it->first] = sum;
-                }
-
-                // Applying equalization
-                for(auto& pixel : result)
-                {
-                    pixel = (256 - 1) * cumulativeHistogram[pixel];
-                }
-            };
-
-            computeEqualization(red, m_width, m_height);
-            computeEqualization(green, m_width, m_height);
-            computeEqualization(blue, m_width, m_height);
-
-            for(size_t i = 0; i < m_data.size(); i++)
-            {
-                resultData[i][0] = red[i];
-                resultData[i][1] = green[i];
-                resultData[i][2] = blue[i];
-            }
+            // TODO: Change 256 to image depth
+            pixel = (256 - 1) * cumulativeHistogram[pixel];
         }
 
         return Matrix<Type>(resultData, m_width, m_height, m_channelNumber);
@@ -444,23 +394,19 @@ namespace mrg {
     }
 
     template<typename Type>
-    template<typename ReturnType>
-    ReturnType* Matrix<Type>::GetRawData()
+    template<class ReturnType>
+    std::vector<ReturnType> Matrix<Type>::GetRawData() const
     {
-        auto* rawData = new ReturnType[m_width * m_height * m_channelNumber];
+        std::vector<ReturnType> rawData = std::vector<ReturnType>(m_width * m_height * m_channelNumber);
+
         for(unsigned int x = 0; x < m_width; x++)
         {
             for(unsigned int y = 0; y < m_height; y++)
             {
-                if constexpr(std::is_arithmetic<Type>::value)
+                for(unsigned int k = 0; k < m_channelNumber; k++)
                 {
-                    rawData[y * m_channelNumber + x * m_height] = m_data[x * m_height + y];
-                }else
-                {
-                    for(unsigned int k = 0; k < m_channelNumber; k++)
-                    {
-                        rawData[y + x * m_height][k] = m_data[x * m_height + y][k];
-                    }
+                    rawData[(x * m_height + y) * m_channelNumber + k] =
+                            static_cast<ReturnType>(m_data[(x * m_height + y) * m_channelNumber + k]);
                 }
             }
         }

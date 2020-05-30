@@ -16,6 +16,8 @@ namespace mrg
     template<typename Type>
     class Matrix
     {
+    // TODO: add only arithmetic types ==> Add Get<T> method and store only has
+    static_assert(std::is_arithmetic<Type>::value, "A matrix can only store arithmetic values.");
     public:
         Matrix();
         Matrix(uint32_t width, uint32_t height, uint8_t channelNumber);
@@ -44,8 +46,8 @@ namespace mrg
         [[nodiscard]] Type Get(unsigned int w, unsigned int h) const;
         std::vector<Type>& GetData();
 
-        template<typename ReturnType>
-        ReturnType* GetRawData();
+        template<class ReturnType>
+        std::vector<ReturnType> GetRawData() const;
 
         void Set(uint32_t w, uint32_t h, const Type& t);
         [[nodiscard]] uint32_t Width() const noexcept { return m_width; }

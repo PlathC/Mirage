@@ -12,17 +12,17 @@ namespace mrg
 {
     constexpr double Pi = 3.14159265358979323846;
 
-    double Atan(const double val)
+    inline double Atan(const double val)
     {
         return std::atan(val);
     }
 
-    double Exp(const double val)
+    inline double Exp(const double val)
     {
         return std::exp(val);
     }
 
-    double Sqrt(const double val)
+    inline double Sqrt(const double val)
     {
         return std::sqrt(val);
     }
@@ -34,17 +34,17 @@ namespace mrg
         return std::pow(val, power);
     }
 
-    double Log(const double val)
+    inline double Log(const double val)
     {
         return std::log(val);
     }
 
-    double Sin(const double val)
+    inline double Sin(const double val)
     {
         return std::sin(val);
     }
 
-    double Cos(const double val)
+    inline double Cos(const double val)
     {
         return std::cos(val);
     }

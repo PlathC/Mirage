@@ -16,21 +16,20 @@ __Library features__
 |-------------------|--------------------------------------------------------------|
 | Image structure   | Done                                                         |
 | Parser            | Done (PNG/JPEG)                                              |
-| Viewer            | In Progress (Vec4ui image only and distortion of the image.) |
-| QTViewer          | To do, to replace old viewer.                                |
+| Mirage Viewer     | In dev                                                       |
 
 __Image processing features__ 
 
 | Feature                          | Progress |
 |----------------------------------|----------|
-| Image structure                  | Done     |
+| Image structure                  | In dev   |
 | Bit depth                        | To do    |
 | DFT                              | To do    |
-| Filter                           | Done     |
-| Sobel / Threshold                | Done     |
-| Histogram Equalization           | Done     |
+| Filter                           | To fix   |
+| Sobel / Threshold                | To fix   |
+| Histogram Equalization           | To fix   |
 | Adaptive Histogram Equalization  | To do    |
-| Canny                            | Done     |
+| Canny                            | To fix   |
 
 <h2 align="center">Build</h2>
 
@@ -38,9 +37,7 @@ __Image processing features__
 
 *   LibPng
 *   LibJpeg-turbo
-*   Vulkan (Image viewer)
-*   GLM
-*   GLFW3
+*   Qt5
  
 ### Compiler
 
@@ -160,29 +157,4 @@ int main()
 
 ### __Viewer__
 
-The viewer can be used as follow :
-
-```cpp
-#include <Mirage/Mirage.hpp>
-#include <Mirage/Viewer/Viewer.hpp>
-
-int main()
-{
-    using namespace mrg;
-    Matrix<Vec4ui8> mat = ImageParser::FromFile<Vec4ui8>("../samples/tiled4x3.png", 4);
-    Viewer viewer = Viewer(800,800, mat);
-    try{
-        viewer.Show();
-    }catch(std::exception& e)
-    {
-        std::cerr << e.what() << std::endl;
-        return EXIT_FAILURE;
-    }
-
-    return EXIT_SUCCESS;
-}
-```
-
 ###### Results
-
-![Lena Viewer](readmefiles/viewer.jpg)
