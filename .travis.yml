@@ -16,6 +16,7 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
             - george-edison55-precise-backports
+            - ubuntu-sdk-team
           packages:
             - gcc-8
             - g++-8
@@ -24,15 +25,15 @@ matrix:
             - libpng-dev
             - libjpeg-turbo8-dev
             - zlib1g-dev
+            - qtbase5-dev
+            - qtdeclarative5-dev
+            - libqt5webkit5-dev
+            - libsqlite3-dev
+            - qt5-default
+            - qttools5-dev-tools
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
         - LINKER_FLAGS=""
-
-before_install:
-  - sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
-  - sudo apt-get update
-  - sudo apt-get install qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libsqlite3-dev
-  - sudo apt-get install qt5-default qttools5-dev-tools
 
 install:
   - eval "${MATRIX_EVAL}"
