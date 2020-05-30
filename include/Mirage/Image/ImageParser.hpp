@@ -2,8 +2,8 @@
 // Created by Cyprien Plateau--Holleville on 20/06/2019.
 //
 
-#ifndef IMPRO_IMAGEPARSER_HPP
-#define IMPRO_IMAGEPARSER_HPP
+#ifndef MIRAGE_IMAGEPARSER_HPP
+#define MIRAGE_IMAGEPARSER_HPP
 
 #include <filesystem>
 #include <fstream>
@@ -46,4 +46,4 @@ namespace mrg::ImageParser {
 
 #include "ImageParser.inl"
 
-#endif //IMPRO_IMAGEPARSER_HPP
+#endif //MIRAGE_IMAGEPARSER_HPP

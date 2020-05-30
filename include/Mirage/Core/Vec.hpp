@@ -2,8 +2,8 @@
 // Created by Cyprien Plateau--Holleville on 20/06/2019.
 //
 
-#ifndef IMPRO_VEC_HPP
-#define IMPRO_VEC_HPP
+#ifndef MIRAGE_VEC_HPP
+#define MIRAGE_VEC_HPP
 
 #include <array>
 #include <cassert>
@@ -24,8 +24,8 @@ namespace mrg
                       "The vector must store numbers");
     public:
         Vec3();
-        Vec3(const Vec3& v) : x(v.x), y(v.y), z(v.z) {}
-        Vec3(T x, T y, T z) : x(x), y(y), z(z) {}
+        Vec3(const Vec3& v) : m_x(v.m_x), m_y(v.m_y), m_z(v.m_z) {}
+        Vec3(T x, T y, T z) : m_x(x), m_y(y), m_z(z) {}
         Vec3(std::initializer_list<T> l);
 
         T& X();
@@ -46,12 +46,12 @@ namespace mrg
 
         friend std::ostream& operator<<(std::ostream& os, const Vec3<T>& v)
         {
-            os << v.x << " " << v.y << " " << v.z;
+            os << v.m_x << " " << v.m_y << " " << v.m_z;
             return os;
         }
 
     private:
-        T x, y, z;
+        T m_x, m_y, m_z;
     };
 
     template<typename T>
@@ -60,9 +60,9 @@ namespace mrg
                       "The vector must store numbers");
     public:
         Vec4();
-        Vec4(const Vec4& v) : x(v.x), y(v.y), z(v.z), a(v.a){}
-        explicit Vec4(T n) : x(n), y(n), z(n), a(n) {}
-        Vec4(T x, T y , T z, T a) : x(x), y(y), z(z), a(a) { }
+        Vec4(const Vec4& v) : m_x(v.m_x), m_y(v.m_y), m_z(v.m_z), m_a(v.m_a){}
+        explicit Vec4(T n) : m_x(n), m_y(n), m_z(n), m_a(n) {}
+        Vec4(T x, T y , T z, T a) : m_x(x), m_y(y), m_z(z), m_a(a) { }
         Vec4(std::initializer_list<T> l);
 
         T& X();
@@ -88,12 +88,12 @@ namespace mrg
 
         friend std::ostream& operator<<(std::ostream& os, const Vec4<T>& v)
         {
-            os << +v.x << " " << +v.y << " " << +v.z << " " << +v.a;
+            os << +v.m_x << " " << +v.m_y << " " << +v.m_z << " " << +v.m_a;
             return os;
         }
 
     private:
-        T x, y, z, a;
+        T m_x, m_y, m_z, m_a;
     };
 
 
@@ -186,4 +186,4 @@ namespace mrg
 
 #include "Vec.inl"
 
-#endif //IMPRO_VEC_HPP
+#endif //MIRAGE_VEC_HPP

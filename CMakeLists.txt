@@ -20,7 +20,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
-option(BUILD_VIEWER "Build Mirage viewer (only for Computer)" OFF)
+option(BUILD_VIEWER "Build Mirage viewer" ON)
 option(BUILD_EXAMPLES "Build Mirage examples" ON)
 
 find_package(PNG REQUIRED)
@@ -54,12 +54,13 @@ set(SOURCES
         src/Mirage/Image/Parser/JpegParser.cpp)
 
 if(${BUILD_VIEWER})
-    find_package(Vulkan REQUIRED)
-    message(STATUS "Found Vulkan : " ${Vulkan_INCLUDE_DIRS})
-    find_package(glfw3 REQUIRED)
-    find_package(GLM REQUIRED)
-    target_include_directories(${PROJECT_NAME} ${GLFW3_INCLUDE_DIRS})
-    target_include_directories(${PROJECT_NAME} ${GLM_INCLUDE_DIRS})
+
+    find_package(Qt5 COMPONENTS Widgets REQUIRED)
+
+    # Qt files auto management
+    set(CMAKE_AUTOMOC ON)
+    set(CMAKE_AUTOUIC ON)
+    set(CMAKE_AUTORCC ON)
 
     set(HEADERS
             ${HEADERS}
@@ -67,7 +68,8 @@ if(${BUILD_VIEWER})
 
     set(SOURCES
             ${SOURCES}
-            src/Mirage/Viewer/Viewer.cpp)
+            src/Mirage/Viewer/Viewer.cpp
+            src/MiragE/Viewer/Viewer.ui)
 endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/Mirage
@@ -143,10 +145,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         ${GLFW_STATIC_LIBRARIES})
 
 if(${BUILD_VIEWER})
-    target_compile_definitions(${PROJECT_NAME} PRIVATE VK_USE_PLATFORM_WIN32_KHR)
-    target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE Vulkan::Vulkan)
-    target_link_libraries(${PROJECT_NAME} Vulkan::Vulkan)
-    target_link_libraries(${PROJECT_NAME} ${GLFW3_LIBRARY})
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+            Qt5::Widgets)
 endif()
 
 if(${BUILD_EXAMPLES})

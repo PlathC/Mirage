@@ -2,8 +2,8 @@
 // Created by Cyprien Plateau--Holleville on 20/06/2019.
 //
 
-#ifndef IMPRO_MATRIX_HPP
-#define IMPRO_MATRIX_HPP
+#ifndef MIRAGE_MATRIX_HPP
+#define MIRAGE_MATRIX_HPP
 
 #include <array>
 #include <map>
@@ -48,14 +48,14 @@ namespace mrg
         ReturnType* GetRawData();
 
         void Set(uint32_t w, uint32_t h, const Type& t);
-        [[nodiscard]] uint32_t Width() const noexcept { return width; }
-        [[nodiscard]] uint32_t Height() const noexcept { return height; }
-        [[nodiscard]] uint8_t Channel() const noexcept { return channelNumber; }
+        [[nodiscard]] uint32_t Width() const noexcept { return m_width; }
+        [[nodiscard]] uint32_t Height() const noexcept { return m_height; }
+        [[nodiscard]] uint8_t Channel() const noexcept { return m_channelNumber; }
     private:
-        uint32_t width;
-        uint32_t height;
-        uint8_t channelNumber;
-        std::vector<Type> data;
+        uint32_t m_width;
+        uint32_t m_height;
+        uint8_t m_channelNumber;
+        std::vector<Type> m_data;
     };
 
     template<int kernelSize>
@@ -110,4 +110,4 @@ namespace mrg
 
 #include "Matrix.inl"
 
-#endif //IMPRO_MATRIX_HPP
+#endif //MIRAGE_MATRIX_HPP

@@ -19,8 +19,8 @@ namespace mrg
         double Duration();
 
     private:
-        std::clock_t start;
-        double duration;
+        std::clock_t m_start;
+        double m_duration;
     };
 }
 

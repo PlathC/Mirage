@@ -2,62 +2,62 @@
 namespace mrg {
 
     template<typename Type>
-    Matrix<Type>::Matrix() : width(0), height(0), channelNumber(0), data() { }
+    Matrix<Type>::Matrix() : m_width(0), m_height(0), m_channelNumber(0), m_data() { }
 
     template<typename Type>
     Matrix<Type>::Matrix(const uint32_t width, const uint32_t  height, const uint8_t channelNumber) :
-    width(width),
-    height(height),
-    channelNumber(channelNumber),
-    data()
+    m_width(width),
+    m_height(height),
+    m_channelNumber(channelNumber),
+    m_data()
     {
-        this->data.resize(width * height);
+        this->m_data.resize(width * height);
     }
 
     template<typename Type>
     Matrix<Type>::Matrix(Type fill, const uint32_t width, const uint32_t height, const uint8_t channelNumber) :
-    width(width),
-    height(height),
-    channelNumber(channelNumber),
-    data(width * height, fill)
+    m_width(width),
+    m_height(height),
+    m_channelNumber(channelNumber),
+    m_data(width * height, fill)
     {
     }
 
     template<typename Type>
     Matrix<Type>::Matrix(std::vector<Type>& pixels, const uint32_t width, const uint32_t height, const uint8_t channelNumber) :
-    width(width),
-    height(height),
-    channelNumber(channelNumber),
-    data(pixels)
+    m_width(width),
+    m_height(height),
+    m_channelNumber(channelNumber),
+    m_data(pixels)
     {
     }
 
     template<typename Type>
     template<std::size_t Size>
     Matrix<Type>::Matrix(const std::array<Type, Size>& pixels, uint32_t width, uint32_t height, uint8_t channelNumber):
-    width(width),
-    height(height),
-    channelNumber(channelNumber),
-    data()
+    m_width(width),
+    m_height(height),
+    m_channelNumber(channelNumber),
+    m_data()
     {
-        data.resize(Size);
+        m_data.resize(Size);
         for(size_t i = 0; i < Size; i++)
         {
-            data[i] = pixels[i];
+            m_data[i] = pixels[i];
         }
     }
 
     template<typename Type>
     Matrix<Type>::Matrix(std::initializer_list<Type> pixels, const uint32_t width, const uint32_t height, const uint8_t channelNumber):
-    width(width),
-    height(height),
-    channelNumber(channelNumber),
-    data()
+    m_width(width),
+    m_height(height),
+    m_channelNumber(channelNumber),
+    m_data()
     {
-        data.reserve(pixels.size());
+        m_data.reserve(pixels.size());
         for(auto ite = pixels.begin(); ite != pixels.end(); ite++)
         {
-            data.push_back(*ite);
+            m_data.push_back(*ite);
         }
     }
 
@@ -66,25 +66,25 @@ namespace mrg {
     Matrix<T> Matrix<Type>::ToGrayScale()
     {
         std::vector<T> resultData;
-        resultData.resize(width * height);
+        resultData.resize(m_width * m_height);
 
-        for(size_t i = 0; i < data.size(); i++)
+        for(size_t i = 0; i < m_data.size(); i++)
         {
             T temp = 0;
             if constexpr(std::is_arithmetic<Type>::value)
             {
-                resultData[i] = static_cast<T>(data[i]);
+                resultData[i] = static_cast<T>(m_data[i]);
             }
             else
             {
-                for(uint8_t j = 0; j < channelNumber; j++)
-                    temp += data[i][j];
-                resultData[i] = static_cast<T>(temp/channelNumber);
+                for(uint8_t j = 0; j < m_channelNumber; j++)
+                    temp += m_data[i][j];
+                resultData[i] = static_cast<T>(temp / m_channelNumber);
             }
 
         }
 
-        return Matrix<T>(resultData, width, height, 1);
+        return Matrix<T>(resultData, m_width, m_height, 1);
     }
 
     template<typename Type>
@@ -102,11 +102,11 @@ namespace mrg {
 
         std::vector<double> grayData = gray.GetData();
         std::vector<double> resultData;
-        resultData.resize(width * height);
+        resultData.resize(m_width * m_height);
 
-        for(uint32_t i = 1; i < width - 1; i++)
+        for(uint32_t i = 1; i < m_width - 1; i++)
         {
-            for(uint32_t j = 1; j < height - 1; j++)
+            for(uint32_t j = 1; j < m_height - 1; j++)
             {
                 double magnitudeX = 0;
                 double magnitudeY = 0;
@@ -117,18 +117,18 @@ namespace mrg {
                         unsigned int xn = i + ik - 1;
                         unsigned int yn = j + jk - 1;
 
-                        unsigned int index = xn * height + yn;
+                        unsigned int index = xn * m_height + yn;
                         magnitudeX += grayData[index] * kernelH[ik][jk];
                         magnitudeY += grayData[index] * kernelV[ik][jk];
                     }
                 }
 
-                resultData[i * height + j] = mrg::Sqrt(magnitudeX * magnitudeX
-                                                          + magnitudeY * magnitudeY);
+                resultData[i * m_height + j] = mrg::Sqrt(magnitudeX * magnitudeX
+                                                         + magnitudeY * magnitudeY);
             }
         }
 
-        return Matrix<double>(resultData, width, height, 1);
+        return Matrix<double>(resultData, m_width, m_height, 1);
     }
 
     template<typename Type>
@@ -149,14 +149,14 @@ namespace mrg {
         std::vector<double> grayData = gray.GetData();
 
         std::vector<double> gradientData;
-        gradientData.resize(width * height);
+        gradientData.resize(m_width * m_height);
         std::vector<double> directionData;
-        directionData.resize(width * height);
+        directionData.resize(m_width * m_height);
         double maximumValue = 0;
 
-        for(uint32_t i = 1; i < width - 1; i++)
+        for(uint32_t i = 1; i < m_width - 1; i++)
         {
-            for(uint32_t j = 1; j < height - 1; j++)
+            for(uint32_t j = 1; j < m_height - 1; j++)
             {
                 double magnitudeX = 0;
                 double magnitudeY = 0;
@@ -167,7 +167,7 @@ namespace mrg {
                         unsigned int xn = i + ik - 1;
                         unsigned int yn = j + jk - 1;
 
-                        unsigned int index = xn * height + yn;
+                        unsigned int index = xn * m_height + yn;
                         magnitudeX += grayData[index] * kernelH[ik][jk];
                         magnitudeY += grayData[index] * kernelV[ik][jk];
                     }
@@ -175,10 +175,10 @@ namespace mrg {
 
                 double currentValue = mrg::Sqrt(magnitudeX * magnitudeX
                                                + magnitudeY * magnitudeY);
-                gradientData[i * height + j] = currentValue;
-                directionData[i * height + j] = (mrg::Atan(magnitudeX / magnitudeY) * 180.0) / mrg::Pi;
-                if(directionData[i * height + j] < 0)
-                    directionData[i * height + j] += 180;
+                gradientData[i * m_height + j] = currentValue;
+                directionData[i * m_height + j] = (mrg::Atan(magnitudeX / magnitudeY) * 180.0) / mrg::Pi;
+                if(directionData[i * m_height + j] < 0)
+                    directionData[i * m_height + j] += 180;
 
                 if(currentValue > maximumValue)
                     maximumValue = currentValue;
@@ -186,40 +186,40 @@ namespace mrg {
         }
 
         // Non Maximum Suppression
-        auto resultData = std::vector<double>(width * height);
-        for(uint32_t i = 1; i < width-1; i++)
+        auto resultData = std::vector<double>(m_width * m_height);
+        for(uint32_t i = 1; i < m_width - 1; i++)
         {
-            for(uint32_t j = 1; j < height-1; j++)
+            for(uint32_t j = 1; j < m_height - 1; j++)
             {
                 double q = maximumValue;
                 double r = maximumValue;
-                double currentAngle = directionData[i * height + j];
+                double currentAngle = directionData[i * m_height + j];
 
                 if(0 <= currentAngle || (157.5 <= currentAngle && currentAngle <= 180))
                 {
-                    q = directionData[i * height + (j+1)];
-                    r = directionData[i * height + (j-1)];
+                    q = directionData[i * m_height + (j + 1)];
+                    r = directionData[i * m_height + (j - 1)];
                 }
                 else if(22.5 <= currentAngle && currentAngle < 67.5)
                 {
-                    q = directionData[(i+1) * height + (j-1)];
-                    r = directionData[(i-1) * height + (j+1)];
+                    q = directionData[(i+1) * m_height + (j - 1)];
+                    r = directionData[(i-1) * m_height + (j + 1)];
                 }
                 else if(67.5 <= currentAngle && currentAngle < 112.5)
                 {
-                    q = directionData[(i+1) * height + j];
-                    r = directionData[(i-1) * height + j];
+                    q = directionData[(i+1) * m_height + j];
+                    r = directionData[(i-1) * m_height + j];
                 }
                 else if(112.5 <= currentAngle && currentAngle < 157.5)
                 {
-                    q = directionData[(i-1) * height + (j-1)];
-                    r = directionData[(i+1) * height + (j+1)];
+                    q = directionData[(i-1) * m_height + (j - 1)];
+                    r = directionData[(i+1) * m_height + (j + 1)];
                 }
 
-                if(gradientData[i * height + j] >= q && gradientData[i * height + j] >= r)
-                    resultData[i * height + j] = gradientData[i * height + j];
+                if(gradientData[i * m_height + j] >= q && gradientData[i * m_height + j] >= r)
+                    resultData[i * m_height + j] = gradientData[i * m_height + j];
                 else
-                    resultData[i * height + j] = 0;
+                    resultData[i * m_height + j] = 0;
             }
         }
 
@@ -237,32 +237,32 @@ namespace mrg {
                 i = 255.0;
         }
 
-        for(uint32_t i = 1; i < width-1; i++)
+        for(uint32_t i = 1; i < m_width - 1; i++)
         {
-            for(uint32_t j = 1; j < height-1; j++)
+            for(uint32_t j = 1; j < m_height - 1; j++)
             {
-                if(resultData[i * height + j] == 127.0)
+                if(resultData[i * m_height + j] == 127.0)
                 {
-                    double ul = resultData[(i-1) * height + (j+1)];
-                    double uu = resultData[(i) * height + (j+1)];
-                    double ur = resultData[(i+1) * height + (j+1)];
-                    double l  = resultData[(i-1) * height + (j)];
-                    double r  = resultData[(i+1) * height + (j)];
-                    double dl = resultData[(i-1) * height + (j-1)];
-                    double du = resultData[(i) * height + (j-1)];
-                    double dr = resultData[(i+1) * height + (j-1)];
+                    double ul = resultData[(i-1) * m_height + (j + 1)];
+                    double uu = resultData[(i) * m_height + (j + 1)];
+                    double ur = resultData[(i+1) * m_height + (j + 1)];
+                    double l  = resultData[(i-1) * m_height + (j)];
+                    double r  = resultData[(i+1) * m_height + (j)];
+                    double dl = resultData[(i-1) * m_height + (j - 1)];
+                    double du = resultData[(i) * m_height + (j - 1)];
+                    double dr = resultData[(i+1) * m_height + (j - 1)];
 
                     if(ul == 255.0 || uu == 255.0 || ur == 255.0 ||
                        l == 255.0 || r == 255.0 ||
                        dl == 255.0 || du == 255.0 || dr == 255.0)
-                        resultData[i * height + j] = 255.0;
+                        resultData[i * m_height + j] = 255.0;
                     else
-                        resultData[i * height + j] = 0.0;
+                        resultData[i * m_height + j] = 0.0;
                 }
             }
         }
 
-        return Matrix<double>(resultData, width, height, 1);
+        return Matrix<double>(resultData, m_width, m_height, 1);
     }
 
     template<typename Type>
@@ -270,11 +270,11 @@ namespace mrg {
     Matrix<Type> Matrix<Type>::Convolve(Matrix<T> kernel)
     {
         int kernelCenter = Floor(kernel.Width() / 2);
-        std::vector<Type> resultData(data);
+        std::vector<Type> resultData(m_data);
 
-        for(uint32_t i = 0 + kernelCenter; i < width - kernelCenter; i++)
+        for(uint32_t i = 0 + kernelCenter; i < m_width - kernelCenter; i++)
         {
-            for(uint32_t j = 0 + kernelCenter; j < height - kernelCenter; j++)
+            for(uint32_t j = 0 + kernelCenter; j < m_height - kernelCenter; j++)
             {
                 Type value = Type(0);
                 for(uint32_t ik = 0; ik < kernel.Width(); ik++)
@@ -284,34 +284,34 @@ namespace mrg {
                         uint32_t xn = i + ik - kernelCenter;
                         uint32_t yn = j + jk - kernelCenter;
 
-                        uint32_t index = xn * height + yn;
-                        value += data[index] * kernel.Get(ik, jk);
+                        uint32_t index = xn * m_height + yn;
+                        value += m_data[index] * kernel.Get(ik, jk);
                     }
                 }
-                resultData[i * height + j] = value;
+                resultData[i * m_height + j] = value;
             }
         }
 
-        return Matrix<Type>(resultData, width, height, this->channelNumber);
+        return Matrix<Type>(resultData, m_width, m_height, this->m_channelNumber);
     }
 
     template<typename Type>
     template<typename T>
     Matrix<T> Matrix<Type>::Threshold() const
     {
-        assert(channelNumber == 1);
+        assert(m_channelNumber == 1);
 
         // http://www.labbookpages.co.uk/software/imgProc/otsuThreshold.html
         std::map<Type, int> hist;
-        for(unsigned int i = 0; i < data.size(); i++)
+        for(unsigned int i = 0; i < m_data.size(); i++)
         {
-            int h = data[i];
+            int h = m_data[i];
             if(hist.count(h) <= 0)
                 hist[h] = 0;
             hist[h]++;
         }
 
-        int total = data.size();
+        int total = m_data.size();
         float sum = 0;
         for (auto it = hist.begin(); it != hist.end(); it++ )
             sum += it->first * it->second;
@@ -346,13 +346,13 @@ namespace mrg {
         }
 
         std::vector<T> threshData;
-        threshData.resize(data.size());
-        for(unsigned int i = 0; i < data.size(); i++)
+        threshData.resize(m_data.size());
+        for(unsigned int i = 0; i < m_data.size(); i++)
         {
-            threshData[i] = (data[i] < threshold) ? 0 : 65535;
+            threshData[i] = (m_data[i] < threshold) ? 0 : 65535;
         }
 
-        return Matrix<T>(threshData, width, height, 1);
+        return Matrix<T>(threshData, m_width, m_height, 1);
     }
 
     template<typename Type>
@@ -360,11 +360,11 @@ namespace mrg {
     {
         //https://en.wikipedia.org/wiki/Histogram_equalization#Implementation
 
-        std::vector<Type> resultData = std::vector<Type>(this->data);
+        std::vector<Type> resultData = std::vector<Type>(this->m_data);
 
         if constexpr(std::is_arithmetic<Type>::value)
         {
-            std::map<Type, double> normHistogram = ComputeNormalizeHistogram(resultData, width, height);
+            std::map<Type, double> normHistogram = ComputeNormalizeHistogram(resultData, m_width, m_height);
             std::map<Type, double> cumulativeHistogram;
 
             // Compute cumulative histogram
@@ -383,16 +383,16 @@ namespace mrg {
         }
         else
         {
-            auto t = data[0][0];
+            auto t = m_data[0][0];
             std::vector<decltype(t)> red;
             std::vector<decltype(t)> green;
             std::vector<decltype(t)> blue;
 
-            for(size_t i = 0; i < data.size(); i++)
+            for(size_t i = 0; i < m_data.size(); i++)
             {
-                red.push_back(data[i][0]);
-                green.push_back(data[i][1]);
-                blue.push_back(data[i][2]);
+                red.push_back(m_data[i][0]);
+                green.push_back(m_data[i][1]);
+                blue.push_back(m_data[i][2]);
             }
 
             auto computeEqualization = [](std::vector<decltype(t)> &result, uint32_t _width, uint32_t _height) -> void
@@ -415,11 +415,11 @@ namespace mrg {
                 }
             };
 
-            computeEqualization(red, width, height);
-            computeEqualization(green, width, height);
-            computeEqualization(blue, width, height);
+            computeEqualization(red, m_width, m_height);
+            computeEqualization(green, m_width, m_height);
+            computeEqualization(blue, m_width, m_height);
 
-            for(size_t i = 0; i < data.size(); i++)
+            for(size_t i = 0; i < m_data.size(); i++)
             {
                 resultData[i][0] = red[i];
                 resultData[i][1] = green[i];
@@ -427,39 +427,39 @@ namespace mrg {
             }
         }
 
-        return Matrix<Type>(resultData, width, height, channelNumber);
+        return Matrix<Type>(resultData, m_width, m_height, m_channelNumber);
     }
 
     template<typename Type>
     Type Matrix<Type>::Get(unsigned int w, unsigned int h) const
     {
-        assert(w < width  && h < height);
-        return this->data[w * height + h];
+        assert(w < m_width && h < m_height);
+        return this->m_data[w * m_height + h];
     }
 
     template<typename Type>
     std::vector<Type>& Matrix<Type>::GetData()
     {
-        return this->data;
+        return this->m_data;
     }
 
     template<typename Type>
     template<typename ReturnType>
     ReturnType* Matrix<Type>::GetRawData()
     {
-        auto* rawData = new ReturnType[width * height * channelNumber];
-        for(unsigned int x = 0; x < width; x++)
+        auto* rawData = new ReturnType[m_width * m_height * m_channelNumber];
+        for(unsigned int x = 0; x < m_width; x++)
         {
-            for(unsigned int y = 0; y < height; y++)
+            for(unsigned int y = 0; y < m_height; y++)
             {
                 if constexpr(std::is_arithmetic<Type>::value)
                 {
-                    rawData[y * channelNumber + x * height] = data[x * height + y];
+                    rawData[y * m_channelNumber + x * m_height] = m_data[x * m_height + y];
                 }else
                 {
-                    for(unsigned int k = 0; k < channelNumber; k++)
+                    for(unsigned int k = 0; k < m_channelNumber; k++)
                     {
-                        rawData[y + x * height][k] = data[x * height + y][k];
+                        rawData[y + x * m_height][k] = m_data[x * m_height + y][k];
                     }
                 }
             }
@@ -470,9 +470,9 @@ namespace mrg {
     template<typename Type>
     void Matrix<Type>::Set(uint32_t w, uint32_t h, const Type& t)
     {
-        assert(w < width);
-        assert(h < height);
-        this->data[w * height + h] = t;
+        assert(w < m_width);
+        assert(h < m_height);
+        this->m_data[w * m_height + h] = t;
     }
 
     template<typename T>

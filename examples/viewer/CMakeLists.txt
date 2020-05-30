@@ -1,6 +1,13 @@
 cmake_minimum_required(VERSION 3.9)
 project(MirageViewerExample)
 
+find_package(Qt5 COMPONENTS Widgets REQUIRED)
+
+# Qt files auto management
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../include)
 add_executable(${PROJECT_NAME} main.cpp)
 if (CMAKE_COMPILER_IS_GNUCC)
@@ -56,6 +63,7 @@ elseif (MSVC)
         target_link_options(${PROJECT_NAME} PRIVATE /SUBSYSTEM:windows /ENTRY:mainCRTStartup)
     endif()
 endif ()
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Mirage)
 set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "${PROJECT_NAME}$<$<CONFIG:Debug>:d>")

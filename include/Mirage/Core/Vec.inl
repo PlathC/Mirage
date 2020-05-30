@@ -3,41 +3,41 @@
 
 namespace mrg {
     template<typename T>
-    Vec3<T>::Vec3()  { x = 0; y = 0; z = 0; }
+    Vec3<T>::Vec3()  { m_x = 0; m_y = 0; m_z = 0; }
 
     template <typename T>
     Vec3<T>::Vec3(std::initializer_list<T> l)
     {
         auto begin = l.begin();
-        x = *(begin++);
-        y = *(begin++);
-        z = *(begin);
+        m_x = *(begin++);
+        m_y = *(begin++);
+        m_z = *(begin);
     }
 
     template<typename T>
-    T& Vec3<T>::X() { return x; }
+    T& Vec3<T>::X() { return m_x; }
 
     template<typename T>
-    T& Vec3<T>::Y() { return y; }
+    T& Vec3<T>::Y() { return m_y; }
 
     template<typename T>
-    T& Vec3<T>::Z() { return z; }
+    T& Vec3<T>::Z() { return m_z; }
 
     template<typename T>
     Vec3<T>& Vec3<T>::operator=(const T& value)
     {
-        this->x = value;
-        this->y = value;
-        this->z = value;
+        this->m_x = value;
+        this->m_y = value;
+        this->m_z = value;
         return *this;
     }
 
     template<typename T>
     Vec3<T>& Vec3<T>::operator=(const Vec3<T>& value)
     {
-        this->x = value.x;
-        this->y = value.y;
-        this->z = value.z;
+        this->m_x = value.m_x;
+        this->m_y = value.m_y;
+        this->m_z = value.m_z;
         return *this;
     }
 
@@ -48,9 +48,9 @@ namespace mrg {
 
         switch(index)
         {
-            case 0 : return x;
-            case 1 : return y;
-            default : return z;
+            case 0 : return m_x;
+            case 1 : return m_y;
+            default : return m_z;
         }
     }
 
@@ -58,9 +58,9 @@ namespace mrg {
     Vec3<T> Vec3<T>::operator+(Vec3<T> const &vec)
     {
         Vec3<T> result;
-        result.x = vec.x + this->x;
-        result.y = vec.y + this->y;
-        result.z = vec.z + this->z;
+        result.m_x = vec.m_x + this->m_x;
+        result.m_y = vec.m_y + this->m_y;
+        result.m_z = vec.m_z + this->m_z;
         return result;
     }
 
@@ -68,9 +68,9 @@ namespace mrg {
     Vec3<T> Vec3<T>::operator*(Vec3<T> const &vec)
     {
         Vec3<T> result;
-        result.x = vec.x * this->x;
-        result.y = vec.y * this->y;
-        result.z = vec.z * this->z;
+        result.m_x = vec.m_x * this->m_x;
+        result.m_y = vec.m_y * this->m_y;
+        result.m_z = vec.m_z * this->m_z;
         return result;
     }
 
@@ -78,34 +78,34 @@ namespace mrg {
     Vec3<T> Vec3<T>::operator*(T const value)
     {
         Vec3<T> result;
-        result.x = value * this->x;
-        result.y = value * this->y;
-        result.z = value * this->z;
+        result.m_x = value * this->m_x;
+        result.m_y = value * this->m_y;
+        result.m_z = value * this->m_z;
         return result;
     }
 
     template<typename T>
     Vec3<T>& Vec3<T>::operator+=(Vec3<T> const &vec)
     {
-        this->x += vec.x;
-        this->y += vec.y;
-        this->z += vec.z;
+        this->m_x += vec.m_x;
+        this->m_y += vec.m_y;
+        this->m_z += vec.m_z;
         return *this;
     }
 
     template<typename T>
     Vec3<T>& Vec3<T>::operator*=(Vec3<T> const &vec)
     {
-        this->x *= vec.x;
-        this->y *= vec.y;
-        this->z *= vec.z;
+        this->m_x *= vec.m_x;
+        this->m_y *= vec.m_y;
+        this->m_z *= vec.m_z;
         return *this;
     }
 
     template<typename T>
     double Vec3<T>::Length()
     {
-        return mrg::Sqrt(x * x + y * y + z * z);
+        return mrg::Sqrt(m_x * m_x + m_y * m_y + m_z * m_z);
     }
 
     template<typename T>
@@ -114,55 +114,55 @@ namespace mrg {
         assert(index < 3);
         switch(index)
         {
-            case 0 : return x;
-            case 1 : return y;
-            default : return z;
+            case 0 : return m_x;
+            case 1 : return m_y;
+            default : return m_z;
         }
     }
 
     template<typename T>
-    Vec4<T>::Vec4() : x(0), y(0), z(0), a(0) { }
+    Vec4<T>::Vec4() : m_x(0), m_y(0), m_z(0), m_a(0) { }
 
     template<typename T>
     Vec4<T>::Vec4(std::initializer_list<T> l)
     {
         assert(l.size() >= 4);
         auto begin = l.begin();
-        x = *(begin++);
-        y = *(begin++);
-        z = *(begin++);
-        a = *(begin);
+        m_x = *(begin++);
+        m_y = *(begin++);
+        m_z = *(begin++);
+        m_a = *(begin);
     }
 
     template<typename T>
-    T& Vec4<T>::X(){ return x; }
+    T& Vec4<T>::X(){ return m_x; }
 
     template<typename T>
-    T& Vec4<T>::Y(){ return y; }
+    T& Vec4<T>::Y(){ return m_y; }
 
     template<typename T>
-    T& Vec4<T>::Z(){ return z; }
+    T& Vec4<T>::Z(){ return m_z; }
 
     template<typename T>
-    T& Vec4<T>::A(){ return a; }
+    T& Vec4<T>::A(){ return m_a; }
 
     template<typename T>
     Vec4<T>& Vec4<T>::operator=(const T& value)
     {
-        this->x = value;
-        this->y = value;
-        this->z = value;
-        this->a = value;
+        this->m_x = value;
+        this->m_y = value;
+        this->m_z = value;
+        this->m_a = value;
         return *this;
     }
 
     template<typename T>
     Vec4<T>& Vec4<T>::operator=(const Vec4<T>& value)
     {
-        this->x = value.x;
-        this->y = value.y;
-        this->z = value.z;
-        this->a = value.a;
+        this->m_x = value.m_x;
+        this->m_y = value.m_y;
+        this->m_z = value.m_z;
+        this->m_a = value.m_a;
         return *this;
     }
 
@@ -172,10 +172,10 @@ namespace mrg {
         assert(index <= 3);
         switch(index)
         {
-            case 0 : return x;
-            case 1 : return y;
-            case 2 : return z;
-            default : return a;
+            case 0 : return m_x;
+            case 1 : return m_y;
+            case 2 : return m_z;
+            default : return m_a;
         }
     }
 
@@ -183,10 +183,10 @@ namespace mrg {
     Vec4<T> Vec4<T>::operator+(T const &t)
     {
         Vec4<T> result;
-        result.x = t + this->x;
-        result.y = t + this->y;
-        result.z = t + this->z;
-        result.a = t + this->a;
+        result.m_x = t + this->m_x;
+        result.m_y = t + this->m_y;
+        result.m_z = t + this->m_z;
+        result.m_a = t + this->m_a;
         return result;
     }
 
@@ -194,10 +194,10 @@ namespace mrg {
     Vec4<T> Vec4<T>::operator+(Vec4<T> const &vec)
     {
         Vec4<T> result;
-        result.x = vec.x + this->x;
-        result.y = vec.y + this->y;
-        result.z = vec.z + this->z;
-        result.a = vec.a + this->a;
+        result.m_x = vec.m_x + this->m_x;
+        result.m_y = vec.m_y + this->m_y;
+        result.m_z = vec.m_z + this->m_z;
+        result.m_a = vec.m_a + this->m_a;
         return result;
     }
 
@@ -205,10 +205,10 @@ namespace mrg {
     Vec4<T> Vec4<T>::operator*(Vec4<T> const &vec)
     {
         Vec4<T> result;
-        result.x = vec.x * this->x;
-        result.y = vec.y * this->y;
-        result.z = vec.z * this->z;
-        result.a = vec.a * this->a;
+        result.m_x = vec.m_x * this->m_x;
+        result.m_y = vec.m_y * this->m_y;
+        result.m_z = vec.m_z * this->m_z;
+        result.m_a = vec.m_a * this->m_a;
         return result;
     }
 
@@ -216,10 +216,10 @@ namespace mrg {
     Vec4<T> Vec4<T>::operator*(T const &t)
     {
         Vec4<T> result;
-        result.x = t * this->x;
-        result.y = t * this->y;
-        result.z = t * this->z;
-        result.a = t * this->a;
+        result.m_x = t * this->m_x;
+        result.m_y = t * this->m_y;
+        result.m_z = t * this->m_z;
+        result.m_a = t * this->m_a;
         return result;
     }
 
@@ -227,45 +227,45 @@ namespace mrg {
     Vec4<T> Vec4<T>::operator/(Vec4<T> const &vec)
     {
         Vec4<T> result;
-        result.x = vec.x / this->x;
-        result.y = vec.y / this->y;
-        result.z = vec.z / this->z;
-        result.a = vec.a / this->a;
+        result.m_x = vec.m_x / this->m_x;
+        result.m_y = vec.m_y / this->m_y;
+        result.m_z = vec.m_z / this->m_z;
+        result.m_a = vec.m_a / this->m_a;
         return result;
     }
 
     template<typename T>
     Vec4<T> Vec4<T>::operator/(T const &t)
     {
-        assert(x != 0);
-        assert(y != 0);
-        assert(z != 0);
-        assert(a != 0);
+        assert(m_x != 0);
+        assert(m_y != 0);
+        assert(m_z != 0);
+        assert(m_a != 0);
         Vec4<T> result;
-        result.x = t / this->x;
-        result.y = t / this->y;
-        result.z = t / this->z;
-        result.a = t / this->a;
+        result.m_x = t / this->m_x;
+        result.m_y = t / this->m_y;
+        result.m_z = t / this->m_z;
+        result.m_a = t / this->m_a;
         return result;
     }
 
     template<typename T>
     Vec4<T>& Vec4<T>::operator+=(Vec4<T> const &vec)
     {
-        this->x += vec.x;
-        this->y += vec.y;
-        this->z += vec.z;
-        this->a += vec.a;
+        this->m_x += vec.m_x;
+        this->m_y += vec.m_y;
+        this->m_z += vec.m_z;
+        this->m_a += vec.m_a;
         return *this;
     }
 
     template<typename T>
     Vec4<T>& Vec4<T>::operator*=(Vec4<T> const &vec)
     {
-        this->x *= vec.x;
-        this->y *= vec.y;
-        this->z *= vec.z;
-        this->a *= vec.a;
+        this->m_x *= vec.m_x;
+        this->m_y *= vec.m_y;
+        this->m_z *= vec.m_z;
+        this->m_a *= vec.m_a;
         return *this;
     }
 
@@ -275,10 +275,10 @@ namespace mrg {
         Vec4<T> result;
         double length = this->Length();
 
-        result.x = this->x / length;
-        result.y = this->y / length;
-        result.z = this->z / length;
-        result.a = this->a / length;
+        result.m_x = this->m_x / length;
+        result.m_y = this->m_y / length;
+        result.m_z = this->m_z / length;
+        result.m_a = this->m_a / length;
 
         return result;
     }
@@ -289,10 +289,10 @@ namespace mrg {
         assert(index < 3);
         switch(index)
         {
-            case 0 : return x;
-            case 1 : return y;
-            case 2 : return z;
-            case 3 : return a;
+            case 0 : return m_x;
+            case 1 : return m_y;
+            case 2 : return m_z;
+            case 3 : return m_a;
             default : return 0;
         }
     }
@@ -300,7 +300,7 @@ namespace mrg {
     template<typename T>
     double Vec4<T>::Length() const
     {
-        return mrg::Sqrt(x * x + y * y + z * z + a * a);
+        return mrg::Sqrt(m_x * m_x + m_y * m_y + m_z * m_z + m_a * m_a);
     }
 
     template<typename Type, unsigned int Size>

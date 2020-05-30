@@ -2,8 +2,8 @@
 // Created by Cyprien Plateau--Holleville on 20/06/2019.
 //
 
-#ifndef IMPRO_MATH_HPP
-#define IMPRO_MATH_HPP
+#ifndef MIRAGE_MATH_HPP
+#define MIRAGE_MATH_HPP
 
 #include <cassert>
 #include <cmath>
@@ -64,4 +64,4 @@ namespace mrg
     }
 }
 
-#endif //IMPRO_MATH_HPP
+#endif //MIRAGE_MATH_HPP
