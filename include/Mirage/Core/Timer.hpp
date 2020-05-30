@@ -6,7 +6,9 @@
 #define MIRAGE_TIMER_HPP
 
 #include <ctime>
-namespace mrg {
+
+namespace mrg
+{
     class Timer
     {
     public:
@@ -20,7 +22,6 @@ namespace mrg {
         std::clock_t start;
         double duration;
     };
-
 }
 
 

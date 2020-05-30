@@ -3,7 +3,9 @@
 //
 
 #include "Timer.hpp"
+
 namespace mrg {
+
     Timer::Timer() :
         start(0),
         duration(0)

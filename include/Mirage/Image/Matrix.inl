@@ -186,7 +186,7 @@ namespace mrg {
         }
 
         // Non Maximum Suppression
-        std::vector<double> resultData = std::vector<double>(width * height);
+        auto resultData = std::vector<double>(width * height);
         for(uint32_t i = 1; i < width-1; i++)
         {
             for(uint32_t j = 1; j < height-1; j++)
@@ -224,14 +224,14 @@ namespace mrg {
         }
 
 
-        double highTreshold = maximumValue * 0.09;
-        double lowTreshold = highTreshold * 0.05;
+        double highThreshold = maximumValue * 0.09;
+        double lowThreshold = highThreshold * 0.05;
 
         for(double &i : resultData)
         {
-            if(i <= lowTreshold)
+            if(i <= lowThreshold)
                 i = 0.0;
-            else if(lowTreshold < i && i < highTreshold)
+            else if(lowThreshold < i && i < highThreshold)
                 i = 127.0;
             else
                 i = 255.0;
@@ -464,12 +464,14 @@ namespace mrg {
                 }
             }
         }
-         return rawData;
+        return rawData;
     }
 
     template<typename Type>
     void Matrix<Type>::Set(uint32_t w, uint32_t h, const Type& t)
     {
+        assert(w < width);
+        assert(h < height);
         this->data[w * height + h] = t;
     }
 
@@ -504,7 +506,7 @@ namespace mrg {
     template<uint8_t kernelSize>
     static Matrix<double> GenerateGaussianKernel(int sigma)
     {
-        static_assert(kernelSize % 2 != 0, "The kernel k must be odd.");
+        assert(kernelSize % 2 != 0 && "The kernel k must be odd.");
         auto k = static_cast<uint8_t>(mrg::Floor(static_cast<double>(kernelSize) / 2.0));
         std::vector<double> resultKernel{kernelSize};
 

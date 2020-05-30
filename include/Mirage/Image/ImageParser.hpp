@@ -5,23 +5,26 @@
 #ifndef IMPRO_IMAGEPARSER_HPP
 #define IMPRO_IMAGEPARSER_HPP
 
-#include <string>
-#include <regex>
+#include <filesystem>
 #include <fstream>
-#include <sstream>
 #include <iostream>
-#include <vector>
-#include <utility>
-#include <unordered_map>
 #include <memory>
+#include <regex>
+#include <sstream>
+#include <string>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+
+namespace fs = std::filesystem;
 
 #include "../Core/Vec.hpp"
 #include "Matrix.hpp"
 
-namespace mrg {
-    namespace ImageParser {
+namespace mrg::ImageParser {
 
-        enum ImageFile {
+        enum ImageFile
+        {
             PPM,
             PNG,
             JPEG
@@ -39,8 +42,7 @@ namespace mrg {
         template<typename Type>
         void ToFile(Matrix<Type>& mat, std::string fileName);
 
-    };
-}
+    }
 
 #include "ImageParser.inl"
 

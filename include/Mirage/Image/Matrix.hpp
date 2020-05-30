@@ -9,9 +9,10 @@
 #include <map>
 #include <type_traits>
 
-#include "../Core/Vec.hpp"
+#include "Mirage/Core/Vec.hpp"
 
-namespace mrg {
+namespace mrg
+{
     template<typename Type>
     class Matrix
     {
@@ -40,7 +41,7 @@ namespace mrg {
 
         Matrix<Type> HistogramEqualization();
 
-        Type Get(unsigned int w, unsigned int h) const;
+        [[nodiscard]] Type Get(unsigned int w, unsigned int h) const;
         std::vector<Type>& GetData();
 
         template<typename ReturnType>

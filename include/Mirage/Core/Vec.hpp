@@ -6,26 +6,27 @@
 #define IMPRO_VEC_HPP
 
 #include <array>
-#include <vector>
-#include <iostream>
 #include <cassert>
+#include <initializer_list>
+#include <iostream>
+#include <fstream>
 #include <string>
 #include <type_traits>
-#include <initializer_list>
-#include <fstream>
+#include <vector>
 
-#include "Math.hpp"
+#include "Mirage/Core/Math.hpp"
 
 namespace mrg
 {
-
     template<typename T>
     class Vec3 {
+        static_assert(std::is_arithmetic<Type>::value,
+                      "The vector must store numbers");
     public:
         Vec3();
         Vec3(const Vec3& v) : x(v.x), y(v.y), z(v.z) {}
         Vec3(T x, T y, T z) : x(x), y(y), z(z) {}
-        explicit Vec3(std::initializer_list<T> l);
+        Vec3(std::initializer_list<T> l);
 
         T& X();
         T& Y();
@@ -55,12 +56,14 @@ namespace mrg
 
     template<typename T>
     class Vec4 {
+        static_assert(std::is_arithmetic<Type>::value,
+                      "The vector must store numbers");
     public:
         Vec4();
         Vec4(const Vec4& v) : x(v.x), y(v.y), z(v.z), a(v.a){}
         explicit Vec4(T n) : x(n), y(n), z(n), a(n) {}
         Vec4(T x, T y , T z, T a) : x(x), y(y), z(z), a(a) { }
-        explicit Vec4(std::initializer_list<T> l);
+        Vec4(std::initializer_list<T> l);
 
         T& X();
         T& Y();
@@ -98,20 +101,14 @@ namespace mrg
     class Vec
     {
         static_assert(Size > 0, "The size must be > 0");
-        static_assert(std::is_same<Type, double>::value
-                      || std::is_same<Type, float>::value
-                      || std::is_same<Type, long>::value
-                      || std::is_same<Type, long>::value
-                      || std::is_same<Type, unsigned int>::value
-                      || std::is_same<Type, int>::value
-                      || std::is_same<Type, char>::value,
+        static_assert(std::is_arithmetic<Type>::value,
                       "The vector must store numbers");
 
     public:
         Vec() = default;
         Vec(const Vec<Type, Size>& vec);
         explicit Vec(Type initialise);
-        explicit Vec(std::initializer_list<Type> l);
+        Vec(std::initializer_list<Type> l);
 
         Type& operator[](unsigned int index);
         Vec<Type, Size>& operator=(const Type& value);

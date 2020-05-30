@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 project(Mirage)
 
 set(Mirage_VERSION 0.1)
@@ -25,9 +25,9 @@ option(BUILD_EXAMPLES "Build Mirage examples" ON)
 
 find_package(PNG REQUIRED)
 message(STATUS "Found LibPNG : " ${PNG_INCLUDE_DIRS})
+
 find_package(JPEGTURBO REQUIRED)
 message(STATUS "Found JpegTurbo : " ${JPEGTURBO_INCLUDE_DIR})
-include_directories(${JPEGTURBO_INCLUDE_DIR})
 
 set(HEADERS
         include/Mirage/Core/Math.hpp
@@ -57,9 +57,9 @@ if(${BUILD_VIEWER})
     find_package(Vulkan REQUIRED)
     message(STATUS "Found Vulkan : " ${Vulkan_INCLUDE_DIRS})
     find_package(glfw3 REQUIRED)
-    include_directories(${GLFW3_INCLUDE_DIRS})
     find_package(GLM REQUIRED)
-    include_directories(${GLM_INCLUDE_DIRS})
+    target_include_directories(${PROJECT_NAME} ${GLFW3_INCLUDE_DIRS})
+    target_include_directories(${PROJECT_NAME} ${GLM_INCLUDE_DIRS})
 
     set(HEADERS
             ${HEADERS}
@@ -76,19 +76,37 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/Mirage
         ${CMAKE_CURRENT_SOURCE_DIR}/include/Mirage/Image/Parser
         ${CMAKE_CURRENT_SOURCE_DIR}/include/Mirage/Viewer)
 
-add_library(Mirage STATIC ${HEADERS} ${SOURCES})
-target_compile_options(${PROJECT_NAME} INTERFACE -std=c++17)
+add_library(${PROJECT_NAME} STATIC ${HEADERS} ${SOURCES})
+target_compile_options(${PROJECT_NAME} INTERFACE)
+if (CMAKE_COMPILER_IS_GNUCC)
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic -Wwrite-strings -std=c++17 -Wno-psabi -Wno-unused-parameter -Wno-ignored-qualifiers -Wno-deprecated -lstdc++fs)
+    else()
+        target_compile_options(${PROJECT_NAME} PRIVATE -DNDEBUG -Wall -Wextra -pedantic -Wwrite-strings -std=c++17 -Wno-psabi -Wno-unused-parameter -Wno-ignored-qualifiers -Wno-deprecated -lstdc++fs)
+    endif()
+    target_link_libraries(${PROJECT_NAME} PRIVATE stdc++fs)
+elseif (MSVC)
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        target_compile_options(${PROJECT_NAME} PRIVATE /std:c++17 /Zc:__cplusplus /MDd /Od /EHsc /wd4996 /Zi /wd4634 /wd4635)
+    else()
+        target_compile_options(${PROJECT_NAME} PRIVATE /std:c++17 /Zc:__cplusplus /DNDEBUG /O2 /Ob2 /EHsc /Zi /wd4996 /wd4634 /wd4635)
+        target_link_options(${PROJECT_NAME} PRIVATE /SUBSYSTEM:windows /ENTRY:mainCRTStartup)
+    endif()
+endif ()
 
-target_link_libraries(${PROJECT_NAME}
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${JPEGTURBO_INCLUDE_DIR})
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
         PNG::PNG
         ${TURBOJPEG_LIBRARIES}
         ${GLFW_STATIC_LIBRARIES})
 
-set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "Mirage$<$<CONFIG:Debug>:d>")
-
 if(${BUILD_VIEWER})
     target_compile_definitions(${PROJECT_NAME} PRIVATE VK_USE_PLATFORM_WIN32_KHR)
-    target_include_directories(${PROJECT_NAME} PRIVATE Vulkan::Vulkan)
+    target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE Vulkan::Vulkan)
     target_link_libraries(${PROJECT_NAME} Vulkan::Vulkan)
     target_link_libraries(${PROJECT_NAME} ${GLFW3_LIBRARY})
 endif()

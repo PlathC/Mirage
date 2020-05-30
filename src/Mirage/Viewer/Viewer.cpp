@@ -2,7 +2,7 @@
 // Created by Cyprien Plateau--Holleville on 25/07/2019.
 //
 
-#include "../../../include/Mirage/Viewer/Viewer.hpp"
+#include "Mirage/Viewer/Viewer.hpp"
 
 mrg::Viewer::Viewer(int width, int height, Matrix<Vec4ui8> image) :
         imageAvailableSemaphores(),

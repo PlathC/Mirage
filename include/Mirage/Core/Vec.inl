@@ -44,6 +44,8 @@ namespace mrg {
     template<typename T>
     T& Vec3<T>::operator[](const unsigned int index)
     {
+        assert(index < 2);
+
         switch(index)
         {
             case 0 : return x;
@@ -124,6 +126,7 @@ namespace mrg {
     template<typename T>
     Vec4<T>::Vec4(std::initializer_list<T> l)
     {
+        assert(l.size() >= 4);
         auto begin = l.begin();
         x = *(begin++);
         y = *(begin++);
@@ -166,6 +169,7 @@ namespace mrg {
     template<typename T>
     T& Vec4<T>::operator[](const unsigned int index)
     {
+        assert(index <= 3);
         switch(index)
         {
             case 0 : return x;
@@ -233,6 +237,10 @@ namespace mrg {
     template<typename T>
     Vec4<T> Vec4<T>::operator/(T const &t)
     {
+        assert(x != 0);
+        assert(y != 0);
+        assert(z != 0);
+        assert(a != 0);
         Vec4<T> result;
         result.x = t / this->x;
         result.y = t / this->y;

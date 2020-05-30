@@ -4,6 +4,8 @@
 
 #ifndef IMPRO_MATH_HPP
 #define IMPRO_MATH_HPP
+
+#include <cassert>
 #include <cmath>
 
 namespace mrg
@@ -22,7 +24,7 @@ namespace mrg
 
     double Sqrt(const double val)
     {
-        return sqrt(val);
+        return std::sqrt(val);
     }
 
     template<typename T>
