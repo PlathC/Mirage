@@ -69,7 +69,7 @@ if(${BUILD_VIEWER})
     set(SOURCES
             ${SOURCES}
             src/Mirage/Viewer/Viewer.cpp
-            src/MiragE/Viewer/Viewer.ui)
+            src/Mirage/Viewer/Viewer.ui)
 endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/Mirage
