@@ -24,7 +24,7 @@ namespace mrg {
     }
 
     template<typename Type>
-    Matrix<Type>::Matrix(std::vector<Type>& pixels, const uint32_t width, const uint32_t height, const uint8_t channelNumber) :
+    Matrix<Type>::Matrix(const std::vector<Type>& pixels, const uint32_t width, const uint32_t height, const uint8_t channelNumber) :
     m_width(width),
     m_height(height),
     m_channelNumber(channelNumber),
@@ -98,12 +98,11 @@ namespace mrg {
                                       { 1.,  2.,  1.}};
 
         std::vector<double> grayData = gray.GetData();
-        std::vector<double> resultData;
-        resultData.resize(m_width * m_height);
+        auto resultData = std::vector<double>(m_width * m_height);
 
-        for(uint32_t i = 1; i < m_height - 1; i++)
+        for(uint32_t i = 1; i < m_width - 1; i++)
         {
-            for(uint32_t j = 1; j < m_width - 1; j++)
+            for(uint32_t j = 1; j < m_height - 1; j++)
             {
                 double magnitudeX = 0.;
                 double magnitudeY = 0.;
@@ -114,7 +113,7 @@ namespace mrg {
                         unsigned int xn = i + ik - 1;
                         unsigned int yn = j + jk - 1;
 
-                        unsigned int index = xn * m_width + yn;
+                        unsigned int index = xn * m_height + yn;
                         magnitudeX += grayData[index] * kernelH[ik][jk];
                         magnitudeY += grayData[index] * kernelV[ik][jk];
                     }
