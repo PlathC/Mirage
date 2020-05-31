@@ -21,14 +21,16 @@ namespace fs = std::filesystem;
 #include "../Core/Vec.hpp"
 #include "Matrix.hpp"
 
-namespace mrg::ImageParser {
-
+namespace mrg
+{
+    namespace ImageParser
+    {
         enum ImageFile
-        {
+                {
             PPM,
             PNG,
             JPEG
-        };
+                };
 
         const std::unordered_map<ImageFile, std::vector<std::string>> formats = {
                 {ImageFile::PPM, {"ppm", "pgm", "pmm", "pnm"}},
@@ -41,8 +43,8 @@ namespace mrg::ImageParser {
 
         template<typename Type>
         void ToFile(Matrix<Type>& mat, std::string fileName);
-
     }
+}
 
 #include "ImageParser.inl"
 
