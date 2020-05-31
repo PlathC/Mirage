@@ -17,6 +17,7 @@ matrix:
             - ubuntu-toolchain-r-test
             - george-edison55-precise-backports
             - ubuntu-sdk-team
+            - opt-qt-5.10.1-trusty
           packages:
             - gcc-9
             - g++-9
@@ -25,12 +26,7 @@ matrix:
             - libpng-dev
             - libjpeg-turbo8-dev
             - zlib1g-dev
-            - qtbase5-dev
-            - qtdeclarative5-dev
-            - libqt5webkit5-dev
-            - libsqlite3-dev
-            - qt5-default
-            - qttools5-dev-tools
+            - qt510base
       env:
         - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
         - LINKER_FLAGS=""
