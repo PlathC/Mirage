@@ -100,9 +100,9 @@ namespace mrg {
         std::vector<double> grayData = gray.GetData();
         auto resultData = std::vector<double>(m_width * m_height);
 
-        for(uint32_t i = 1; i < m_width - 1; i++)
+        for(uint32_t i = 1; i < m_height - 1; i++)
         {
-            for(uint32_t j = 1; j < m_height - 1; j++)
+            for(uint32_t j = 1; j < m_width - 1; j++)
             {
                 double magnitudeX = 0.;
                 double magnitudeY = 0.;
@@ -113,13 +113,13 @@ namespace mrg {
                         unsigned int xn = i + ik - 1;
                         unsigned int yn = j + jk - 1;
 
-                        unsigned int index = xn * m_height + yn;
+                        unsigned int index = xn * m_width + yn;
                         magnitudeX += grayData[index] * kernelH[ik][jk];
                         magnitudeY += grayData[index] * kernelV[ik][jk];
                     }
                 }
 
-                resultData[i * m_height + j] = mrg::Sqrt(magnitudeX * magnitudeX
+                resultData[i * m_width + j] = mrg::Sqrt(magnitudeX * magnitudeX
                                                          + magnitudeY * magnitudeY);
             }
         }
@@ -142,17 +142,16 @@ namespace mrg {
         const double kernelV[3][3] = {{-1, -2, -1},
                                       { 0,  0,  0},
                                       { 1,  2,  1}};
-        std::vector<double> grayData = gray.GetData();
 
-        std::vector<double> gradientData;
-        gradientData.resize(m_width * m_height);
-        std::vector<double> directionData;
-        directionData.resize(m_width * m_height);
+        std::vector<double> grayData = gray.GetData();
+        std::vector<double> gradientData = std::vector<double>(m_width * m_height);
+        std::vector<double> directionData = std::vector<double>(m_width * m_height);
+
         double maximumValue = 0;
 
-        for(uint32_t i = 1; i < m_width - 1; i++)
+        for(uint32_t i = 1; i < m_height - 1; i++)
         {
-            for(uint32_t j = 1; j < m_height - 1; j++)
+            for(uint32_t j = 1; j < m_width - 1; j++)
             {
                 double magnitudeX = 0;
                 double magnitudeY = 0;
@@ -163,7 +162,7 @@ namespace mrg {
                         unsigned int xn = i + ik - 1;
                         unsigned int yn = j + jk - 1;
 
-                        unsigned int index = xn * m_height + yn;
+                        unsigned int index = xn * m_width + yn;
                         magnitudeX += grayData[index] * kernelH[ik][jk];
                         magnitudeY += grayData[index] * kernelV[ik][jk];
                     }
@@ -171,10 +170,10 @@ namespace mrg {
 
                 double currentValue = mrg::Sqrt(magnitudeX * magnitudeX
                                                + magnitudeY * magnitudeY);
-                gradientData[i * m_height + j] = currentValue;
-                directionData[i * m_height + j] = (mrg::Atan(magnitudeX / magnitudeY) * 180.0) / mrg::Pi;
-                if(directionData[i * m_height + j] < 0)
-                    directionData[i * m_height + j] += 180;
+                gradientData[i * m_width + j] = currentValue;
+                directionData[i * m_width + j] = (mrg::Atan(magnitudeX / magnitudeY) * 180.0) / mrg::Pi;
+                if(directionData[i * m_width + j] < 0)
+                    directionData[i * m_width + j] += 180;
 
                 if(currentValue > maximumValue)
                     maximumValue = currentValue;
@@ -183,39 +182,39 @@ namespace mrg {
 
         // Non Maximum Suppression
         auto resultData = std::vector<double>(m_width * m_height);
-        for(uint32_t i = 1; i < m_width - 1; i++)
+        for(uint32_t i = 1; i < m_height - 1; i++)
         {
-            for(uint32_t j = 1; j < m_height - 1; j++)
+            for(uint32_t j = 1; j < m_width - 1; j++)
             {
                 double q = maximumValue;
                 double r = maximumValue;
-                double currentAngle = directionData[i * m_height + j];
+                double currentAngle = directionData[i * m_width + j];
 
                 if(0 <= currentAngle || (157.5 <= currentAngle && currentAngle <= 180))
                 {
-                    q = directionData[i * m_height + (j + 1)];
-                    r = directionData[i * m_height + (j - 1)];
+                    q = directionData[i * m_width + (j + 1)];
+                    r = directionData[i * m_width + (j - 1)];
                 }
                 else if(22.5 <= currentAngle && currentAngle < 67.5)
                 {
-                    q = directionData[(i+1) * m_height + (j - 1)];
-                    r = directionData[(i-1) * m_height + (j + 1)];
+                    q = directionData[(i+1) * m_width + (j - 1)];
+                    r = directionData[(i-1) * m_width + (j + 1)];
                 }
                 else if(67.5 <= currentAngle && currentAngle < 112.5)
                 {
-                    q = directionData[(i+1) * m_height + j];
-                    r = directionData[(i-1) * m_height + j];
+                    q = directionData[(i+1) * m_width + j];
+                    r = directionData[(i-1) * m_width + j];
                 }
                 else if(112.5 <= currentAngle && currentAngle < 157.5)
                 {
-                    q = directionData[(i-1) * m_height + (j - 1)];
-                    r = directionData[(i+1) * m_height + (j + 1)];
+                    q = directionData[(i-1) * m_width + (j - 1)];
+                    r = directionData[(i+1) * m_width + (j + 1)];
                 }
 
-                if(gradientData[i * m_height + j] >= q && gradientData[i * m_height + j] >= r)
-                    resultData[i * m_height + j] = gradientData[i * m_height + j];
+                if(gradientData[i * m_width + j] >= q && gradientData[i * m_width + j] >= r)
+                    resultData[i * m_width + j] = gradientData[i * m_width + j];
                 else
-                    resultData[i * m_height + j] = 0;
+                    resultData[i * m_width + j] = 0;
             }
         }
 
@@ -233,27 +232,27 @@ namespace mrg {
                 i = 255.0;
         }
 
-        for(uint32_t i = 1; i < m_width - 1; i++)
+        for(uint32_t i = 1; i < m_height - 1; i++)
         {
-            for(uint32_t j = 1; j < m_height - 1; j++)
+            for(uint32_t j = 1; j < m_width - 1; j++)
             {
-                if(resultData[i * m_height + j] == 127.0)
+                if(resultData[i * m_width + j] == 127.0)
                 {
-                    double ul = resultData[(i-1) * m_height + (j + 1)];
-                    double uu = resultData[(i) * m_height + (j + 1)];
-                    double ur = resultData[(i+1) * m_height + (j + 1)];
-                    double l  = resultData[(i-1) * m_height + (j)];
-                    double r  = resultData[(i+1) * m_height + (j)];
-                    double dl = resultData[(i-1) * m_height + (j - 1)];
-                    double du = resultData[(i) * m_height + (j - 1)];
-                    double dr = resultData[(i+1) * m_height + (j - 1)];
+                    double ul = resultData[(i-1) * m_width + (j + 1)];
+                    double uu = resultData[(i) * m_width + (j + 1)];
+                    double ur = resultData[(i+1) * m_width + (j + 1)];
+                    double l  = resultData[(i-1) * m_width + (j)];
+                    double r  = resultData[(i+1) * m_width + (j)];
+                    double dl = resultData[(i-1) * m_width + (j - 1)];
+                    double du = resultData[(i) * m_width + (j - 1)];
+                    double dr = resultData[(i+1) * m_width + (j - 1)];
 
                     if(ul == 255.0 || uu == 255.0 || ur == 255.0 ||
                        l == 255.0 || r == 255.0 ||
                        dl == 255.0 || du == 255.0 || dr == 255.0)
-                        resultData[i * m_height + j] = 255.0;
+                        resultData[i * m_width + j] = 255.0;
                     else
-                        resultData[i * m_height + j] = 0.0;
+                        resultData[i * m_width + j] = 0.0;
                 }
             }
         }
@@ -268,9 +267,9 @@ namespace mrg {
         int kernelCenter = Floor(kernel.Width() / 2);
         std::vector<Type> resultData(m_data);
 
-        for(uint32_t i = 0 + kernelCenter; i < m_width - kernelCenter; i++)
+        for(uint32_t i = 0 + kernelCenter; i < m_height - kernelCenter; i++)
         {
-            for(uint32_t j = 0 + kernelCenter; j < m_height - kernelCenter; j++)
+            for(uint32_t j = 0 + kernelCenter; j < m_width - kernelCenter; j++)
             {
                 Type value = Type(0);
                 for(uint32_t ik = 0; ik < kernel.Width(); ik++)
@@ -280,11 +279,11 @@ namespace mrg {
                         uint32_t xn = i + ik - kernelCenter;
                         uint32_t yn = j + jk - kernelCenter;
 
-                        uint32_t index = xn * m_height + yn;
+                        uint32_t index = xn * m_width + yn;
                         value += m_data[index] * kernel.Get(ik, jk);
                     }
                 }
-                resultData[i * m_height + j] = value;
+                resultData[i * m_width + j] = value;
             }
         }
 
@@ -345,7 +344,7 @@ namespace mrg {
         threshData.resize(m_data.size());
         for(unsigned int i = 0; i < m_data.size(); i++)
         {
-            threshData[i] = (m_data[i] < threshold) ? 0 : 65535;
+            threshData[i] = (m_data[i] < threshold) ? 0 : 255;
         }
 
         return Matrix<T>(threshData, m_width, m_height, 1);

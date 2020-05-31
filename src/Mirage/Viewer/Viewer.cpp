@@ -21,7 +21,7 @@ namespace mrg
     void Viewer::OpenImage()
     {
         QString fileName = QFileDialog::getOpenFileName(this,
-                tr("Open Image"), "/home/jana", tr("Image Files (*.png *.jpg *.bmp)"));
+                tr("Open Image"), "../samples", tr("Image Files (*.png *.jpg *.bmp)"));
 
         if(fileName.isEmpty())
             return;
@@ -29,7 +29,7 @@ namespace mrg
         try
         {
             m_image = ImageParser::FromFile<uchar>(fileName.toStdString(), 3);
-            auto sob = m_image.Sobel();
+            auto sob = m_image.Sobel().Threshold<double>();
             ImageParser::ToFile(sob, fileName.toStdString() + "bis.jpg");
             DrawImage(m_ui->m_lblImage, sob);
 
