@@ -20,16 +20,16 @@ __Library features__
 
 __Image processing features__ 
 
-| Feature                          | Progress |
-|----------------------------------|----------|
-| Image structure                  | In dev   |
-| Bit depth                        | To do    |
-| DFT                              | To do    |
-| Filter                           | Done     |
-| Sobel / Threshold                | Done     |
-| Histogram Equalization           | Done     |
-| Adaptive Histogram Equalization  | To do    |
-| Canny                            | Done     |
+| Feature                          | Progress             |
+|----------------------------------|----------------------|
+| Image structure                  | In dev               |
+| Bit depth                        | To do                |
+| DFT                              | To do                |
+| Filter                           | Done                 |
+| Sobel / Threshold                | Done                 |
+| Histogram Equalization           | Done                 |
+| Adaptive Histogram Equalization  | To do                |
+| Canny                            | Done (To improve)    |
 
 <h2 align="center">Build</h2>
 
