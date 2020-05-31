@@ -8,6 +8,7 @@ int main(int argc, char** argv)
     using namespace mrg;
 
     QApplication app{argc, argv};
+
     Viewer viewer;
     viewer.show();
 
