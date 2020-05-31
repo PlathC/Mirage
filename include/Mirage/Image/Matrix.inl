@@ -356,25 +356,58 @@ namespace mrg {
     Matrix<Type> Matrix<Type>::HistogramEqualization()
     {
         //https://en.wikipedia.org/wiki/Histogram_equalization#Implementation
+        std::vector<Type> resultData = std::vector<Type>((m_width * m_height) * m_channelNumber);
 
-        std::vector<Type> resultData = std::vector<Type>(this->m_data);
+        auto channelArrays = std::vector<std::vector<Type>>(m_channelNumber);
 
-        std::map<Type, double> normHistogram = ComputeNormalizedHistogram(resultData, m_width, m_height);
-        std::map<Type, double> cumulativeHistogram;
+        for(uint8_t k = 0; k < m_channelNumber; k++)
+            channelArrays[k] = std::vector<Type>(m_width * m_height);
 
-        // Compute cumulative histogram
-        double sum = 0;
-        for (auto it = normHistogram.begin(); it != normHistogram.end(); it++ )
+        for(unsigned int x = 0; x < m_width; x++)
         {
-            sum += normHistogram[it->first];
-            cumulativeHistogram[it->first] = sum;
+            for(unsigned int y = 0; y < m_height; y++)
+            {
+                for(unsigned int k = 0; k < m_channelNumber; k++)
+                {
+                    channelArrays[k][(x * m_height + y)] = m_data[(x * m_height + y) * m_channelNumber + k];
+                }
+            }
         }
 
-        // Applying equalization
-        for(auto& pixel : resultData)
+        auto computeEqualization = [=](std::vector<Type> &result) -> void
         {
-            // TODO: Change 256 to image depth
-            pixel = (256 - 1) * cumulativeHistogram[pixel];
+            std::map<Type, double> normHistogram = ComputeNormalizedHistogram(result, m_width, m_height);
+            std::map<Type, double> cumulativeHistogram;
+
+            // Compute cumulative histogram
+            double sum = 0;
+            for (auto it = normHistogram.begin(); it != normHistogram.end(); it++ )
+            {
+                sum += normHistogram[it->first];
+                cumulativeHistogram[it->first] = sum;
+            }
+
+            // Applying equalization
+            for(auto& pixel : result)
+            {
+                // TODO: Change 256 to image depth
+                pixel = (256 - 1) * cumulativeHistogram[pixel];
+            }
+        };
+
+        for(uint8_t k = 0; k < m_channelNumber; k++)
+            computeEqualization(channelArrays[k]);
+
+
+        for(unsigned int x = 0; x < m_width; x++)
+        {
+            for(unsigned int y = 0; y < m_height; y++)
+            {
+                for(unsigned int k = 0; k < m_channelNumber; k++)
+                {
+                    resultData[(x * m_height + y) * m_channelNumber + k] = channelArrays[k][(x * m_height + y)];
+                }
+            }
         }
 
         return Matrix<Type>(resultData, m_width, m_height, m_channelNumber);
