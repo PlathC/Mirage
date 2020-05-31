@@ -272,19 +272,22 @@ namespace mrg {
         {
             for(uint32_t j = 0 + kernelCenter; j < m_width - kernelCenter; j++)
             {
-                Type value = Type(0);
-                for(uint32_t ik = 0; ik < kernel.Width(); ik++)
+                for(uint8_t k = 0; k < m_channelNumber; k++)
                 {
-                    for(uint32_t jk = 0; jk < kernel.Height(); jk++)
+                    Type value = Type(0);
+                    for(uint32_t ik = 0; ik < kernel.Width(); ik++)
                     {
-                        uint32_t xn = i + ik - kernelCenter;
-                        uint32_t yn = j + jk - kernelCenter;
+                        for(uint32_t jk = 0; jk < kernel.Height(); jk++)
+                        {
+                            uint32_t xn = i + ik - kernelCenter;
+                            uint32_t yn = j + jk - kernelCenter;
 
-                        uint32_t index = xn * m_width + yn;
-                        value += m_data[index] * kernel.Get(ik, jk);
+                            uint32_t index = (xn * m_width + yn) * m_channelNumber + k;
+                            value += m_data[index] * kernel.Get(ik, jk);
+                        }
                     }
+                    resultData[(i * m_width + j) * m_channelNumber + k] = value;
                 }
-                resultData[i * m_width + j] = value;
             }
         }
 
