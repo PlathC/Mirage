@@ -32,7 +32,7 @@ matrix:
             - qt5-default
             - qttools5-dev-tools
       env:
-        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+        - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
         - LINKER_FLAGS=""
 
 install:
