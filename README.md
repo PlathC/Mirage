@@ -26,7 +26,7 @@ __Image processing features__
 | Bit depth                        | To do    |
 | DFT                              | To do    |
 | Filter                           | To fix   |
-| Sobel / Threshold                | To fix   |
+| Sobel / Threshold                | Done     |
 | Histogram Equalization           | To fix   |
 | Adaptive Histogram Equalization  | To do    |
 | Canny                            | To fix   |

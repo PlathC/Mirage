@@ -247,6 +247,7 @@ namespace mrg {
                     double du = resultData[(i) * m_width + (j - 1)];
                     double dr = resultData[(i+1) * m_width + (j - 1)];
 
+                    // TODO: Change 255 to image depth
                     if(ul == 255.0 || uu == 255.0 || ur == 255.0 ||
                        l == 255.0 || r == 255.0 ||
                        dl == 255.0 || du == 255.0 || dr == 255.0)
@@ -344,6 +345,7 @@ namespace mrg {
         threshData.resize(m_data.size());
         for(unsigned int i = 0; i < m_data.size(); i++)
         {
+            // TODO: Change 256 to image depth
             threshData[i] = (m_data[i] < threshold) ? 0 : 255;
         }
 
@@ -357,7 +359,7 @@ namespace mrg {
 
         std::vector<Type> resultData = std::vector<Type>(this->m_data);
 
-        std::map<Type, double> normHistogram = ComputeNormalizeHistogram(resultData, m_width, m_height);
+        std::map<Type, double> normHistogram = ComputeNormalizedHistogram(resultData, m_width, m_height);
         std::map<Type, double> cumulativeHistogram;
 
         // Compute cumulative histogram
@@ -433,7 +435,7 @@ namespace mrg {
     }
 
     template<typename T>
-    static std::map<T, double> ComputeNormalizeHistogram(const std::vector<T> &channel, uint32_t width, uint32_t height)
+    static std::map<T, double> ComputeNormalizedHistogram(const std::vector<T> &channel, uint32_t width, uint32_t height)
     {
         std::map<T, int> histogram = ComputeHistogram(channel);
         uint32_t totalPixelNumber = height * width;

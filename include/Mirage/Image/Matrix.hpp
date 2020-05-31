@@ -66,7 +66,7 @@ namespace mrg
     template<typename T>
     static std::map<T, int> ComputeHistogram(const std::vector<T> &channel);
     template<typename T>
-    static std::map<T, double> ComputeNormalizeHistogram(const std::vector<T> &channel, uint32_t width, uint32_t height);
+    static std::map<T, double> ComputeNormalizedHistogram(const std::vector<T> &channel, uint32_t width, uint32_t height);
 
     template<std::size_t size>
     constexpr std::array<double, size> AverageKernelGenerator = [] { // OR: constexpr auto table

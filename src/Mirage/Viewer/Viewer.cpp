@@ -29,10 +29,7 @@ namespace mrg
         try
         {
             m_image = ImageParser::FromFile<uchar>(fileName.toStdString(), 3);
-            auto sob = m_image.Sobel().Threshold<double>();
-            ImageParser::ToFile(sob, fileName.toStdString() + "bis.jpg");
-            DrawImage(m_ui->m_lblImage, sob);
-
+            DrawImage(m_ui->m_lblImage, m_image);
         }
         catch(std::exception& e)
         {
