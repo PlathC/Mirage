@@ -14,12 +14,12 @@ namespace mrg
     {
         //http://netpbm.sourceforge.net/doc/libppm.html
 
-        template<typename T>
+        template<class T>
         class PPMParser : public IParser<T> {
         public:
             Matrix<T> Parse(std::string fileName, unsigned int channel) override;
 
-            void Write(Matrix<T> &mat, std::string fileName) override;
+            void Write(const Matrix<T>& mat, std::string fileName) override;
         };
     }
 }

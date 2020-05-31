@@ -5,6 +5,9 @@
 #ifndef MIRAGE_JPEGPARSER_HPP
 #define MIRAGE_JPEGPARSER_HPP
 
+#include <fstream>
+#include <iterator>
+
 #include "IParser.hpp"
 
 namespace mrg
@@ -16,7 +19,7 @@ namespace mrg
         public:
             Matrix<T> Parse(std::string _fileName, unsigned int channel) override;
 
-            void Write(Matrix<T> &mat, std::string _fileName) override;
+            void Write(const Matrix<T>& mat, std::string _fileName) override;
         };
     }
 }

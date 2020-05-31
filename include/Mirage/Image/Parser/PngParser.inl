@@ -9,7 +9,7 @@ namespace mrg
     {
         // Using https://gist.github.com/niw/5963798
 
-        template<typename T>
+        template<class T>
         Matrix<T> PngParser<T>::Parse(std::string _fileName, const unsigned int channel)
         {
             fileName = _fileName;
@@ -75,8 +75,8 @@ namespace mrg
             return Matrix<T>(result, width, height, channel);
         }
 
-        template<typename T>
-        void PngParser<T>::Write(Matrix<T>& mat, std::string _fileName)
+        template<class T>
+        void PngParser<T>::Write(const Matrix<T>& mat, std::string _fileName)
         {
             fileName = _fileName;
             if(!Init(ActionType::Write))
@@ -101,7 +101,7 @@ namespace mrg
             //png_set_filler(png, 0, PNG_FILLER_AFTER);
 
             rowPointers = new png_bytep[mat.Height()];
-            std::vector<T>& temp = mat.Data();
+            std::vector<T> temp = mat.template DataInType<T>();
 
             for(unsigned int j = 0; j < mat.Height(); j++)
             {
@@ -146,7 +146,7 @@ namespace mrg
             fclose(file);
         }
 
-        template<typename T>
+        template<class T>
         bool PngParser<T>::Init(ActionType actionType) {
             if(actionType == ActionType::Read)
                 png = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);

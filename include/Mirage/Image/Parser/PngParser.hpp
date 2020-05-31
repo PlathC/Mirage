@@ -15,9 +15,9 @@ namespace mrg
         template<typename T>
         class PngParser : public IParser<T> {
         public:
-            Matrix<T> Parse(std::string _fileName, const unsigned int channel) override;
+            Matrix<T> Parse(std::string _fileName, unsigned int channel) override;
 
-            void Write(Matrix<T> &mat, std::string _fileName) override;
+            void Write(const Matrix<T> &mat, std::string _fileName) override;
 
         private:
             enum class ActionType {

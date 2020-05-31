@@ -4,7 +4,7 @@ namespace mrg
 {
     namespace ImageParser
     {
-        template<typename T>
+        template<class T>
         Matrix<T> PPMParser<T>::Parse(std::string fileName, const unsigned int channel)
         {
             std::vector<T> result;
@@ -71,7 +71,9 @@ namespace mrg
                     }
 
                     result.push_back(t);
-                } else {
+                }
+                else
+                {
                     result.push_back(t);
                 }
             }
@@ -80,17 +82,18 @@ namespace mrg
             return resultImg;
         }
 
-        template<typename T>
-        void PPMParser<T>::Write(Matrix<T>& mat, std::string fileName)
+        template<class T>
+        void PPMParser<T>::Write(const Matrix<T>& mat, std::string fileName)
         {
             std::ofstream file { fileName };
 
             file << "P3" << std::endl;
             file << mat.Width() << " " << mat.Height() << std::endl;
             file << "255" << std::endl;
-            std::vector<T> data = mat.Data();
+            std::vector<T> data = mat.template DataInType<T>();
 
-            for(auto it = data.begin(); it != data.end(); ++it) {
+            for(auto it = data.begin(); it != data.end(); ++it)
+            {
                 file << *it << std::endl;
             }
         }

@@ -38,9 +38,9 @@ namespace mrg
                 pixelFormat = TJPF_RGBA;
             }
             else
-                {
+            {
                 throw std::runtime_error("Unsupported format.");
-                }
+            }
 
             tjhandle _jpegDecompressor = tjInitDecompress();
 
@@ -78,7 +78,7 @@ namespace mrg
         }
 
         template<typename T>
-        void JpegParser<T>::Write(Matrix<T>& mat, std::string _fileName)
+        void JpegParser<T>::Write(const Matrix<T>& mat, std::string _fileName)
         {
             tjhandle handle = tjInitCompress();
 
@@ -119,7 +119,7 @@ namespace mrg
 
             unsigned long jpegSize = 0;
 
-            std::vector<T> data = mat.Data();
+            std::vector<T> data = mat.template DataInType<T>();
             std::vector<unsigned char> srcBuf = std::vector<unsigned char>(width * height * nbands);
             for(uint32_t j = 0; j < height; j++)
             {

@@ -17,7 +17,7 @@ namespace mrg
         public:
             virtual Matrix <T> Parse(std::string fileName, unsigned int channel) = 0;
 
-            virtual void Write(Matrix <T> &mat, std::string fileName) = 0;
+            virtual void Write(const Matrix <T> &mat, std::string fileName) = 0;
 
             virtual ~IParser() {};
         };
