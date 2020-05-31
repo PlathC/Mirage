@@ -31,6 +31,9 @@ matrix:
         - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
         - LINKER_FLAGS=""
 
+before_install:
+  - sudo add-apt-repository -y ppa:beineri/opt-qt-5.10.1-trusty
+
 install:
   - eval "${MATRIX_EVAL}"
 
