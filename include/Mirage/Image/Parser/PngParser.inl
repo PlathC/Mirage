@@ -101,7 +101,7 @@ namespace mrg
             //png_set_filler(png, 0, PNG_FILLER_AFTER);
 
             rowPointers = new png_bytep[mat.Height()];
-            std::vector<T>& temp = mat.GetData();
+            std::vector<T>& temp = mat.Data();
 
             for(unsigned int j = 0; j < mat.Height(); j++)
             {

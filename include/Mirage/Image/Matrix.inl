@@ -1,10 +1,10 @@
 
 namespace mrg {
 
-    template<typename Type>
+    template<class Type>
     Matrix<Type>::Matrix() : m_width(0), m_height(0), m_channelNumber(0), m_data() { }
 
-    template<typename Type>
+    template<class Type>
     Matrix<Type>::Matrix(const uint32_t width, const uint32_t  height, const uint8_t channelNumber) :
     m_width(width),
     m_height(height),
@@ -14,7 +14,7 @@ namespace mrg {
         this->m_data.resize(width * height * channelNumber);
     }
 
-    template<typename Type>
+    template<class Type>
     Matrix<Type>::Matrix(Type fill, const uint32_t width, const uint32_t height, const uint8_t channelNumber) :
     m_width(width),
     m_height(height),
@@ -23,7 +23,7 @@ namespace mrg {
     {
     }
 
-    template<typename Type>
+    template<class Type>
     Matrix<Type>::Matrix(const std::vector<Type>& pixels, const uint32_t width, const uint32_t height, const uint8_t channelNumber) :
     m_width(width),
     m_height(height),
@@ -32,7 +32,7 @@ namespace mrg {
     {
     }
 
-    template<typename Type>
+    template<class Type>
     template<std::size_t Size>
     Matrix<Type>::Matrix(const std::array<Type, Size>& pixels, uint32_t width, uint32_t height, uint8_t channelNumber):
     m_width(width),
@@ -47,7 +47,7 @@ namespace mrg {
         }
     }
 
-    template<typename Type>
+    template<class Type>
     Matrix<Type>::Matrix(std::initializer_list<Type> pixels, const uint32_t width, const uint32_t height, const uint8_t channelNumber):
     m_width(width),
     m_height(height),
@@ -61,8 +61,8 @@ namespace mrg {
         }
     }
 
-    template<typename Type>
-    template<typename T>
+    template<class Type>
+    template<class T>
     Matrix<T> Matrix<Type>::ToGrayScale()
     {
         std::vector<T> resultData;
@@ -84,7 +84,7 @@ namespace mrg {
         return Matrix<T>(resultData, m_width, m_height, 1);
     }
 
-    template<typename Type>
+    template<class Type>
     Matrix<double> Matrix<Type>::Sobel()
     {
         Matrix<double> gray = ToGrayScale<double>();
@@ -97,7 +97,7 @@ namespace mrg {
                                       { 0.,  0.,  0.},
                                       { 1.,  2.,  1.}};
 
-        std::vector<double> grayData = gray.GetData();
+        std::vector<double> grayData = gray.Data();
         auto resultData = std::vector<double>(m_width * m_height);
 
         for(uint32_t i = 1; i < m_height - 1; i++)
@@ -127,7 +127,7 @@ namespace mrg {
         return Matrix<double>(resultData, m_width, m_height, 1);
     }
 
-    template<typename Type>
+    template<class Type>
     Matrix<double> Matrix<Type>::Canny()
     {
         // Based on https://towardsdatascience.com/canny-edge-detection-step-by-step-in-python-computer-vision-b49c3a2d8123
@@ -143,7 +143,7 @@ namespace mrg {
                                       { 0,  0,  0},
                                       { 1,  2,  1}};
 
-        std::vector<double> grayData = gray.GetData();
+        std::vector<double> grayData = gray.Data();
         auto gradientData = std::vector<double>(m_width * m_height);
         auto directionData = std::vector<double>(m_width * m_height);
 
@@ -219,7 +219,7 @@ namespace mrg {
         }
 
         // TODO: Avoid matrix reallocation
-        resultData = Matrix<double>(resultData, m_width, m_height, 1).Threshold<double>().GetData();
+        resultData = Matrix<double>(resultData, m_width, m_height, 1).Threshold<double>().Data();
 
         for(uint32_t i = 1; i < m_height - 1; i++)
         {
@@ -250,8 +250,8 @@ namespace mrg {
         return Matrix<double>(resultData, m_width, m_height, 1);
     }
 
-    template<typename Type>
-    template<typename T>
+    template<class Type>
+    template<class T>
     Matrix<Type> Matrix<Type>::Convolve(Matrix<T> kernel)
     {
         int kernelCenter = Floor(kernel.Width() / 2);
@@ -272,7 +272,7 @@ namespace mrg {
                             uint32_t yn = j + jk - kernelCenter;
 
                             uint32_t index = (xn * m_width + yn) * m_channelNumber + k;
-                            value += m_data[index] * kernel.Get(ik, jk);
+                            value += m_data[index] * kernel.Get(ik, jk, 1);
                         }
                     }
                     resultData[(i * m_width + j) * m_channelNumber + k] = value;
@@ -283,8 +283,8 @@ namespace mrg {
         return Matrix<Type>(resultData, m_width, m_height, this->m_channelNumber);
     }
 
-    template<typename Type>
-    template<typename T>
+    template<class Type>
+    template<class T>
     Matrix<T> Matrix<Type>::Threshold() const
     {
         assert(m_channelNumber == 1);
@@ -344,7 +344,7 @@ namespace mrg {
         return Matrix<T>(threshData, m_width, m_height, 1);
     }
 
-    template<typename Type>
+    template<class Type>
     Matrix<Type> Matrix<Type>::HistogramEqualization()
     {
         //https://en.wikipedia.org/wiki/Histogram_equalization#Implementation
@@ -405,23 +405,31 @@ namespace mrg {
         return Matrix<Type>(resultData, m_width, m_height, m_channelNumber);
     }
 
-    template<typename Type>
-    Type Matrix<Type>::Get(unsigned int w, unsigned int h) const
+    template<class Type>
+    Type Matrix<Type>::Get(uint32_t w, uint32_t h, uint8_t channel) const
     {
-        assert(w < m_width && h < m_height);
-        return this->m_data[w * m_height + h];
+        assert(w < m_width && h < m_height && channel - 1 < m_channelNumber && channel > 0);
+        return m_data[(w * m_height + h) * m_channelNumber + channel - 1];
     }
 
-    template<typename Type>
-    std::vector<Type>& Matrix<Type>::GetData()
+    template<class Type>
+    Type& Matrix<Type>::Get(uint32_t w, uint32_t h, uint8_t channel)
     {
-        return this->m_data;
+        assert(w < m_width && h < m_height && channel - 1 < m_channelNumber && channel > 0);
+        return m_data[(w * m_height + h) * m_channelNumber + channel - 1];
     }
 
-    template<typename Type>
+    template<class Type>
+    std::vector<Type>& Matrix<Type>::Data()
+    {
+        return m_data;
+    }
+
+    template<class Type>
     template<class ReturnType>
-    std::vector<ReturnType> Matrix<Type>::GetRawData() const
+    std::vector<ReturnType> Matrix<Type>::DataInType() const
     {
+        static_assert(std::is_arithmetic<ReturnType>::value, "The returning type must be a scalar");
         std::vector<ReturnType> rawData = std::vector<ReturnType>(m_width * m_height * m_channelNumber);
 
         for(unsigned int x = 0; x < m_width; x++)
@@ -438,15 +446,14 @@ namespace mrg {
         return rawData;
     }
 
-    template<typename Type>
-    void Matrix<Type>::Set(uint32_t w, uint32_t h, const Type& t)
+    template<class Type>
+    void Matrix<Type>::Set(uint32_t w, uint32_t h, uint8_t k, const Type& t)
     {
-        assert(w < m_width);
-        assert(h < m_height);
-        this->m_data[w * m_height + h] = t;
+        assert(w < m_width && h < m_height && k - 1 < m_channelNumber && k > 0);
+        m_data[(w * m_height + h) * m_channelNumber + k - 1] = t;
     }
 
-    template<typename T>
+    template<class T>
     static std::map<T, int> ComputeHistogram(const std::vector<T> &channel)
     {
         std::map<T, int> hist;
@@ -459,7 +466,7 @@ namespace mrg {
         return hist;
     }
 
-    template<typename T>
+    template<class T>
     static std::map<T, double> ComputeNormalizedHistogram(const std::vector<T> &channel, uint32_t width, uint32_t height)
     {
         std::map<T, int> histogram = ComputeHistogram(channel);

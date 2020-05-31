@@ -39,20 +39,24 @@ namespace mrg
         Matrix<Type> Convolve(Matrix<T> kernel);
 
         template<typename T>
-        Matrix<T> Threshold() const;
+        [[nodiscard]] Matrix<T> Threshold() const;
 
         Matrix<Type> HistogramEqualization();
 
-        [[nodiscard]] Type Get(unsigned int w, unsigned int h) const;
-        std::vector<Type>& GetData();
+        [[nodiscard]] Type& Get(uint32_t w, uint32_t h, uint8_t channel);
+        [[nodiscard]] Type Get(uint32_t w, uint32_t h, uint8_t channel) const;
+
+        std::vector<Type>& Data();
 
         template<class ReturnType>
-        std::vector<ReturnType> GetRawData() const;
+        std::vector<ReturnType> DataInType() const;
 
-        void Set(uint32_t w, uint32_t h, const Type& t);
-        [[nodiscard]] uint32_t Width() const noexcept { return m_width; }
-        [[nodiscard]] uint32_t Height() const noexcept { return m_height; }
-        [[nodiscard]] uint8_t Channel() const noexcept { return m_channelNumber; }
+        void Set(uint32_t w, uint32_t h, uint8_t k, const Type& t);
+
+        [[nodiscard]] inline uint32_t Width() const noexcept { return m_width; }
+        [[nodiscard]] inline uint32_t Height() const noexcept { return m_height; }
+        [[nodiscard]] inline uint8_t Channel() const noexcept { return m_channelNumber; }
+
     private:
         uint32_t m_width;
         uint32_t m_height;

@@ -88,7 +88,7 @@ namespace mrg
             file << "P3" << std::endl;
             file << mat.Width() << " " << mat.Height() << std::endl;
             file << "255" << std::endl;
-            std::vector<T> data = mat.GetData();
+            std::vector<T> data = mat.Data();
 
             for(auto it = data.begin(); it != data.end(); ++it) {
                 file << *it << std::endl;

@@ -119,7 +119,7 @@ namespace mrg
 
             unsigned long jpegSize = 0;
 
-            std::vector<T> data = mat.GetData();
+            std::vector<T> data = mat.Data();
             std::vector<unsigned char> srcBuf = std::vector<unsigned char>(width * height * nbands);
             for(uint32_t j = 0; j < height; j++)
             {

@@ -4,7 +4,7 @@ namespace mrg
     template<class T>
     void DrawImage(QLabel* lbl, const Matrix<T>& image)
     {
-        std::vector<uchar> imgData = image.template GetRawData<uchar>();
+        std::vector<uchar> imgData = image.template DataInType<uchar>();
         uint8_t channel = image.Channel();
 
         QImage::Format channelFormat;
