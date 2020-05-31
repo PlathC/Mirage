@@ -25,11 +25,11 @@ __Image processing features__
 | Image structure                  | In dev   |
 | Bit depth                        | To do    |
 | DFT                              | To do    |
-| Filter                           | Done   |
+| Filter                           | Done     |
 | Sobel / Threshold                | Done     |
-| Histogram Equalization           | Done   |
+| Histogram Equalization           | Done     |
 | Adaptive Histogram Equalization  | To do    |
-| Canny                            | To fix   |
+| Canny                            | Done     |
 
 <h2 align="center">Build</h2>
 
