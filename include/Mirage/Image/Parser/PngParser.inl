@@ -3,8 +3,10 @@
 #include "PngParser.hpp"
 
 
-namespace mrg {
-    namespace ImageParser {
+namespace mrg
+{
+    namespace ImageParser
+    {
         // Using https://gist.github.com/niw/5963798
 
         template<typename T>

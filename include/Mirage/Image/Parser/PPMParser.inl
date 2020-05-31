@@ -1,7 +1,9 @@
 #include <regex>
 
-namespace mrg {
-    namespace ImageParser{
+namespace mrg
+{
+    namespace ImageParser
+    {
         template<typename T>
         Matrix<T> PPMParser<T>::Parse(std::string fileName, const unsigned int channel)
         {

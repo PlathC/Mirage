@@ -7,14 +7,18 @@
 
 #include "IParser.hpp"
 
-namespace mrg::ImageParser {
+namespace mrg
+{
+    namespace ImageParser
+    {
+        template<typename T>
+        class JpegParser : public IParser<T> {
+        public:
+            Matrix<T> Parse(std::string _fileName, unsigned int channel) override;
 
-    template<typename T>
-    class JpegParser : public IParser<T> {
-    public:
-        Matrix<T> Parse(std::string _fileName, unsigned int channel) override;
-        void Write(Matrix<T>& mat, std::string _fileName) override;
-    };
+            void Write(Matrix<T> &mat, std::string _fileName) override;
+        };
+    }
 }
 
 #include "JpegParser.inl"
