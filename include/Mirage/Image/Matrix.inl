@@ -132,7 +132,7 @@ namespace mrg {
     {
         // Based on https://towardsdatascience.com/canny-edge-detection-step-by-step-in-python-computer-vision-b49c3a2d8123
 
-        Matrix<Type> blurred = this->Convolve(mrg::gaussianBlurKernel5x5);
+        Matrix<Type> blurred = Convolve(mrg::gaussianBlurKernel5x5);
 
         Matrix<double> gray = blurred.ToGrayScale<double>();
         const double kernelH[3][3] = {{-1, 0, 1},
@@ -144,8 +144,8 @@ namespace mrg {
                                       { 1,  2,  1}};
 
         std::vector<double> grayData = gray.GetData();
-        std::vector<double> gradientData = std::vector<double>(m_width * m_height);
-        std::vector<double> directionData = std::vector<double>(m_width * m_height);
+        auto gradientData = std::vector<double>(m_width * m_height);
+        auto directionData = std::vector<double>(m_width * m_height);
 
         double maximumValue = 0;
 
@@ -218,19 +218,8 @@ namespace mrg {
             }
         }
 
-
-        double highThreshold = maximumValue * 0.09;
-        double lowThreshold = highThreshold * 0.05;
-
-        for(double &i : resultData)
-        {
-            if(i <= lowThreshold)
-                i = 0.0;
-            else if(lowThreshold < i && i < highThreshold)
-                i = 127.0;
-            else
-                i = 255.0;
-        }
+        // TODO: Avoid matrix reallocation
+        resultData = Matrix<double>(resultData, m_width, m_height, 1).Threshold<double>().GetData();
 
         for(uint32_t i = 1; i < m_height - 1; i++)
         {
