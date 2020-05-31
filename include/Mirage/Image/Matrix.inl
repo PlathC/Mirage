@@ -301,7 +301,7 @@ namespace mrg {
 
         int total = m_data.size();
         float sum = 0;
-        for (auto it = hist.begin(); it != hist.end(); it++ )
+        for (auto it = hist.begin(); it != hist.end(); it++)
             sum += it->first * it->second;
 
         float sumB = 0;
