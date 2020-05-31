@@ -15,21 +15,21 @@ __Library features__
 | Feature           | Progress                                                     |
 |-------------------|--------------------------------------------------------------|
 | Image structure   | Done                                                         |
-| Parser            | Done (PNG/JPEG)                                              |
+| Parser            | Done (PNG/JPEG/ PPM To fix)                                  |
 | Mirage Viewer     | In dev                                                       |
 
 __Image processing features__ 
 
 | Feature                          | Progress             |
 |----------------------------------|----------------------|
-| Image structure                  | In dev               |
+| Image structure                  | Done                 |
 | Bit depth                        | To do                |
 | DFT                              | To do                |
 | Filter                           | Done                 |
 | Sobel / Threshold                | Done                 |
 | Histogram Equalization           | Done                 |
 | Adaptive Histogram Equalization  | To do                |
-| Canny                            | Done (To improve)    |
+| Canny                            | Done                 |
 
 <h2 align="center">Build</h2>
 
