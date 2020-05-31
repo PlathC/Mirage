@@ -16,6 +16,11 @@ namespace mrg
         {
             OpenImage();
         });
+
+        QObject::connect(m_ui->m_pbSave, &QPushButton::pressed, [&]()
+        {
+            SaveImage();
+        });
     }
 
     void Viewer::OpenImage()
@@ -36,6 +41,14 @@ namespace mrg
             QMessageBox::warning(this, "Parsing error", e.what());
             return;
         }
+    }
+
+    void Viewer::SaveImage()
+    {
+        QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
+                                                        "",
+                                                        tr("Images (*.png *.xpm *.jpg)"));
+        ImageParser::ToFile(m_image, fileName.toStdString());
     }
 
     Viewer::~Viewer()

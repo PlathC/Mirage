@@ -22,6 +22,7 @@ namespace mrg
         explicit Viewer(QWidget* parent = nullptr);
 
         void OpenImage();
+        void SaveImage();
 
         ~Viewer() override;
     private:
