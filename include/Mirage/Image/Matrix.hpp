@@ -6,6 +6,7 @@
 #define MIRAGE_MATRIX_HPP
 
 #include <array>
+#include <functional>
 #include <map>
 #include <type_traits>
 
@@ -19,6 +20,20 @@ namespace mrg
     // TODO: add only arithmetic types ==> Add Get<T> method and store only has
     static_assert(std::is_arithmetic<Type>::value, "A matrix can only store arithmetic values.");
     public:
+        struct ScalingSettings
+        {
+            uint32_t oldWidth;
+            uint32_t oldHeight;
+            uint32_t nWidth;
+            uint32_t nHeight;
+            uint8_t channelNumber;
+            double xRatio;
+            double yRatio;
+        };
+
+        using ScalingFunction = std::function<Type(uint32_t x, uint32_t y, uint8_t k,
+                const std::vector<Type>& oldData, const ScalingSettings& settings)>;
+    public:
         Matrix();
         Matrix(uint32_t width, uint32_t height, uint8_t channelNumber);
         Matrix(Type fill, uint32_t width, uint32_t height, uint8_t channelNumber);
@@ -31,17 +46,14 @@ namespace mrg
 
         template<typename T>
         Matrix<T> ToGrayScale();
-
         Matrix<double> Sobel();
         Matrix<double> Canny();
-
         template<typename T>
         Matrix<Type> Convolve(Matrix<T> kernel);
-
         template<typename T>
         [[nodiscard]] Matrix<T> Threshold() const;
-
         Matrix<Type> HistogramEqualization();
+        Matrix<Type> Scale(uint32_t nWidth, uint32_t nHeight, ScalingFunction algorithm);
 
         [[nodiscard]] Type& Get(uint32_t w, uint32_t h, uint8_t channel);
         [[nodiscard]] Type Get(uint32_t w, uint32_t h, uint8_t channel) const;
@@ -63,6 +75,11 @@ namespace mrg
         uint8_t m_channelNumber;
         std::vector<Type> m_data;
     };
+
+    template<class Type>
+    static Type ScalingNearestNeighbor(uint32_t x, uint32_t y, uint8_t k,
+                                       const std::vector<Type>& oldData,
+                                       const typename Matrix<Type>::ScalingSettings& settings);
 
     template<int kernelSize>
     static Matrix<double> GenerateGaussianKernel(int sigma);

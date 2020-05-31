@@ -406,6 +406,25 @@ namespace mrg {
     }
 
     template<class Type>
+    Matrix<Type> Matrix<Type>::Scale(uint32_t nWidth, uint32_t nHeight, ScalingFunction algorithm)
+    {
+        std::vector<Type> nData = std::vector<Type>((nWidth * nHeight) * m_channelNumber);
+        ScalingSettings settings{m_width, m_height, nWidth, nHeight, m_channelNumber,
+                                 static_cast<double>(m_width) / nWidth,
+                                 static_cast<double>(m_height) / nHeight};
+
+        for(uint32_t x = 0; x < nWidth; x++)
+        {
+            for(uint32_t y = 0; y < nHeight; y++)
+            {
+                for(uint8_t k = 0; k < m_channelNumber; k++)
+                    nData[(y * nWidth + x) * m_channelNumber + k] = algorithm(x, y, k, m_data, settings);
+            }
+        }
+        return Matrix<Type>(nData, nWidth, nHeight, m_channelNumber);
+    }
+
+    template<class Type>
     Type Matrix<Type>::Get(uint32_t w, uint32_t h, uint8_t channel) const
     {
         assert(w < m_width && h < m_height && channel - 1 < m_channelNumber && channel > 0);
@@ -432,11 +451,11 @@ namespace mrg {
         static_assert(std::is_arithmetic<ReturnType>::value, "The returning type must be a scalar");
         std::vector<ReturnType> rawData = std::vector<ReturnType>(m_width * m_height * m_channelNumber);
 
-        for(unsigned int x = 0; x < m_width; x++)
+        for(uint32_t x = 0; x < m_width; x++)
         {
-            for(unsigned int y = 0; y < m_height; y++)
+            for(uint32_t y = 0; y < m_height; y++)
             {
-                for(unsigned int k = 0; k < m_channelNumber; k++)
+                for(uint32_t k = 0; k < m_channelNumber; k++)
                 {
                     rawData[(x * m_height + y) * m_channelNumber + k] =
                             static_cast<ReturnType>(m_data[(x * m_height + y) * m_channelNumber + k]);
@@ -481,12 +500,24 @@ namespace mrg {
         return normHistogram;
     }
 
+    template<class Type>
+    static Type ScalingNearestNeighbor(uint32_t x, uint32_t y, uint8_t k,
+                                       const std::vector<Type>& oldData,
+                                       const typename Matrix<Type>::ScalingSettings& settings)
+    {
+        double px = mrg::Floor(x * settings.xRatio);
+        double py = mrg::Floor(y * settings.yRatio);
+
+        return oldData[(py * settings.oldWidth + px) * settings.channelNumber + k];
+    }
+
     template<uint8_t kernelSize>
     static Matrix<double> GenerateGaussianKernel(int sigma)
     {
         assert(kernelSize % 2 != 0 && "The kernel k must be odd.");
+
         auto k = static_cast<uint8_t>(mrg::Floor(static_cast<double>(kernelSize) / 2.0));
-        std::vector<double> resultKernel{kernelSize};
+        std::vector<double> resultKernel { kernelSize };
 
         for(uint8_t i = 1; i <= kernelSize; i++)
         {
