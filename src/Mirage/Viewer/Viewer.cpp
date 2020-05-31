@@ -1,13 +1,16 @@
 #include "Mirage/Viewer/Viewer.hpp"
+
+#include <utility>
 #include "ui_Viewer.h"
 
 namespace mrg
 {
     const mrg::Matrix<uchar> Viewer::whiteImage = mrg::Matrix<uchar>({ 255, 255, 255 }, 1, 1, 3);
 
-    Viewer::Viewer(QWidget* parent):
+    Viewer::Viewer(ImageModifier modifier, QWidget* parent):
             QMainWindow(parent),
-            m_ui(new Ui::Viewer)
+            m_ui(new Ui::Viewer),
+            m_modifier(std::move(modifier))
     {
         m_ui->setupUi(this);
         DrawImage(m_ui->m_lblImage, whiteImage);
@@ -33,7 +36,10 @@ namespace mrg
 
         try
         {
-            m_image = ImageParser::FromFile<uchar>(fileName.toStdString(), 3);
+            m_image = ImageParser::FromFile<uint16_t>(fileName.toStdString(), 3);
+            if(m_modifier)
+                m_image = m_modifier(m_image);
+
             DrawImage(m_ui->m_lblImage, m_image);
         }
         catch(std::exception& e)

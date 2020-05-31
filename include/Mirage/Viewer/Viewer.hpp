@@ -1,6 +1,8 @@
 #ifndef MIRAGE_VIEWER
 #define MIRAGE_VIEWER
 
+#include <functional>
+
 #include <QFileDialog>
 #include <QLabel>
 #include <QMainWindow>
@@ -19,7 +21,10 @@ namespace mrg
     {
     Q_OBJECT
     public:
-        explicit Viewer(QWidget* parent = nullptr);
+        using ImageModifier = std::function<mrg::Matrix<uint16_t>(const mrg::Matrix<uint16_t>&)>;
+
+    public:
+        explicit Viewer(ImageModifier modifier = ImageModifier(), QWidget* parent = nullptr);
 
         void OpenImage();
         void SaveImage();
@@ -27,7 +32,8 @@ namespace mrg
         ~Viewer() override;
     private:
         Ui::Viewer* m_ui;
-        mrg::Matrix<uchar> m_image;
+        mrg::Matrix<uint16_t> m_image;
+        ImageModifier m_modifier;
 
         static const mrg::Matrix<uchar> whiteImage;
     };

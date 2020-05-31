@@ -9,7 +9,10 @@ int main(int argc, char** argv)
 
     QApplication app{argc, argv};
 
-    Viewer viewer;
+    Viewer viewer = Viewer([](mrg::Matrix<uint16_t> img) -> mrg::Matrix<uint16_t> {
+        auto raw = img.Canny().GetRawData<uint16_t>();
+        return mrg::Matrix<uint16_t>(raw, img.Width(), img.Height(), 1);
+    });
     viewer.show();
 
     return app.exec();
