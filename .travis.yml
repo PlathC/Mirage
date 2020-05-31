@@ -36,5 +36,10 @@ install:
 
 script:
   - echo "Building..."
-  - cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXE_LINKER_FLAGS=${LINKER_FLAGS} .
+  - mkdir Debug && cd Debug
+  - cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXE_LINKER_FLAGS=${LINKER_FLAGS} ..
+  - cmake --build . -- VERBOSE=1
+  - cd ..
+  - mkdir Release && cd Release
+  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXE_LINKER_FLAGS=${LINKER_FLAGS} ..
   - cmake --build . -- VERBOSE=1
