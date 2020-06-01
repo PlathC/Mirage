@@ -159,4 +159,5 @@ int main()
 
 ### __Viewer__
 
-a viewer is implemented in order to provide an easy way to test each features with a visualization tool.
+A viewer is implemented in order to provide an easy way to test each features with a
+ visualization tool.
