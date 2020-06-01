@@ -8,7 +8,7 @@ int main()
 {
     using namespace mrg;
 
-    Matrix<uint16_t> mat = ImageParser::FromFile<uint16_t>("../samples/HouseDublin.jpg", 4);
+    Matrix<uint16_t> mat = ImageParser::FromFile<uint16_t>("../samples/rubberwhale.png", 4);
     Matrix<uint16_t> matConvolve = mat.Convolve(mrg::averageKernel5x5);
 
     auto scaled = matConvolve.Scale(matConvolve.Width() * 2., matConvolve.Height() * 2.,
@@ -18,7 +18,7 @@ int main()
                                     {
                                         return mrg::ScalingNearestNeighbor(x, y, k, oldData, settings);
                                     });
-    ImageParser::ToFile(scaled, "../examples/filter/Results/HouseDublin-convolved.jpg");
+    ImageParser::ToFile(scaled, "../examples/filter/Results/rubberwhale-convolved.jpg");
 
     return EXIT_SUCCESS;
 }
