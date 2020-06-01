@@ -15,7 +15,7 @@ __Library features__
 | Feature           | Progress                                                     |
 |-------------------|--------------------------------------------------------------|
 | Image structure   | Done                                                         |
-| Parser            | Done (PNG/JPEG/ PPM To fix)                                  |
+| Parser            | Done (PNG/JPEG)                                              |
 | Mirage Viewer     | In dev                                                       |
 
 __Image processing features__ 
@@ -31,6 +31,8 @@ __Image processing features__
 | Adaptive Histogram Equalization  | To do                |
 | Canny                            | Done                 |
 | Crop / Scale                     | Done                 |
+| Video support                    | To do                |
+| Optimization (Realtime use)      | To do                |
 
 <h2 align="center">Build</h2>
 
