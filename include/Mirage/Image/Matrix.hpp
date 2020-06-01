@@ -54,6 +54,7 @@ namespace mrg
         [[nodiscard]] Matrix<T> Threshold() const;
         Matrix<Type> HistogramEqualization();
         Matrix<Type> Scale(uint32_t nWidth, uint32_t nHeight, ScalingFunction algorithm);
+        Matrix<Type> Crop(uint32_t bWidth, uint32_t bHeight, uint32_t eWidth, uint32_t eHeight);
 
         [[nodiscard]] Type& Get(uint32_t w, uint32_t h, uint8_t channel);
         [[nodiscard]] Type Get(uint32_t w, uint32_t h, uint8_t channel) const;

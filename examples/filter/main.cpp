@@ -10,6 +10,7 @@ int main()
 
     Matrix<uint16_t> mat = ImageParser::FromFile<uint16_t>("../samples/HouseDublin.jpg", 4);
     Matrix<uint16_t> matConvolve = mat.Convolve(mrg::averageKernel5x5);
+
     auto scaled = matConvolve.Scale(matConvolve.Width() * 2., matConvolve.Height() * 2.,
                                     [](uint32_t x, uint32_t y, uint8_t k,
                                        const std::vector<uint16_t>& oldData,

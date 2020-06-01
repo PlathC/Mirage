@@ -425,6 +425,34 @@ namespace mrg {
     }
 
     template<class Type>
+    Matrix<Type> Matrix<Type>::Crop(uint32_t bWidth, uint32_t bHeight, uint32_t eWidth, uint32_t eHeight)
+    {
+        assert(bWidth >= 0   && bWidth <= m_width);
+        assert(bHeight >= 0  && bHeight <= m_width);
+        assert(eWidth >= 0   && eWidth <= m_height);
+        assert(eHeight >= 0  && eHeight <= m_width);
+
+        uint32_t trueNewWidth   = eWidth - bWidth;
+        uint32_t trueNewHeight  = eHeight - bHeight;
+        std::vector<Type> nData = std::vector<Type>(trueNewWidth * trueNewHeight * m_channelNumber);
+
+        for(uint32_t x = 0; x < trueNewWidth; x++)
+        {
+            for(uint32_t y = 0; y < trueNewHeight; y++)
+            {
+                uint32_t oldX = x + bWidth;
+                uint32_t oldY = y + bHeight;
+                for(uint8_t k = 0; k < m_channelNumber; k++)
+                {
+                    nData[(y * trueNewWidth + x) * m_channelNumber + k] =
+                            m_data[(oldY * (m_width) + oldX) * m_channelNumber + k];
+                }
+            }
+        }
+        return mrg::Matrix<Type>(nData, trueNewWidth, trueNewHeight, m_channelNumber);
+    }
+
+    template<class Type>
     Type Matrix<Type>::Get(uint32_t w, uint32_t h, uint8_t channel) const
     {
         assert(w < m_width && h < m_height && channel - 1 < m_channelNumber && channel > 0);
