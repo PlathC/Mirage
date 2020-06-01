@@ -1,6 +1,6 @@
-#include "Mirage/Mirage.hpp"
+#include <Mirage/Mirage.hpp>
 
-int main()
+int main(int argc, char** argv)
 {
     using namespace mrg;
 

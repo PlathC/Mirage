@@ -2,9 +2,9 @@
 // Created by Cyprien Plateau--Holleville on 12/08/2019.
 //
 
-#include "Mirage/Mirage.hpp"
+#include <Mirage/Mirage.hpp>
 
-int main()
+int main(int argc, char** argv)
 {
     using namespace mrg;
 

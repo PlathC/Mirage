@@ -56,15 +56,23 @@ The following example show how to apply m_a Gaussian Blur to an image using
 m_a kernel provide in the library.
 
 ```cpp
-#include "Mirage/Mirage.hpp"
+#include <Mirage/Mirage.hpp>
 
 int main()
 {
     using namespace mrg;
 
-    Matrix<Vec4d> mat = ImageParser::FromFile<Vec4d>("../samples/rubberwhale.png", 4);
-    Matrix<Vec4d> matConvolve = mat.Convolve(mrg::gaussianBlurKernel5x5);
-    ImageParser::ToFile(matConvolve, "../examples/filter/Results/rubberwhale-convolve.png");
+    Matrix<uint16_t> mat = ImageParser::FromFile<uint16_t>("../samples/rubberwhale.png", 4);
+    Matrix<uint16_t> matConvolve = mat.Convolve(mrg::averageKernel5x5);
+
+    auto scaled = matConvolve.Scale(matConvolve.Width() * 2., matConvolve.Height() * 2.,
+                                    [](uint32_t x, uint32_t y, uint8_t k,
+                                       const std::vector<uint16_t>& oldData,
+                                       const Matrix<uint16_t>::ScalingSettings& settings) -> uint16_t
+                                    {
+                                        return mrg::ScalingNearestNeighbor(x, y, k, oldData, settings);
+                                    });
+    ImageParser::ToFile(scaled, "../examples/filter/Results/rubberwhale-convolved.jpg");
 
     return EXIT_SUCCESS;
 }
@@ -80,13 +88,13 @@ The library provides Canny and Sobel algorithm which allow to extract
 contour lines within m_a given image.
 
 ```cpp
-#include "Mirage/Mirage.hpp"
+#include <Mirage/Mirage.hpp>
 
 int main()
 {
     using namespace mrg;
 
-    Matrix<Vec4d> mat = ImageParser::FromFile<Vec4d>("../samples/HouseDublin.jpg", 4);
+    Matrix<uint16_t> mat = ImageParser::FromFile<uint16_t>("../samples/HouseDublin.jpg", 4);
 
     Timer sobelTimer{}, cannyTimer{};
 
@@ -95,14 +103,14 @@ int main()
     sobelTimer.Stop();
 
     cannyTimer.Start();
-    Matrix<double> matCanny = mat.Canny();
+    Matrix<double> matCanny = mat.Convolve(mrg::gaussianBlurKernel5x5).Canny();
     cannyTimer.Stop();
 
     std::cout << "Sobel compute time : " << sobelTimer.Duration() << std::endl;
     std::cout << "Canny compute time : " << cannyTimer.Duration() << std::endl;
 
-    ImageParser::ToFile(matSobel, "../examples/edgedetection/Results/HouseDublin-Sobel.png");
-    ImageParser::ToFile(matCanny, "../examples/edgedetection/Results/HouseDublin-Canny.png");
+    ImageParser::ToFile(matSobel, "../examples/edgedetection/Results/HouseDublin-Sobel.jpg");
+    ImageParser::ToFile(matCanny, "../examples/edgedetection/Results/HouseDublin-Canny.jpg");
 
     return EXIT_SUCCESS;
 }
@@ -128,23 +136,22 @@ The library provide an histogram equalization function for grayscale and
 color image.
 
 ```cpp
-#include "Mirage/Mirage.hpp"
+#include <Mirage/Mirage.hpp>
 
 int main()
 {
     using namespace mrg;
 
-    Matrix<Vec4d> mat = ImageParser::FromFile<Vec4d>("../samples/lena.png", 4);
+    auto mat = ImageParser::FromFile<uint16_t>("../samples/lena.png", 4);
     Timer timer{};
 
     timer.Start();
-    Matrix<double> matGrayScale = mat.ToGrayScale<double>();
-    Matrix<double> matEq = matGrayScale.HistogramEqualization();
+    auto matEq = mat.HistogramEqualization();
     timer.Stop();
 
     std::cout << "Duration : " << timer.Duration() << std::endl;
 
-    ImageParser::ToFile(matEq, "../examples/histeq/Results/lena-eq.png");
+    ImageParser::ToFile(matEq, "../examples/histeq/Results/lenaC-eq.png");
 
     return EXIT_SUCCESS;
 }
@@ -161,3 +168,30 @@ int main()
 
 A viewer is implemented in order to provide an easy way to test each features with a
  visualization tool.
+```cpp
+#include <QApplication>
+
+#include <Mirage/Mirage.hpp>
+#include <Mirage/Viewer/Viewer.hpp>
+
+int main(int argc, char** argv)
+{
+    using namespace mrg;
+
+    QApplication app{argc, argv};
+
+    Viewer viewer = Viewer([](mrg::Matrix<uint16_t> img) -> mrg::Matrix<uint16_t> {
+        auto raw = img.Canny().Scale(400, 273, [](uint32_t x, uint32_t y, uint8_t k,
+                                                  const std::vector<double>& oldData,
+                                                  const typename mrg::Matrix<double>::ScalingSettings& settings) -> double
+        {
+            return mrg::ScalingNearestNeighbor(x, y, k, oldData, settings);
+        });
+        return mrg::Matrix<uint16_t>(raw.DataInType<uint16_t>(), raw.Width(), raw.Height(), 1);
+    });
+    viewer.show();
+
+    return app.exec();
+}
+}
+```
