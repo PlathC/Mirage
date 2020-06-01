@@ -156,7 +156,6 @@ int main()
 
 ![Lena Gray](samples/lena.png) ![Equalized Lena](readmefiles/lenaC-eq.png) 
 
-![Stars](readmefiles/Stars.jpg) ![Equalized Stars](readmefiles/Stars-eq.jpg) 
 
 ### __Viewer__
 
