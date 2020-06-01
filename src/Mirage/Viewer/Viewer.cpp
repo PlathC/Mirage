@@ -13,6 +13,8 @@ namespace mrg
             m_modifier(std::move(modifier))
     {
         m_ui->setupUi(this);
+        m_ui->m_lblImage->setMinimumSize(1,1);
+
         DrawImage(m_ui->m_lblImage, whiteImage);
 
         QObject::connect(m_ui->m_pbOpen, &QPushButton::pressed, [&]()
@@ -24,6 +26,11 @@ namespace mrg
         {
             SaveImage();
         });
+    }
+
+    void Viewer::resizeEvent(QResizeEvent* event)
+    {
+        QMainWindow::resizeEvent(event);
     }
 
     void Viewer::OpenImage()

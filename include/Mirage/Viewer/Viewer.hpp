@@ -26,6 +26,8 @@ namespace mrg
     public:
         explicit Viewer(ImageModifier modifier = ImageModifier(), QWidget* parent = nullptr);
 
+        void resizeEvent(QResizeEvent* event) override;
+
         void OpenImage();
         void SaveImage();
 
