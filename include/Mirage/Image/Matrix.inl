@@ -406,7 +406,7 @@ namespace mrg {
     }
 
     template<class Type>
-    Matrix<Type> Matrix<Type>::Scale(uint32_t nWidth, uint32_t nHeight, ScalingFunction algorithm)
+    Matrix<Type> Matrix<Type>::Scale(uint32_t nWidth, uint32_t nHeight, ScalingFunction algorithm) const
     {
         std::vector<Type> nData = std::vector<Type>((nWidth * nHeight) * m_channelNumber);
         ScalingSettings settings{m_width, m_height, nWidth, nHeight, m_channelNumber,
@@ -425,7 +425,7 @@ namespace mrg {
     }
 
     template<class Type>
-    Matrix<Type> Matrix<Type>::Crop(uint32_t bWidth, uint32_t bHeight, uint32_t eWidth, uint32_t eHeight)
+    Matrix<Type> Matrix<Type>::Crop(uint32_t bWidth, uint32_t bHeight, uint32_t eWidth, uint32_t eHeight) const
     {
         assert(bWidth >= 0   && bWidth <= m_width);
         assert(bHeight >= 0  && bHeight <= m_width);
