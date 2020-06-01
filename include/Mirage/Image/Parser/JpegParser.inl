@@ -13,14 +13,17 @@ namespace mrg
         template<typename T>
         Matrix<T> JpegParser<T>::Parse(std::string _fileName, const unsigned int channel)
         {
-            FILE *f = fopen(_fileName.c_str(), "rb");
-            fseek(f, 0, SEEK_END);
-            long fsize = ftell(f);
-            fseek(f, 0, SEEK_SET);  /* same as rewind(f); */
+            std::ifstream file = std::ifstream(_fileName, std::ios::binary);
+
+            file.ignore(std::numeric_limits<std::streamsize>::max());
+            std::streamsize fsize = file.gcount();
+            file.clear();
+            file.seekg( 0, std::ios_base::beg );
 
             std::vector<unsigned char> content = std::vector<unsigned char>(fsize + 1);
-            fread(content.data(), 1, fsize, f);
-            fclose(f);
+
+            while( file.read(reinterpret_cast<char*>(content.data()), content.size())){}
+            file.close();
 
             content[fsize] = 0;
             int jpegSubsamp = 0, width = 0, height = 0;
@@ -43,7 +46,6 @@ namespace mrg
             }
 
             tjhandle _jpegDecompressor = tjInitDecompress();
-
             if(tjDecompressHeader2(_jpegDecompressor, content.data(), fsize, &width, &height, &jpegSubsamp) != 0)
             {
                 tjDestroy(_jpegDecompressor);
@@ -113,9 +115,9 @@ namespace mrg
                 jpegSubsamp = TJSAMP_444;
             }
             else
-                {
+            {
                 throw std::runtime_error("Unsupported format.");
-                }
+            }
 
             unsigned long jpegSize = 0;
 
@@ -136,22 +138,24 @@ namespace mrg
                     pixelFormat, &(jpegBuf), &jpegSize, jpegSubsamp, jpegQual, flags);
             if(tj_stat != 0)
             {
-                const char *err = (const char *) tjGetErrorStr();
+                const char *err = reinterpret_cast<const char *>(tjGetErrorStr());
                 tjDestroy(handle);
                 handle = nullptr;
                 throw std::runtime_error("Libjpeg error" + std::string(err));
             }
 
-            FILE *file = fopen(_fileName.c_str(), "wb");
-            if (!file) {
-                throw std::runtime_error("Could not open JPEG file");
+            std::ofstream file = std::ofstream(_fileName, std::ios::binary | std::ios::trunc);
+
+            try
+            {
+                file.write(reinterpret_cast<char*>(jpegBuf), jpegSize);
+            }
+            catch(std::exception& e)
+            {
+                std::cerr << e.what() << std::endl;
+                throw e;
             }
 
-            if (fwrite(jpegBuf, jpegSize, 1, file) < 1) {
-                throw std::runtime_error("Could not write JPEG file" );
-            }
-
-            fclose(file);
             tjDestroy(handle); //should deallocate data buffer
         }
     }
