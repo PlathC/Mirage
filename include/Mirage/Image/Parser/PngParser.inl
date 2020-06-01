@@ -162,9 +162,10 @@ namespace mrg
                 file = std::fopen(fileName.c_str(), "rb");
             else
                 file = std::fopen(fileName.c_str(), "wb");
+
             if(!file)
             {
-                free(png);
+                delete png;
                 return false;
             }
 

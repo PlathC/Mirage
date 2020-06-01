@@ -36,7 +36,6 @@ set(HEADERS
         include/Mirage/Core/Macro.hpp
         include/Mirage/Image/Matrix.hpp
         include/Mirage/Image/ImageParser.hpp
-        include/Mirage/Image/Parser/PPMParser.hpp
         include/Mirage/Image/Parser/IParser.hpp
         include/Mirage/Image/Parser/PngParser.hpp
         include/Mirage/Image/Parser/JpegParser.hpp
@@ -48,7 +47,6 @@ set(SOURCES
         src/Mirage/Core/Timer.cpp
         src/Mirage/Image/Matrix.cpp
         src/Mirage/Image/ImageParser.cpp
-        src/Mirage/Image/Parser/PPMParser.cpp
         src/Mirage/Image/Parser/IParser.cpp
         src/Mirage/Image/Parser/PngParser.cpp
         src/Mirage/Image/Parser/JpegParser.cpp)

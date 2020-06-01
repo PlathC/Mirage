@@ -18,22 +18,20 @@
 
 namespace fs = std::filesystem;
 
-#include "../Core/Vec.hpp"
+#include "Mirage/Core/Vec.hpp"
 #include "Matrix.hpp"
 
 namespace mrg
 {
     namespace ImageParser
     {
-        enum ImageFile
-                {
-            PPM,
+        enum class ImageFile
+        {
             PNG,
             JPEG
-                };
+        };
 
         const std::unordered_map<ImageFile, std::vector<std::string>> formats = {
-                {ImageFile::PPM, {"ppm", "pgm", "pmm", "pnm"}},
                 {ImageFile::PNG, {"png"}},
                 {ImageFile::JPEG, {"jpeg", "jpg"}}
         };
