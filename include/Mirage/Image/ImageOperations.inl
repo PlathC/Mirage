@@ -268,11 +268,10 @@ namespace mrg
     {
         const uint32_t width  = img.Width();
         const uint32_t height = img.Height();
-        const uint8_t channel = img.Channel();
+        [[maybe_unused]]const uint8_t channel = img.Channel();
+        assert(channel == 1);
 
         const auto& data = img.Data();
-
-        assert(channel == 1);
 
         // http://www.labbookpages.co.uk/software/imgProc/otsuThreshold.html
         std::map<ImageType, int> hist;
