@@ -227,7 +227,7 @@ namespace mrg
     }
 
     template<class ImageType, class KernelType>
-    Matrix<ImageType> Convolve(const Matrix<ImageType>& img, Matrix<KernelType> kernel)
+    Matrix<ImageType> Convolve(const Matrix<ImageType>& img, const Matrix<KernelType>& kernel)
     {
         const int kernelCenter = Floor(kernel.Width() / 2);
         const uint32_t width  = img.Width();
@@ -356,7 +356,7 @@ namespace mrg
             }
         }
 
-        auto computeEqualization = [=](std::vector<ImageType> &result) -> void
+        auto computeEqualization = [=](std::vector<ImageType>& result) -> void
         {
             std::map<ImageType, double> normHistogram = ComputeNormalizedHistogram(result, width, height);
             std::map<ImageType, double> cumulativeHistogram;

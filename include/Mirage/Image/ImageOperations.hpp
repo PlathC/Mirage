@@ -36,7 +36,7 @@ namespace mrg
     Matrix<double> Canny(const Matrix<Type>& img);
 
     template<class ImageType, class KernelType>
-    Matrix<ImageType> Convolve(const Matrix<ImageType>& img, Matrix<KernelType> kernel);
+    Matrix<ImageType> Convolve(const Matrix<ImageType>& img, const Matrix<KernelType>& kernel);
 
     template<class ImageType>
     Matrix<ImageType> Threshold(const Matrix<ImageType>& img);
