@@ -12,7 +12,7 @@ int main(int argc, char** argv)
     Timer timer{};
 
     timer.Start();
-    auto matEq = mat.HistogramEqualization();
+    auto matEq = HistogramEqualization(mat);
     timer.Stop();
 
     std::cout << "Duration : " << timer.Duration() << std::endl;

@@ -165,20 +165,28 @@ namespace mrg
 
             if(!file)
             {
-                delete png;
+                if(actionType == ActionType::Read)
+                    png_destroy_read_struct(&png, &info, nullptr);
+                else
+                    png_destroy_write_struct(&png, &info);
                 return false;
             }
 
             info = png_create_info_struct(png);
             if(!info)
             {
-                png_destroy_write_struct(&png, &info);
+                if(actionType == ActionType::Read)
+                    png_destroy_read_struct(&png, &info, nullptr);
+                else
+                    png_destroy_write_struct(&png, &info);
                 return false;
             }
 
             if(setjmp(png_jmpbuf(png)))
             {
-                if(actionType == ActionType::Write)
+                if(actionType == ActionType::Read)
+                    png_destroy_read_struct(&png, &info, nullptr);
+                else
                     png_destroy_write_struct(&png, &info);
                 return false;
             }

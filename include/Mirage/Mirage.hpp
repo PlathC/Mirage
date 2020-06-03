@@ -10,6 +10,8 @@
 #include "Core/Timer.hpp"
 #include "Core/Vec.hpp"
 #include "Image/Matrix.hpp"
+#include "Image/Algorithms.hpp"
+#include "Image/ImageOperations.hpp"
 #include "Image/ImageParser.hpp"
 
 #endif //MIRAGE_MIRAGE_HPP
