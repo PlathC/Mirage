@@ -20,8 +20,9 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
-option(BUILD_VIEWER "Build Mirage viewer" ON)
-option(BUILD_EXAMPLES "Build Mirage examples" ON)
+option(MIRAGE_BUILD_VIEWER "Build Mirage viewer" ON)
+option(MIRAGE_BUILD_EXAMPLES "Build Mirage examples" ON)
+option(MIRAGE_BUILD_TESTS "Build Mirage tests" ON)
 
 find_package(PNG REQUIRED)
 message(STATUS "Found LibPNG : " ${PNG_INCLUDE_DIRS})
@@ -211,4 +212,8 @@ endif()
 
 if(${BUILD_EXAMPLES})
     add_subdirectory(examples)
+endif()
+
+if(${MIRAGE_BUILD_TESTS})
+    add_subdirectory(test)
 endif()
