@@ -23,14 +23,14 @@ __Image processing features__
 | Feature                          | Progress             |
 |----------------------------------|----------------------|
 | Image structure                  | Done                 |
-| Bit depth                        | To do                |
+| Bit depth / Pixel type           | To do                |
 | DFT                              | To do                |
 | Filter                           | Done                 |
 | Sobel / Threshold                | Done                 |
 | Histogram Equalization           | Done                 |
 | Adaptive Histogram Equalization  | To do                |
 | Canny                            | Done                 |
-| Crop / Scale                     | Done                 |
+| Crop / Scale                     | Done (RT to do)      |
 | Video support                    | To do                |
 | Optimization (Realtime use)      | To do                |
 | Test (Catch2)                    | To do                |
