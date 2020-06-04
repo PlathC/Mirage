@@ -21,8 +21,7 @@ namespace mrg
             file.clear();
             file.seekg( 0, std::ios_base::beg );
 
-            std::vector<unsigned char> content = std::vector<unsigned char>(
-                    fsize + 1);
+            std::vector<unsigned char> content = std::vector<unsigned char>(fsize + 1);
 
             while( file.read(reinterpret_cast<char*>(content.data()), static_cast<long long int>(content.size()))){}
             file.close();
@@ -62,7 +61,7 @@ namespace mrg
 
             std::vector<unsigned char> buffer = std::vector<unsigned char>(width * height * channel);
             if(tjDecompress2(_jpegDecompressor,
-                    content.data(), static_cast<long unsigned int>(fsize), buffer.data(), tempWidth,
+                    content.data(), static_cast<unsigned long>(fsize), buffer.data(), tempWidth,
                     0, tempHeight, pixelFormat, TJFLAG_FASTDCT)
                     != 0)
             {
@@ -158,7 +157,7 @@ namespace mrg
 
             try
             {
-                file.write(reinterpret_cast<char*>(jpegBuf), jpegSize);
+                file.write(reinterpret_cast<char*>(jpegBuf), static_cast<long int>(jpegSize));
             }
             catch(std::exception& e)
             {
