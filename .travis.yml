@@ -43,3 +43,6 @@ script:
   - mkdir Release && cd Release
   - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXE_LINKER_FLAGS=${LINKER_FLAGS} ..
   - cmake --build . -- VERBOSE=1
+  - ls -l
+  - cd ..
+  - ls -l

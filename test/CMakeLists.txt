@@ -6,7 +6,7 @@ set(TESTS_SRC
 
         Mirage/Core/Math.cpp
 
-    Catch2/Catch.hpp
+    Catch2/catch.hpp
 )
 
 add_executable(${PROJECT_NAME} ${TESTS_SRC})
