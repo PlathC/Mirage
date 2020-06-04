@@ -70,13 +70,13 @@ TEST_CASE( "Ceil", "[ceil]" )
 
 TEST_CASE( "Floor", "[floor]" )
 {
-    REQUIRE(mrg::Ceil(2.3)       == Approx(3.));
-    REQUIRE(mrg::Ceil(125.85465) == Approx(126.));
-    REQUIRE(mrg::Ceil(-2.3)      == Approx(-2.));
+    REQUIRE(mrg::Floor(2.3)  == Approx(2.));
+    REQUIRE(mrg::Floor(3.8)  == Approx(3.));
+    REQUIRE(mrg::Floor(-3.8) == Approx(-4.));
 }
 
 TEST_CASE( "Trunc", "[trunc]" )
 {
-    REQUIRE(mrg::Trunc(+2.7)     == Approx(2.));
-    REQUIRE(mrg::Trunc(-2.9)     == Approx(-2.));
+    REQUIRE(mrg::Trunc(+2.7) == Approx(2.));
+    REQUIRE(mrg::Trunc(-2.9) == Approx(-2.));
 }
