@@ -59,20 +59,22 @@ m_a kernel provide in the library.
 ```cpp
 #include <Mirage/Mirage.hpp>
 
-int main()
+int main(int argc, char** argv)
 {
     using namespace mrg;
 
     Matrix<uint16_t> mat = ImageParser::FromFile<uint16_t>("../samples/rubberwhale.png", 4);
-    Matrix<uint16_t> matConvolve = mat.Convolve(mrg::averageKernel5x5);
+    Matrix<uint16_t> matConvolve = Convolve(mat, mrg::averageKernel5x5);
 
-    auto scaled = matConvolve.Scale(matConvolve.Width() * 2., matConvolve.Height() * 2.,
-                                    [](uint32_t x, uint32_t y, uint8_t k,
-                                       const std::vector<uint16_t>& oldData,
-                                       const Matrix<uint16_t>::ScalingSettings& settings) -> uint16_t
-                                    {
-                                        return mrg::ScalingNearestNeighbor(x, y, k, oldData, settings);
-                                    });
+    auto scaled = Scale<uint16_t>(matConvolve, matConvolve.Width() * 2., matConvolve.Height() * 2.,
+            [](uint32_t x, uint32_t y, uint8_t k,
+                    const std::vector<uint16_t>& oldData,
+                    const ScalingSettings& settings) -> uint16_t
+                    {
+                        return mrg::ScalingNearestNeighbor(x, y, k, oldData, settings);
+                    }
+            );
+
     ImageParser::ToFile(scaled, "../examples/filter/Results/rubberwhale-convolved.jpg");
 
     return EXIT_SUCCESS;
@@ -91,7 +93,7 @@ contour lines within m_a given image.
 ```cpp
 #include <Mirage/Mirage.hpp>
 
-int main()
+int main(int argc, char** argv)
 {
     using namespace mrg;
 
@@ -100,11 +102,11 @@ int main()
     Timer sobelTimer{}, cannyTimer{};
 
     sobelTimer.Start();
-    Matrix<double> matSobel = mat.Sobel().Threshold<double>();
+    Matrix<double> matSobel = Threshold(Sobel(mat));
     sobelTimer.Stop();
 
     cannyTimer.Start();
-    Matrix<double> matCanny = mat.Convolve(mrg::gaussianBlurKernel5x5).Canny();
+    Matrix<double> matCanny = Canny(Convolve(mat, mrg::gaussianBlurKernel5x5));
     cannyTimer.Stop();
 
     std::cout << "Sobel compute time : " << sobelTimer.Duration() << std::endl;
@@ -139,7 +141,7 @@ color image.
 ```cpp
 #include <Mirage/Mirage.hpp>
 
-int main()
+int main(int argc, char** argv)
 {
     using namespace mrg;
 
@@ -147,7 +149,7 @@ int main()
     Timer timer{};
 
     timer.Start();
-    auto matEq = mat.HistogramEqualization();
+    auto matEq = HistogramEqualization(mat);
     timer.Stop();
 
     std::cout << "Duration : " << timer.Duration() << std::endl;
@@ -177,22 +179,16 @@ A viewer is implemented in order to provide an easy way to test each features wi
 
 int main(int argc, char** argv)
 {
-    using namespace mrg;
-
     QApplication app{argc, argv};
 
-    Viewer viewer = Viewer([](mrg::Matrix<uint16_t> img) -> mrg::Matrix<uint16_t> {
-        auto raw = img.Canny().Scale(400, 273, [](uint32_t x, uint32_t y, uint8_t k,
-                                                  const std::vector<double>& oldData,
-                                                  const typename mrg::Matrix<double>::ScalingSettings& settings) -> double
+    mrg::Viewer viewer = mrg::Viewer([](mrg::Matrix<uint16_t> img) -> mrg::Matrix<uint16_t>
         {
-            return mrg::ScalingNearestNeighbor(x, y, k, oldData, settings);
-        });
-        return mrg::Matrix<uint16_t>(raw.DataInType<uint16_t>(), raw.Width(), raw.Height(), 1);
-    });
+            auto raw = mrg::Canny(img);
+            return mrg::Matrix<uint16_t>(raw.DataInType<uint16_t>(), raw.Width(), raw.Height(), 1);
+        }
+    );
     viewer.show();
 
     return app.exec();
-}
 }
 ```
