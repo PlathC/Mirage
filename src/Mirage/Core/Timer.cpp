@@ -20,7 +20,8 @@ namespace mrg {
 
     void Timer::Stop()
     {
-        m_duration = (std::clock() - static_cast<double>(m_start)) / static_cast<double>(CLOCKS_PER_SEC);
+        m_duration = (static_cast<double>(std::clock()) - static_cast<double>(m_start))
+                / static_cast<double>(CLOCKS_PER_SEC);
     }
 
     double Timer::Duration()
