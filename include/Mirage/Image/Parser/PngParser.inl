@@ -10,58 +10,58 @@ namespace mrg
         // Using https://gist.github.com/niw/5963798
 
         template<class T>
-        Matrix<T> PngParser<T>::Parse(std::string _fileName, const unsigned int channel)
+        Matrix<T> PngParser<T>::Parse(const std::string& _fileName, const uint8_t channel)
         {
-            fileName = _fileName;
+            m_fileName = _fileName;
 
             if(!Init(ActionType::Read))
                 return Matrix<T>();
 
-            png_read_info(png, info);
+            png_read_info(m_png, m_info);
 
             unsigned int width, height;
-            width     = static_cast<unsigned int>(png_get_image_width(png, info));
-            height    = static_cast<unsigned int>(png_get_image_height(png, info));
-            colorType = png_get_color_type(png, info);
-            bitDepth  = png_get_bit_depth(png, info);
+            width     = png_get_image_width(m_png, m_info);
+            height    = png_get_image_height(m_png, m_info);
+            m_colorType = png_get_color_type(m_png, m_info);
+            m_bitDepth  = png_get_bit_depth(m_png, m_info);
 
-            if(bitDepth == 16)
-                png_set_strip_16(png);
+            if(m_bitDepth == 16)
+                png_set_strip_16(m_png);
 
             // PNG_COLOR_TYPE_GRAY_ALPHA is always 8 or 16bit depth.
-            if(colorType == PNG_COLOR_TYPE_GRAY && bitDepth < 8)
-                png_set_expand_gray_1_2_4_to_8(png);
+            if(m_colorType == PNG_COLOR_TYPE_GRAY && m_bitDepth < 8)
+                png_set_expand_gray_1_2_4_to_8(m_png);
 
-            if(png_get_valid(png, info, PNG_INFO_tRNS))
-                png_set_tRNS_to_alpha(png);
+            if(png_get_valid(m_png, m_info, PNG_INFO_tRNS))
+                png_set_tRNS_to_alpha(m_png);
 
             // These color_type don't have an alpha channel then fill it with 0xff.
-            if(colorType == PNG_COLOR_TYPE_RGB ||
-               colorType == PNG_COLOR_TYPE_GRAY ||
-               colorType == PNG_COLOR_TYPE_PALETTE)
-                png_set_filler(png, 0xFF, PNG_FILLER_AFTER);
+            if(m_colorType == PNG_COLOR_TYPE_RGB ||
+               m_colorType == PNG_COLOR_TYPE_GRAY ||
+               m_colorType == PNG_COLOR_TYPE_PALETTE)
+                png_set_filler(m_png, 0xFF, PNG_FILLER_AFTER);
 
-            if(colorType == PNG_COLOR_TYPE_GRAY ||
-               colorType == PNG_COLOR_TYPE_GRAY_ALPHA)
-                png_set_gray_to_rgb(png);
+            if(m_colorType == PNG_COLOR_TYPE_GRAY ||
+               m_colorType == PNG_COLOR_TYPE_GRAY_ALPHA)
+                png_set_gray_to_rgb(m_png);
 
-            png_read_update_info(png, info);
+            png_read_update_info(m_png, m_info);
 
-            rowPointers = new png_bytep[height];
+            m_rowPointers = new png_bytep[height];
 
             for(unsigned int y = 0; y < height; y++) {
-                rowPointers[y] = new png_byte[png_get_rowbytes(png, info)];
+                m_rowPointers[y] = new png_byte[png_get_rowbytes(m_png, m_info)];
             }
 
-            png_read_image(png, rowPointers);
-            fclose(file);
-            png_destroy_read_struct(&png, &info, nullptr);
+            png_read_image(m_png, m_rowPointers);
+            fclose(m_file);
+            png_destroy_read_struct(&m_png, &m_info, nullptr);
 
-            std::vector<T> result(static_cast<unsigned int>(width * height * channel));
+            std::vector<T> result(width * height * channel);
 
             for(unsigned int y = 0; y < height; y++)
             {
-                png_bytep row = rowPointers[y];
+                png_bytep row = m_rowPointers[y];
                 for(unsigned int x = 0; x < width; x++)
                 {
                     png_bytep px = &(row[x * 4]);
@@ -76,16 +76,16 @@ namespace mrg
         }
 
         template<class T>
-        void PngParser<T>::Write(const Matrix<T>& mat, std::string _fileName)
+        void PngParser<T>::Write(const Matrix<T>& mat, const std::string& _fileName)
         {
-            fileName = _fileName;
+            m_fileName = _fileName;
             if(!Init(ActionType::Write))
                 return;
 
             // Output is 8bit depth, RGBA format.
             png_set_IHDR(
-                    png,
-                    info,
+                    m_png,
+                    m_info,
                     mat.Width(), mat.Height(),
                     8,
                     PNG_COLOR_TYPE_RGBA,
@@ -94,19 +94,19 @@ namespace mrg
                     PNG_FILTER_TYPE_DEFAULT
             );
 
-            png_write_info(png, info);
+            png_write_info(m_png, m_info);
 
             // To remove the alpha channel for PNG_COLOR_TYPE_RGB format,
             // Use png_set_filler().
             //png_set_filler(png, 0, PNG_FILLER_AFTER);
 
-            rowPointers = new png_bytep[mat.Height()];
+            m_rowPointers = new png_bytep[mat.Height()];
             std::vector<T> temp = mat.template DataInType<T>();
 
             for(unsigned int j = 0; j < mat.Height(); j++)
             {
-                rowPointers[j] = new png_byte[mat.Width() * 4];
-                png_bytep row = rowPointers[j];
+                m_rowPointers[j] = new png_byte[mat.Width() * 4];
+                png_bytep row = m_rowPointers[j];
                 for(unsigned int i = 0; i < mat.Width(); i++)
                 {
                     png_bytep px = &(row[i * 4]);
@@ -116,7 +116,7 @@ namespace mrg
                         {
                             if(k < mat.Channel())
                             {
-                                px[k] = temp[(j * mat.Width() + i) * mat.Channel() + k];
+                                px[k] = static_cast<png_byte>(temp[(j * mat.Width() + i) * mat.Channel() + k]);
                             }
                             else
                             {
@@ -129,69 +129,69 @@ namespace mrg
                     }
                     else
                     {
-                        px[0] = temp[(j * mat.Width() + i) * mat.Channel()];
-                        px[1] = temp[(j * mat.Width() + i) * mat.Channel()];
-                        px[2] = temp[(j * mat.Width() + i) * mat.Channel()];
-                        px[3] = temp[255];
+                        px[0] = static_cast<png_byte>(temp[(j * mat.Width() + i) * mat.Channel()]);
+                        px[1] = static_cast<png_byte>(temp[(j * mat.Width() + i) * mat.Channel()]);
+                        px[2] = static_cast<png_byte>(temp[(j * mat.Width() + i) * mat.Channel()]);
+                        px[3] = 255;
                     }
                 }
             }
 
-            png_write_image(png, rowPointers);
-            png_write_end(png, NULL);
-            png_destroy_write_struct(&png, &info);
+            png_write_image(m_png, m_rowPointers);
+            png_write_end(m_png, NULL);
+            png_destroy_write_struct(&m_png, &m_info);
 
-            delete[] rowPointers;
+            delete[] m_rowPointers;
 
-            fclose(file);
+            fclose(m_file);
         }
 
         template<class T>
         bool PngParser<T>::Init(ActionType actionType) {
             if(actionType == ActionType::Read)
-                png = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
+                m_png = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
             else
-                png = png_create_write_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
+                m_png = png_create_write_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
 
-            if(!png)
+            if(!m_png)
             {
                 return false;
             }
 
             if(actionType == ActionType::Read)
-                file = std::fopen(fileName.c_str(), "rb");
+                m_file = std::fopen(m_fileName.c_str(), "rb");
             else
-                file = std::fopen(fileName.c_str(), "wb");
+                m_file = std::fopen(m_fileName.c_str(), "wb");
 
-            if(!file)
+            if(!m_file)
             {
                 if(actionType == ActionType::Read)
-                    png_destroy_read_struct(&png, &info, nullptr);
+                    png_destroy_read_struct(&m_png, &m_info, nullptr);
                 else
-                    png_destroy_write_struct(&png, &info);
+                    png_destroy_write_struct(&m_png, &m_info);
                 return false;
             }
 
-            info = png_create_info_struct(png);
-            if(!info)
+            m_info = png_create_info_struct(m_png);
+            if(!m_info)
             {
                 if(actionType == ActionType::Read)
-                    png_destroy_read_struct(&png, &info, nullptr);
+                    png_destroy_read_struct(&m_png, &m_info, nullptr);
                 else
-                    png_destroy_write_struct(&png, &info);
+                    png_destroy_write_struct(&m_png, &m_info);
                 return false;
             }
 
-            if(setjmp(png_jmpbuf(png)))
+            if(setjmp(png_jmpbuf(m_png)))
             {
                 if(actionType == ActionType::Read)
-                    png_destroy_read_struct(&png, &info, nullptr);
+                    png_destroy_read_struct(&m_png, &m_info, nullptr);
                 else
-                    png_destroy_write_struct(&png, &info);
+                    png_destroy_write_struct(&m_png, &m_info);
                 return false;
             }
 
-            png_init_io(png, file);
+            png_init_io(m_png, m_file);
             return true;
         }
     }

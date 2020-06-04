@@ -11,22 +11,28 @@ namespace mrg
     namespace ImageParser
     {
         template<typename T>
-        Matrix<T> JpegParser<T>::Parse(std::string _fileName, const unsigned int channel)
+        Matrix<T> JpegParser<T>::Parse(const std::string& _fileName, const uint8_t channel)
         {
             std::ifstream file = std::ifstream(_fileName, std::ios::binary);
 
             file.ignore(std::numeric_limits<std::streamsize>::max());
-            std::streamsize fsize = file.gcount();
+            std::size_t fsize = static_cast<std::size_t>(file.gcount());
+
             file.clear();
             file.seekg( 0, std::ios_base::beg );
 
-            std::vector<unsigned char> content = std::vector<unsigned char>(fsize + 1);
+            std::vector<unsigned char> content = std::vector<unsigned char>(
+                    fsize + 1);
 
-            while( file.read(reinterpret_cast<char*>(content.data()), content.size())){}
+            while( file.read(reinterpret_cast<char*>(content.data()), static_cast<long long int>(content.size()))){}
             file.close();
 
             content[fsize] = 0;
-            int jpegSubsamp = 0, width = 0, height = 0;
+            int jpegSubsamp = 0;
+            int tempWidth = 0;
+            int tempHeight = 0;
+            uint32_t width = 0;
+            uint32_t height = 0;
             int pixelFormat;
             if(channel == 1)
             {
@@ -46,7 +52,9 @@ namespace mrg
             }
 
             tjhandle _jpegDecompressor = tjInitDecompress();
-            if(tjDecompressHeader2(_jpegDecompressor, content.data(), fsize, &width, &height, &jpegSubsamp) != 0)
+            if(tjDecompressHeader2(_jpegDecompressor,
+                    content.data(), static_cast<long unsigned int>(fsize),
+                    &tempWidth, &tempHeight, &jpegSubsamp) != 0)
             {
                 tjDestroy(_jpegDecompressor);
                 throw std::runtime_error("Error on decompressing header");
@@ -54,8 +62,8 @@ namespace mrg
 
             std::vector<unsigned char> buffer = std::vector<unsigned char>(width * height * channel);
             if(tjDecompress2(_jpegDecompressor,
-                    content.data(), fsize, buffer.data(), width,
-                    0/*pitch*/, height, pixelFormat, TJFLAG_FASTDCT)
+                    content.data(), static_cast<long unsigned int>(fsize), buffer.data(), tempWidth,
+                    0, tempHeight, pixelFormat, TJFLAG_FASTDCT)
                     != 0)
             {
                 tjDestroy(_jpegDecompressor);
@@ -64,9 +72,9 @@ namespace mrg
 
             std::vector<T> resultData;
             resultData.resize(width * height * channel);
-            for(uint32_t j = 0; j < static_cast<uint32_t>(height); j++)
+            for(uint32_t j = 0; j < height; j++)
             {
-                for(uint32_t i = 0; i < static_cast<uint32_t>(width); i++)
+                for(uint32_t i = 0; i < width; i++)
                 {
                     for(uint32_t c = 0; c < channel; c++)
                     {
@@ -80,7 +88,7 @@ namespace mrg
         }
 
         template<typename T>
-        void JpegParser<T>::Write(const Matrix<T>& mat, std::string _fileName)
+        void JpegParser<T>::Write(const Matrix<T>& mat, const std::string& _fileName)
         {
             tjhandle handle = tjInitCompress();
 
@@ -129,13 +137,15 @@ namespace mrg
                 {
                     for(uint8_t c = 0; c < nbands; c++)
                     {
-                        srcBuf[(j * width + i) * nbands + c] = data[(j * width + i) * nbands + c];
+                        srcBuf[(j * width + i) * nbands + c] =
+                                static_cast<unsigned char>(data[(j * width + i) * nbands + c]);
                     }
                 }
             }
 
-            int tj_stat = tjCompress2( handle, srcBuf.data(), width, pitch, height,
-                    pixelFormat, &(jpegBuf), &jpegSize, jpegSubsamp, jpegQual, flags);
+            int tj_stat = tjCompress2(handle, srcBuf.data(), static_cast<int>(width), static_cast<int>(pitch),
+                                      static_cast<int>(height), pixelFormat, &(jpegBuf), &jpegSize, jpegSubsamp,
+                                      jpegQual, flags);
             if(tj_stat != 0)
             {
                 const char *err = reinterpret_cast<const char *>(tjGetErrorStr());

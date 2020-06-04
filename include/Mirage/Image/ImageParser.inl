@@ -12,7 +12,8 @@ namespace mrg
     namespace ImageParser
     {
         template<typename Type>
-        Matrix<Type> FromFile(std::string fileName, const unsigned int channel) {
+        Matrix<Type> FromFile(const std::string& fileName, const uint8_t channel)
+        {
             std::unique_ptr<IParser<Type>> parser;
             Matrix<Type> result;
 
@@ -49,7 +50,8 @@ namespace mrg
 
 
         template<typename Type>
-        void ToFile(Matrix<Type> &mat, std::string fileName) {
+        void ToFile(const Matrix<Type>& mat, const std::string& fileName)
+        {
             std::unique_ptr<IParser<Type>> parser;
             auto idx = fileName.rfind('.');
 

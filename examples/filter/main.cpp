@@ -11,7 +11,7 @@ int main(int argc, char** argv)
     Matrix<uint16_t> mat = ImageParser::FromFile<uint16_t>("../samples/rubberwhale.png", 4);
     Matrix<uint16_t> matConvolve = Convolve(mat, mrg::averageKernel5x5);
 
-    auto scaled = Scale<uint16_t>(matConvolve, matConvolve.Width() * 2., matConvolve.Height() * 2.,
+    auto scaled = Scale<uint16_t>(matConvolve, matConvolve.Width() * 2, matConvolve.Height() * 2,
             [](uint32_t x, uint32_t y, uint8_t k,
                     const std::vector<uint16_t>& oldData,
                     const ScalingSettings& settings) -> uint16_t

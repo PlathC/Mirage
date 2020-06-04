@@ -15,9 +15,9 @@ namespace mrg
         template<typename T>
         class IParser {
         public:
-            virtual Matrix <T> Parse(std::string fileName, unsigned int channel) = 0;
+            virtual Matrix <T> Parse(const std::string& fileName, const uint8_t channel) = 0;
 
-            virtual void Write(const Matrix <T> &mat, std::string fileName) = 0;
+            virtual void Write(const Matrix <T> &mat, const std::string& fileName) = 0;
 
             virtual ~IParser() {};
         };

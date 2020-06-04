@@ -62,6 +62,13 @@ namespace mrg
         static_assert(std::is_arithmetic<T>::value, "This function only works with numbers.");
         return static_cast<T>(std::floor(n));
     }
+
+    template<typename T>
+    T Trunc(const T n)
+    {
+        static_assert(std::is_arithmetic<T>::value, "This function only works with numbers.");
+        return static_cast<T>(std::trunc(n));
+    }
 }
 
 #endif //MIRAGE_MATH_HPP

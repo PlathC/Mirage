@@ -15,9 +15,9 @@ namespace mrg
         template<typename T>
         class PngParser : public IParser<T> {
         public:
-            Matrix<T> Parse(std::string _fileName, unsigned int channel) override;
+            Matrix<T> Parse(const std::string& _fileName, const uint8_t channel) override;
 
-            void Write(const Matrix<T> &mat, std::string _fileName) override;
+            void Write(const Matrix<T> &mat, const std::string& _fileName) override;
 
         private:
             enum class ActionType {
@@ -27,14 +27,14 @@ namespace mrg
 
             bool Init(ActionType actionType);
 
-            std::string fileName;
-            FILE *file = nullptr;
+            std::string m_fileName;
+            FILE *m_file = nullptr;
 
-            png_byte colorType;
-            png_byte bitDepth;
-            png_structp png;
-            png_infop info;
-            png_bytep *rowPointers = nullptr;
+            png_byte m_colorType;
+            png_byte m_bitDepth;
+            png_structp m_png;
+            png_infop m_info;
+            png_bytep* m_rowPointers = nullptr;
         };
     }
 }

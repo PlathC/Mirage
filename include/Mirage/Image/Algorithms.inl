@@ -5,8 +5,8 @@ namespace mrg
                                 const std::vector<Type>& oldData,
                                 const ScalingSettings& settings)
     {
-        double px = mrg::Floor(x * settings.xRatio);
-        double py = mrg::Floor(y * settings.yRatio);
+        uint32_t px = static_cast<uint32_t>(mrg::Floor(x * settings.xRatio));
+        uint32_t py = static_cast<uint32_t>(mrg::Floor(y * settings.yRatio));
 
         return oldData[(py * settings.oldWidth + px) * settings.channelNumber + k];
     }
@@ -14,8 +14,8 @@ namespace mrg
     template<class Type>
     Matrix<Type> Scale(const Matrix<Type>& img, uint32_t nWidth, uint32_t nHeight, ScalingFunction<Type> algorithm)
     {
-        uint32_t width   = img.Width();
-        uint32_t height  = img.Height();
+        uint32_t width  = img.Width();
+        uint32_t height = img.Height();
         uint8_t channel = img.Channel();
 
         const auto& data = img.Data();

@@ -48,6 +48,7 @@ namespace mrg
         [[nodiscard]] inline uint32_t Height() const noexcept { return m_height; }
         [[nodiscard]] inline uint8_t Channel() const noexcept { return m_channelNumber; }
 
+
     private:
         uint32_t m_width;
         uint32_t m_height;

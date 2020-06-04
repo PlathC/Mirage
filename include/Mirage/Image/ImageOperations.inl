@@ -229,7 +229,7 @@ namespace mrg
     template<class ImageType, class KernelType>
     Matrix<ImageType> Convolve(const Matrix<ImageType>& img, const Matrix<KernelType>& kernel)
     {
-        const int kernelCenter = Floor(kernel.Width() / 2);
+        const uint32_t kernelCenter = static_cast<uint32_t>(Floor(kernel.Width() / 2));
         const uint32_t width  = img.Width();
         const uint32_t height = img.Height();
         const uint8_t channel = img.Channel();
@@ -252,7 +252,7 @@ namespace mrg
                             uint32_t yn = j + jk - kernelCenter;
 
                             uint32_t index = (xn * width + yn) * channel + k;
-                            value += data[index] * kernel.Get(ik, jk, 1);
+                            value += static_cast<ImageType>(mrg::Trunc(data[index] * kernel.Get(ik, jk, 1)));
                         }
                     }
                     resultData[(i * width + j) * channel + k] = value;
@@ -274,41 +274,42 @@ namespace mrg
         const auto& data = img.Data();
 
         // http://www.labbookpages.co.uk/software/imgProc/otsuThreshold.html
-        std::map<ImageType, int> hist;
+        //TODO: Change uint32_t to bit depth type
+        std::map<ImageType, uint32_t> hist;
         for(unsigned int i = 0; i < data.size(); i++)
         {
-            int h = data[i];
+            ImageType h = data[i];
             if(hist.count(h) <= 0)
                 hist[h] = 0;
             hist[h]++;
         }
 
-        int total = data.size();
-        float sum = 0;
+        std::size_t total = data.size();
+        double sum = 0;
         for (auto it = hist.begin(); it != hist.end(); it++)
             sum += it->first * it->second;
 
-        float sumB = 0;
+        double sumB = 0;
         int weightBackground = 0;
         int weightForeground = 0;
 
-        float varMax = 0;
+        double varMax = 0;
         ImageType threshold = ImageType(0);
 
         for (auto it = hist.begin(); it != hist.end(); it++ )
         {
-            weightBackground += it->second;
-            weightForeground = total - weightBackground;
+            weightBackground += static_cast<int>(it->second);
+            weightForeground = static_cast<int>(total) - weightBackground;
             if(weightForeground == 0) break;
 
-            sumB += static_cast<float>(it->first * it->second);
+            sumB += static_cast<double>(it->first * it->second);
 
-            float meanBackground = sumB / static_cast<float>(weightBackground);
-            float meanForeground = (sum - sumB) / static_cast<float>(weightForeground);
+            double meanBackground = sumB / static_cast<double>(weightBackground);
+            double meanForeground = (sum - sumB) / static_cast<double>(weightForeground);
 
-            float varBetween = static_cast<float>(weightBackground) * static_cast<float>(weightForeground) *
-                               (static_cast<float>(meanBackground) - static_cast<float>(meanForeground)) *
-                               (static_cast<float>(meanBackground) - static_cast<float>(meanForeground));
+            double varBetween = static_cast<double>(weightBackground) * static_cast<double>(weightForeground) *
+                               (meanBackground - meanForeground) *
+                               (meanBackground - meanForeground);
 
             if(varBetween > varMax)
             {
@@ -372,7 +373,7 @@ namespace mrg
             for(auto& pixel : result)
             {
                 // TODO: Change 256 to image depth
-                pixel = (256 - 1) * cumulativeHistogram[pixel];
+                pixel = static_cast<ImageType>((256 - 1) * cumulativeHistogram[pixel]);
             }
         };
 

@@ -29,6 +29,100 @@ message(STATUS "Found LibPNG : " ${PNG_INCLUDE_DIRS})
 find_package(JPEGTURBO REQUIRED)
 message(STATUS "Found JpegTurbo : " ${JPEGTURBO_INCLUDE_DIR})
 
+# Based on https://github.com/lefticus/cppbestpractices/blob/master/02-Use_the_Tools_Available.md
+if (CMAKE_COMPILER_IS_GNUCC)
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        set(MIRAGE_COMPILATION_FLAGS
+                -Wall
+                -Wextra
+                -Wshadow
+                -pedantic
+                -Wnon-virtual-dtor
+                -Wold-style-cast
+                -Wcast-align
+                -Wunused
+                -Woverloaded-virtual
+                -Wpedantic
+                -Wconversion
+                -Wsign-conversion
+                -Wmisleading-indentation
+                -Wduplicated-cond
+                -Wduplicated-branches
+                -Wlogical-op
+                -Wnull-dereference
+                -Wuseless-cast
+                -Wdouble-promotion
+                -Wformat=2)
+    else()
+        set(MIRAGE_COMPILATION_FLAGS
+                -DNDEBUG
+                -Wall
+                -Wextra
+                -Wshadow
+                -pedantic
+                -Wnon-virtual-dtor
+                -Wold-style-cast
+                -Wcast-align
+                -Wunused
+                -Woverloaded-virtual
+                -Wpedantic
+                -Wconversion
+                -Wsign-conversion
+                -Wmisleading-indentation
+                -Wduplicated-cond
+                -Wduplicated-branches
+                -Wlogical-op
+                -Wnull-dereference
+                -Wuseless-cast
+                -Wdouble-promotion
+                -Wformat=2)
+    endif()
+elseif (MSVC)
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        set(MIRAGE_COMPILATION_FLAGS
+                /permissive
+                /W4
+                /w14242
+                /w14254
+                /w14263
+                /w14265
+                /w14287
+                /we4289
+                /w14296
+                /w14311
+                /w14545
+                /w14546
+                /w14547
+                /w14549
+                /w14555
+                /w14619
+                /w14640
+                /w14826
+                /w14928)
+    else()
+        set(MIRAGE_COMPILATION_FLAGS
+                /permissive
+                /W4
+                /w14242
+                /w14254
+                /w14263
+                /w14265
+                /w14287
+                /we4289
+                /w14296
+                /w14311
+                /w14545
+                /w14546
+                /w14547
+                /w14549
+                /w14555
+                /w14619
+                /w14640
+                /w14826
+                /w14928)
+    endif()
+endif ()
+
 set(HEADERS
         include/Mirage/Core/Math.hpp
         include/Mirage/Core/Vec.hpp
@@ -88,59 +182,17 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/Mirage
 
 add_library(${PROJECT_NAME} STATIC ${HEADERS} ${SOURCES})
 target_compile_options(${PROJECT_NAME} INTERFACE)
+
 if (CMAKE_COMPILER_IS_GNUCC)
-    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-        target_compile_options(${PROJECT_NAME} PRIVATE
-                -Wall
-                -Wextra
-                -pedantic
-                -Wwrite-strings
-                -std=c++17
-                -Wno-psabi
-                -Wno-unused-parameter
-                -Wno-ignored-qualifiers
-                -Wno-deprecated -lstdc++fs)
-    else()
-        target_compile_options(${PROJECT_NAME} PRIVATE
-                -DNDEBUG
-                -Wall
-                -Wextra
-                -pedantic
-                -Wwrite-strings
-                -std=c++17
-                -Wno-psabi
-                -Wno-unused-parameter
-                -Wno-ignored-qualifiers
-                -Wno-deprecated -lstdc++fs)
-    endif()
     target_link_libraries(${PROJECT_NAME} PRIVATE stdc++fs)
 elseif (MSVC)
-    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-        target_compile_options(${PROJECT_NAME} PRIVATE
-                /std:c++17
-                /Zc:__cplusplus
-                /MDd
-                /Od
-                /EHsc
-                /wd4996
-                /Zi
-                /wd4634
-                /wd4635)
-    else()
-        target_compile_options(${PROJECT_NAME} PRIVATE
-                /std:c++17
-                /Zc:__cplusplus
-                /DNDEBUG
-                /O2
-                /Ob2
-                /EHsc
-                /Zi
-                /wd4996
-                /wd4634
-                /wd4635)
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
         target_link_options(${PROJECT_NAME} PRIVATE /SUBSYSTEM:windows /ENTRY:mainCRTStartup)
     endif()
 endif ()
+
+
+target_compile_options(${PROJECT_NAME} PUBLIC ${MIRAGE_COMPILATION_FLAGS})
 
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
