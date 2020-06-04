@@ -33,7 +33,7 @@ __Image processing features__
 | Crop / Scale                     | Done (RT to do)      |
 | Video support                    | To do                |
 | Optimization (Realtime use)      | To do                |
-| Test (Catch2)                    | To do                |
+| Test (Catch2)                    | In dev               |
 
 <h2 align="center">Build</h2>
 
