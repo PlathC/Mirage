@@ -186,4 +186,4 @@ namespace mrg
 
 #include "Vec.inl"
 
-#endif //MIRAGE_VEC_HPP
+#endif //MIRAGE_MATH_HPP

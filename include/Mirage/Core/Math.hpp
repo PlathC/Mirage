@@ -10,7 +10,8 @@
 
 namespace mrg
 {
-    constexpr double Pi = 3.14159265358979323846;
+    constexpr double Pi  = 3.14159265358979323846;
+    constexpr double Tau = 6.28318530717958647692;
 
     inline double Atan(const double val)
     {
