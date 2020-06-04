@@ -19,8 +19,8 @@ namespace mrg
 
             png_read_info(m_png, m_info);
 
-            uint32_t width  = static_cast<uint32_t>(png_get_image_width(m_png, m_info));
-            uint32_t height = static_cast<uint32_t>(png_get_image_height(m_png, m_info));
+            uint32_t width  = png_get_image_width(m_png, m_info);
+            uint32_t height = png_get_image_height(m_png, m_info);
             m_colorType = png_get_color_type(m_png, m_info);
             m_bitDepth  = png_get_bit_depth(m_png, m_info);
 
