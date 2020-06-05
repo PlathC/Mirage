@@ -5,7 +5,7 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 
-#include <Mirage/Core/Math.hpp>
+#include "Mirage/Core/Math.hpp"
 
 TEST_CASE( "Atan", "[atan]" )
 {
