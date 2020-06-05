@@ -1,13 +1,15 @@
 project(MIRAGE_TESTS)
 
+enable_testing()
+
 set(CMAKE_CXX_STANDARD 17)
 
 set(TESTS_SRC
 
-        Mirage/Core/Math.cpp
+    Mirage/Core/Math.cpp
+    Mirage/Core/Vec.cpp
 
-    Catch2/catch.hpp
-)
+    Catch2/catch.hpp )
 
 add_executable(${PROJECT_NAME} ${TESTS_SRC})
 
@@ -22,3 +24,5 @@ target_include_directories(
 target_compile_options(${PROJECT_NAME} PRIVATE ${MIRAGE_COMPILATION_FLAGS})
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE "../include")
 target_link_libraries(${PROJECT_NAME} Mirage)
+
+add_test(${PROJECT_NAME} ${PROJECT_NAME})
