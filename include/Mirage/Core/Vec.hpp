@@ -24,24 +24,37 @@ namespace mrg
                       "The vector must store numbers");
     public:
         Vec3();
-        Vec3(const Vec3& v) : m_x(v.m_x), m_y(v.m_y), m_z(v.m_z) {}
         Vec3(T x, T y, T z) : m_x(x), m_y(y), m_z(z) {}
         Vec3(std::initializer_list<T> l);
+
+        Vec3(const Vec3& v) = default;
+        Vec3(Vec3&& v) = default;
+        Vec3<T>& operator=(const Vec3<T>& value) = default;
+        Vec3<T>& operator=(Vec3<T>&& value) = default;
+        Vec3<T>& operator=(const T& value);
+
+        T& operator[](unsigned int index);
+
+        Vec3<T> operator+(const Vec3<T>& vec);
+        Vec3<T> operator-(const Vec3<T>& vec);
+
+        Vec3<T> operator*(const Vec3<T>& vec);
+        Vec3<T> operator*(const T value);
+
+        Vec3<T> operator/(const T value);
+
+        Vec3<T>& operator+=(const Vec3<T>& vec);
+        Vec3<T>& operator-=(const Vec3<T>& vec);
+        Vec3<T>& operator*=(const Vec3<T>& vec);
+        Vec3<T>& operator*=(const T value);
 
         T& X();
         T& Y();
         T& Z();
 
-        Vec3<T>& operator=(const T& value);
-        Vec3<T>& operator=(const Vec3<T>& value);
-        T& operator[](unsigned int index);
-        Vec3<T> operator+(Vec3<T> const &vec);
-        Vec3<T> operator*(Vec3<T> const &vec);
-        Vec3<T> operator*(T value);
-        Vec3<T>& operator+=(Vec3<T> const &vec);
-        Vec3<T>& operator*=(Vec3<T> const &vec);
-
         double Length();
+        Vec3<T> Normalize() const;
+
         T& Get(unsigned int index);
 
         friend std::ostream& operator<<(std::ostream& os, const Vec3<T>& v)
@@ -65,22 +78,31 @@ namespace mrg
         Vec4(T x, T y , T z, T a) : m_x(x), m_y(y), m_z(z), m_a(a) { }
         Vec4(std::initializer_list<T> l);
 
+        Vec4<T>& operator=(const Vec4<T>& value) = default;
+
         T& X();
         T& Y();
         T& Z();
         T& A();
 
-        Vec4<T>& operator=(const T& value);
-        Vec4<T>& operator=(const Vec4<T>& value);
         T& operator[](unsigned int index);
-        Vec4<T> operator+(Vec4<T> const &vec);
-        Vec4<T> operator+(T const &t);
-        Vec4<T> operator*(T const &t);
-        Vec4<T> operator*(Vec4<T> const &vec);
-        Vec4<T> operator/(Vec4<T> const &vec);
-        Vec4<T> operator/(T const &t);
-        Vec4<T>& operator+=(Vec4<T> const &vec);
-        Vec4<T>& operator*=(Vec4<T> const &vec);
+
+        Vec4<T>& operator=(const T& value);
+        Vec4<T> operator+(const Vec4<T> &vec);
+        Vec4<T> operator-(const Vec4<T>& vec);
+
+        Vec4<T> operator+(const T& t);
+        Vec4<T> operator-(const T& t);
+
+        Vec4<T> operator*(const T& t);
+        Vec4<T> operator*(const Vec4<T>& vec);
+
+        Vec4<T> operator/(const T t);
+
+        Vec4<T>& operator+=(const Vec4<T>&vec);
+        Vec4<T>& operator-=(const Vec4<T>&vec);
+        Vec4<T>& operator*=(const Vec4<T>&vec);
+        Vec4<T>& operator*=(const T t);
 
         Vec4<T> Normalize() const;
         T& Get(unsigned int index);
