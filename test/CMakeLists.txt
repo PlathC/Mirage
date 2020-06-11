@@ -8,8 +8,9 @@ set(TESTS_SRC
 
     Mirage/Core/Math.cpp
     Mirage/Core/Vec.cpp
+    Mirage/Image/ImageParser.cpp
 
-    Catch2/catch.hpp )
+    Catch2/catch.hpp)
 
 add_executable(${PROJECT_NAME} ${TESTS_SRC})
 
