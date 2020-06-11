@@ -2,11 +2,11 @@
 // Created by Platholl on 11/06/2020.
 //
 
+#include "catch.hpp"
+
 #include <filesystem>
 
 namespace fs = std::filesystem;
-
-#include "catch.hpp"
 
 #include "Mirage/Image/ImageParser.hpp"
 
