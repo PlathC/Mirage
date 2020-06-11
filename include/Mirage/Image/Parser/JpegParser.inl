@@ -30,19 +30,20 @@ namespace mrg
             int jpegSubsamp = 0;
             int tempWidth = 0;
             int tempHeight = 0;
-            uint32_t width = 0;
-            uint32_t height = 0;
             int pixelFormat;
             if(channel == 1)
             {
+                assert(channel <= 1);
                 pixelFormat = TJPF_GRAY;
             }
             else if(channel == 3)
             {
+                assert(channel <= 3);
                 pixelFormat = TJPF_RGB;
             }
             else if(channel == 4)
             {
+                assert(channel <= 4);
                 pixelFormat = TJPF_RGBA;
             }
             else
@@ -56,17 +57,21 @@ namespace mrg
                     &tempWidth, &tempHeight, &jpegSubsamp) != 0)
             {
                 tjDestroy(_jpegDecompressor);
-                throw std::runtime_error("Error on decompressing header");
+                throw std::runtime_error("Error on decompressing header : " +
+                                         std::string(tjGetErrorStr2(_jpegDecompressor)));
             }
+
+            uint32_t width = static_cast<uint32_t>(tempWidth);
+            uint32_t height = static_cast<uint32_t>(tempHeight);
 
             std::vector<unsigned char> buffer = std::vector<unsigned char>(width * height * channel);
             if(tjDecompress2(_jpegDecompressor,
-                    content.data(), static_cast<unsigned long>(fsize), buffer.data(), tempWidth,
+                    content.data(), static_cast<long unsigned int>(fsize), buffer.data(), tempWidth,
                     0, tempHeight, pixelFormat, TJFLAG_FASTDCT)
                     != 0)
             {
                 tjDestroy(_jpegDecompressor);
-                throw std::runtime_error("Error on decompressing image file.");
+                throw std::runtime_error("Error on decompressing image file : " + std::string(tjGetErrorStr2(_jpegDecompressor)));
             }
 
             std::vector<T> resultData;
