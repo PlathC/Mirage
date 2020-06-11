@@ -31,7 +31,7 @@ namespace mrg
         Vec3(Vec3&& v) = default;
         Vec3<T>& operator=(const Vec3<T>& value) = default;
         Vec3<T>& operator=(Vec3<T>&& value) = default;
-        Vec3<T>& operator=(const T& value);
+        Vec3<T>& operator=(const T value);
 
         T& operator[](unsigned int index);
 
@@ -87,14 +87,14 @@ namespace mrg
 
         T& operator[](unsigned int index);
 
-        Vec4<T>& operator=(const T& value);
+        Vec4<T>& operator=(const T value);
         Vec4<T> operator+(const Vec4<T> &vec);
         Vec4<T> operator-(const Vec4<T>& vec);
 
-        Vec4<T> operator+(const T& t);
-        Vec4<T> operator-(const T& t);
+        Vec4<T> operator+(const T t);
+        Vec4<T> operator-(const T t);
 
-        Vec4<T> operator*(const T& t);
+        Vec4<T> operator*(const T t);
         Vec4<T> operator*(const Vec4<T>& vec);
 
         Vec4<T> operator/(const T t);
@@ -105,7 +105,7 @@ namespace mrg
         Vec4<T>& operator*=(const T t);
 
         Vec4<T> Normalize() const;
-        T& Get(unsigned int index);
+        T& Get(const unsigned int index);
         [[nodiscard]] double Length() const;
 
         friend std::ostream& operator<<(std::ostream& os, const Vec4<T>& v)
@@ -129,18 +129,29 @@ namespace mrg
     public:
         Vec() = default;
         Vec(const Vec<Type, Size>& vec);
-        explicit Vec(Type initialise);
+        explicit Vec(const Type initialise);
         Vec(std::initializer_list<Type> l);
 
-        Type& operator[](unsigned int index);
+        Type operator[](const unsigned int index) const;
+        Type& operator[](const unsigned int index);
         Vec<Type, Size>& operator=(const Type& value);
-        Vec<Type, Size>& operator*=(Vec<Type, Size> const &vec);
-        Vec<Type, Size> operator+(Vec<Type, Size> const &vec);
-        Vec<Type, Size> operator*(Vec<Type, Size> const &vec);
+        Vec<Type, Size>& operator*=(const Vec<Type, Size>& vec);
+        Vec<Type, Size>& operator*=(const Type t);
+        Vec<Type, Size>& operator+=(const Vec<Type, Size>& vec);
+        Vec<Type, Size>& operator+=(const Type t);
+        Vec<Type, Size>& operator-=(const Vec<Type, Size>& vec);
+        Vec<Type, Size>& operator-=(const Type t);
+
+        Vec<Type, Size> operator+(const Vec<Type, Size>& vec);
+        Vec<Type, Size> operator-(const Vec<Type, Size>& vec);
+        Vec<Type, Size> operator*(const Vec<Type, Size>& vec);
+        Vec<Type, Size> operator*(const Type t);
+        Vec<Type, Size> operator/(const Type t);
 
         [[nodiscard]] double Length() const;
         Vec<Type, Size> Normalize() const;
-        Type& Get(unsigned int index);
+
+        Type& Get(const unsigned int index);
 
         friend std::ostream& operator<<(std::ostream& os, const Vec<Type, Size>& v)
         {

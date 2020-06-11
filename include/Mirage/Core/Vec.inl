@@ -26,7 +26,7 @@ namespace mrg
     T& Vec3<T>::Z() { return m_z; }
 
     template<class T>
-    Vec3<T>& Vec3<T>::operator=(const T& value)
+    Vec3<T>& Vec3<T>::operator=(const T value)
     {
         this->m_x = value;
         this->m_y = value;
@@ -155,7 +155,7 @@ namespace mrg
     }
 
     template<class T>
-    T& Vec3<T>::Get(unsigned int index)
+    T& Vec3<T>::Get(const unsigned int index)
     {
         assert(index < 3);
         switch(index)
@@ -206,7 +206,7 @@ namespace mrg
     }
 
     template<class T>
-    Vec4<T>& Vec4<T>::operator=(const T& value)
+    Vec4<T>& Vec4<T>::operator=(const T value)
     {
         m_x = value;
         m_y = value;
@@ -216,7 +216,7 @@ namespace mrg
     }
 
     template<class T>
-    Vec4<T> Vec4<T>::operator+(Vec4<T> const &vec)
+    Vec4<T> Vec4<T>::operator+(const Vec4<T>& vec)
     {
         Vec4<T> result;
         result.m_x = vec.m_x + m_x;
@@ -238,7 +238,7 @@ namespace mrg
     }
 
     template<class T>
-    Vec4<T> Vec4<T>::operator+(const T& t)
+    Vec4<T> Vec4<T>::operator+(const T t)
     {
         Vec4<T> result;
         result.m_x = t + m_x;
@@ -249,7 +249,7 @@ namespace mrg
     }
 
     template<class T>
-    Vec4<T> Vec4<T>::operator-(const T& t)
+    Vec4<T> Vec4<T>::operator-(const T t)
     {
         Vec4<T> result;
         result.m_x = m_x - t;
@@ -260,7 +260,7 @@ namespace mrg
     }
 
     template<class T>
-    Vec4<T> Vec4<T>::operator*(Vec4<T> const &vec)
+    Vec4<T> Vec4<T>::operator*(const Vec4<T>& vec)
     {
         Vec4<T> result;
         result.m_x = vec.m_x * m_x;
@@ -271,7 +271,7 @@ namespace mrg
     }
 
     template<class T>
-    Vec4<T> Vec4<T>::operator*(T const &t)
+    Vec4<T> Vec4<T>::operator*(const T t)
     {
         Vec4<T> result;
         result.m_x = t * m_x;
@@ -347,7 +347,7 @@ namespace mrg
     }
 
     template<class T>
-    T& Vec4<T>::Get(unsigned int index)
+    T& Vec4<T>::Get(const unsigned int index)
     {
         assert(index < 3);
         switch(index)
@@ -382,6 +382,8 @@ namespace mrg
     template<class Type, unsigned int Size>
     Vec<Type, Size>::Vec(std::initializer_list<Type> l)
     {
+        assert(l.size() >= Size);
+
         auto element = l.begin();
 
         for (unsigned int i = 0; i < l.size(); ++i, ++element)
@@ -389,7 +391,14 @@ namespace mrg
     }
 
     template<class Type, unsigned int Size>
-    Type& Vec<Type, Size>::operator[](unsigned int index)
+    Type Vec<Type, Size>::operator[](const unsigned int index) const
+    {
+        assert(index < Size);
+        return elements[index];
+    }
+
+    template<class Type, unsigned int Size>
+    Type& Vec<Type, Size>::operator[](const unsigned int index)
     {
         assert(index < Size);
         return elements[index];
@@ -406,7 +415,7 @@ namespace mrg
     }
 
     template<class Type, unsigned int Size>
-    Vec<Type, Size>& Vec<Type, Size>::operator*=(Vec<Type, Size> const &vec)
+    Vec<Type, Size>& Vec<Type, Size>::operator*=(const Vec<Type, Size>& vec)
     {
         for(unsigned int i = 0; i < Size; i++)
         {
@@ -416,7 +425,57 @@ namespace mrg
     }
 
     template<class Type, unsigned int Size>
-    Vec<Type, Size> Vec<Type, Size>::operator+(Vec<Type, Size> const &vec)
+    Vec<Type, Size>& Vec<Type, Size>::operator*=(const Type t)
+    {
+        for(unsigned int i = 0; i < Size; i++)
+        {
+            elements[i] *= t;
+        }
+        return *this;
+    }
+
+    template<class Type, unsigned int Size>
+    Vec<Type, Size>& Vec<Type, Size>::operator+=(const Vec<Type, Size>& vec)
+    {
+        for(unsigned int i = 0; i < Size; i++)
+        {
+            elements[i] += vec[i];
+        }
+        return *this;
+    }
+
+    template<class Type, unsigned int Size>
+    Vec<Type, Size>& Vec<Type, Size>::operator+=(const Type t)
+    {
+        for(unsigned int i = 0; i < Size; i++)
+        {
+            elements[i] += t;
+        }
+        return *this;
+    }
+
+    template<class Type, unsigned int Size>
+    Vec<Type, Size>& Vec<Type, Size>::operator-=(const Vec<Type, Size>& vec)
+    {
+        for(unsigned int i = 0; i < Size; i++)
+        {
+            elements[i] -= vec[i];
+        }
+        return *this;
+    }
+
+    template<class Type, unsigned int Size>
+    Vec<Type, Size>& Vec<Type, Size>::operator-=(const Type t)
+    {
+        for(unsigned int i = 0; i < Size; i++)
+        {
+            elements[i] -= t;
+        }
+        return *this;
+    }
+
+    template<class Type, unsigned int Size>
+    Vec<Type, Size> Vec<Type, Size>::operator+(const Vec<Type, Size>& vec)
     {
         Vec<Type, Size> result;
         for(unsigned int i = 0; i < Size; i++)
@@ -427,12 +486,45 @@ namespace mrg
     }
 
     template<class Type, unsigned int Size>
-    Vec<Type, Size> Vec<Type, Size>::operator*(Vec<Type, Size> const &vec)
+    Vec<Type, Size> Vec<Type, Size>::operator-(const Vec<Type, Size>& vec)
+    {
+        Vec<Type, Size> result;
+        for(unsigned int i = 0; i < Size; i++)
+        {
+            result[i] = elements[i] - vec.elements[i];
+        }
+        return result;
+    }
+
+    template<class Type, unsigned int Size>
+    Vec<Type, Size> Vec<Type, Size>::operator*(const Vec<Type, Size>& vec)
     {
         Vec<Type, Size> result;
         for(unsigned int i = 0; i < Size; i++)
         {
             result[i] = elements[i] * vec.elements[i];
+        }
+        return result;
+    }
+
+    template<class Type, unsigned int Size>
+    Vec<Type, Size> Vec<Type, Size>::operator*(const Type t)
+    {
+        Vec<Type, Size> result;
+        for(unsigned int i = 0; i < Size; i++)
+        {
+            result[i] = elements[i] * t;
+        }
+        return result;
+    }
+
+    template<class Type, unsigned int Size>
+    Vec<Type, Size> Vec<Type, Size>::operator/(const Type t)
+    {
+        Vec<Type, Size> result;
+        for(unsigned int i = 0; i < Size; i++)
+        {
+            result[i] = elements[i] / t;
         }
         return result;
     }
@@ -462,7 +554,7 @@ namespace mrg
     }
 
     template<class Type, unsigned int Size>
-    Type& Vec<Type, Size>::Get(unsigned int index)
+    Type& Vec<Type, Size>::Get(const unsigned int index)
     {
         return elements[index];
     }
