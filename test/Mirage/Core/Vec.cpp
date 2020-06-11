@@ -219,3 +219,130 @@ TEST_CASE( "Vec4", "[Vec4]" )
     }
 }
 
+TEST_CASE( "Vec5", "[Vec5]" )
+{
+    SECTION( "Default ctor and accessing function" )
+    {
+        mrg::Vec<char, 5> v;
+
+        REQUIRE(v.Length() == 0);
+
+        v.Get(0) = 5;
+
+        REQUIRE(v.Get(0) == 5);
+        REQUIRE(v.Get(1) == 0);
+        REQUIRE(v.Get(2) == 0);
+        REQUIRE(v.Get(3) == 0);
+        REQUIRE(v.Get(4) == 0);
+
+        REQUIRE(v[0] == 5);
+        REQUIRE(v[1] == 0);
+        REQUIRE(v[2] == 0);
+        REQUIRE(v[3] == 0);
+        REQUIRE(v[4] == 0);
+    }
+
+    SECTION( "Copy ctor and assignment operator" )
+    {
+        mrg::Vec<char, 5> v1 = mrg::Vec<char, 5>({1, 2, 3, 4, 5});
+        mrg::Vec<char, 5> v2 = v1;
+
+        REQUIRE(v2.Get(0) == 1);
+        REQUIRE(v2.Get(1) == 2);
+        REQUIRE(v2.Get(2) == 3);
+        REQUIRE(v2.Get(3) == 4);
+        REQUIRE(v2.Get(4) == 5);
+
+        REQUIRE(v2[0] == 1);
+        REQUIRE(v2[1] == 2);
+        REQUIRE(v2[2] == 3);
+        REQUIRE(v2[3] == 4);
+        REQUIRE(v2[4] == 5);
+    }
+
+    SECTION( "Initializer list ctor" )
+    {
+        mrg::Vec<char, 5> v = mrg::Vec<char, 5>({1, 2, 3, 4, 5});
+
+        REQUIRE(v.Get(0) == 1);
+        REQUIRE(v.Get(1) == 2);
+        REQUIRE(v.Get(2) == 3);
+        REQUIRE(v.Get(3) == 4);
+        REQUIRE(v.Get(4) == 5);
+
+        REQUIRE(v[0] == 1);
+        REQUIRE(v[1] == 2);
+        REQUIRE(v[2] == 3);
+        REQUIRE(v[3] == 4);
+        REQUIRE(v[4] == 5);
+    }
+
+    SECTION( "Overloaded operators" )
+    {
+        mrg::Vec<char, 5> v = mrg::Vec<char, 5>({1, 1, 1, 1, 1});
+
+        auto v2 = v + v;
+        REQUIRE(v2.Get(0) == 2);
+        REQUIRE(v2.Get(1) == 2);
+        REQUIRE(v2.Get(2) == 2);
+        REQUIRE(v2.Get(3) == 2);
+        REQUIRE(v2.Get(4) == 2);
+
+        v2 = v - v;
+        REQUIRE(v2.Get(0) == 0);
+        REQUIRE(v2.Get(1) == 0);
+        REQUIRE(v2.Get(2) == 0);
+        REQUIRE(v2.Get(3) == 0);
+        REQUIRE(v2.Get(4) == 0);
+
+        v2 = v * mrg::Vec<char, 5>{2, 2, 2, 2, 2};
+        REQUIRE(v2.Get(0) == 2);
+        REQUIRE(v2.Get(1) == 2);
+        REQUIRE(v2.Get(2) == 2);
+        REQUIRE(v2.Get(3) == 2);
+        REQUIRE(v2.Get(4) == 2);
+
+        v2 = v * 2;
+        REQUIRE(v2.Get(0) == 2);
+        REQUIRE(v2.Get(1) == 2);
+        REQUIRE(v2.Get(2) == 2);
+        REQUIRE(v2.Get(3) == 2);
+        REQUIRE(v2.Get(4) == 2);
+
+        v2 = mrg::Vec<char, 5>{2, 2, 2, 2, 2} / 2;
+        REQUIRE(v2.Get(0) == 1);
+        REQUIRE(v2.Get(1) == 1);
+        REQUIRE(v2.Get(2) == 1);
+        REQUIRE(v2.Get(3) == 1);
+        REQUIRE(v2.Get(4) == 1);
+
+        v *= 2;
+        REQUIRE(v.Get(0) == 2);
+        REQUIRE(v.Get(1) == 2);
+        REQUIRE(v.Get(2) == 2);
+        REQUIRE(v.Get(3) == 2);
+        REQUIRE(v.Get(4) == 2);
+
+        v -= mrg::Vec<char, 5>{1, 1, 1, 1, 1};
+        REQUIRE(v.Get(0) == 1);
+        REQUIRE(v.Get(1) == 1);
+        REQUIRE(v.Get(2) == 1);
+        REQUIRE(v.Get(3) == 1);
+        REQUIRE(v.Get(4) == 1);
+
+        v *= mrg::Vec<char, 5>{2, 2, 2, 2, 2};
+        REQUIRE(v.Get(0) == 2);
+        REQUIRE(v.Get(1) == 2);
+        REQUIRE(v.Get(2) == 2);
+        REQUIRE(v.Get(3) == 2);
+        REQUIRE(v.Get(4) == 2);
+
+        v *= 3;
+        REQUIRE(v.Get(0) == 6);
+        REQUIRE(v.Get(1) == 6);
+        REQUIRE(v.Get(2) == 6);
+        REQUIRE(v.Get(3) == 6);
+        REQUIRE(v.Get(4) == 6);
+    }
+}
+
