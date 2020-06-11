@@ -81,7 +81,7 @@ int main(int argc, char** argv)
 }
 ```
 
-###### Results 
+##### Filter Results 
 
 ![RubberWhale classic](readmefiles/rubberwhale.png) ![RubberWhale convolve](readmefiles/rubberwhale-convolve.png) 
 
@@ -119,7 +119,7 @@ int main(int argc, char** argv)
 }
 ```
 
-###### Results
+##### Edges detection Results
 
 Original : 
 
@@ -160,12 +160,11 @@ int main(int argc, char** argv)
 }
 ```
 
-###### Results 
+##### Histogram Equalization Results 
 
 ![Lena Gray](readmefiles/lena-gray.jpg) ![Equalized Lena](readmefiles/lena-eq.jpg) 
 
 ![Lena Gray](samples/lena.png) ![Equalized Lena](readmefiles/lenaC-eq.png) 
-
 
 ### __Viewer__
 
