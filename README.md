@@ -1,4 +1,4 @@
-<h1 align="center">Mirage</h1> 
+![Logo](readmefiles/banniere.png) 
 
 An image processing library for learning purpose in C++17.
 
