@@ -133,7 +133,7 @@ Sobel :
 
 ![Dublin Canny](readmefiles/HouseDublin-Sobel.jpg) 
 
-### Histogram Equalization
+#### __Histogram Equalization__
 
 The library provide an histogram equalization function for grayscale and 
 color image.
