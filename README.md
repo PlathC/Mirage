@@ -51,10 +51,10 @@ This project has been tested with MinGW and MSVC (VS2017).
 
 #### __Filter__ 
 
-One can use the Convolve function to filter an image with m_a kernel.
+One can use the Convolve function to filter an image with a kernel.
 
-The following example show how to apply m_a Gaussian Blur to an image using 
-m_a kernel provide in the library.
+The following example show how to apply a Gaussian Blur to an image using 
+a kernel provide in the library.
 
 ```cpp
 #include <Mirage/Mirage.hpp>
