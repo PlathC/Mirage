@@ -63,15 +63,19 @@ namespace mrg {
     template<class Type>
     Type Matrix<Type>::Get(uint32_t w, uint32_t h, uint8_t channel) const
     {
-        assert(w < m_width && h < m_height && channel - 1 < m_channelNumber && channel > 0);
-        return m_data[(w * m_height + h) * m_channelNumber + channel - 1];
+        assert(w < m_width);
+        assert(h < m_height);
+        assert(channel < m_channelNumber);
+        return m_data[(w * m_height + h) * m_channelNumber + channel];
     }
 
     template<class Type>
     Type& Matrix<Type>::Get(uint32_t w, uint32_t h, uint8_t channel)
     {
-        assert(w < m_width && h < m_height && channel - 1 < m_channelNumber && channel > 0);
-        return m_data[(w * m_height + h) * m_channelNumber + channel - 1];
+        assert(w < m_width);
+        assert(h < m_height);
+        assert(channel < m_channelNumber);
+        return m_data[(w * m_height + h) * m_channelNumber + channel];
     }
 
     template<class Type>
@@ -110,8 +114,10 @@ namespace mrg {
     template<class Type>
     void Matrix<Type>::Set(uint32_t w, uint32_t h, uint8_t k, const Type& t)
     {
-        assert(w < m_width && h < m_height && k - 1 < m_channelNumber && k > 0);
-        m_data[(w * m_height + h) * m_channelNumber + k - 1] = t;
+        assert(w < m_width);
+        assert(h < m_height);
+        assert(k < m_channelNumber);
+        m_data[(w * m_height + h) * m_channelNumber + k] = t;
     }
 
 }

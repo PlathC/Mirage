@@ -12,7 +12,7 @@
 
 namespace mrg
 {
-    template<typename Type>
+    template<class Type>
     class Matrix
     {
     // TODO: add only arithmetic types ==> Add Get<T> method and store only has
@@ -24,6 +24,7 @@ namespace mrg
         Matrix(uint32_t width, uint32_t height, uint8_t channelNumber);
         Matrix(Type fill, uint32_t width, uint32_t height, uint8_t channelNumber);
         Matrix(const std::vector<Type>& pixels, uint32_t width, uint32_t height, uint8_t channelNumber);
+
         template<std::size_t Size>
         Matrix(const std::array<Type, Size>& pixels, uint32_t width, uint32_t height, uint8_t channelNumber);
         Matrix(std::initializer_list<Type> pixels, uint32_t width, uint32_t height, uint8_t channelNumber);
