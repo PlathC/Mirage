@@ -24,6 +24,10 @@ target_include_directories(
 
 target_compile_options(${PROJECT_NAME} PRIVATE ${MIRAGE_COMPILATION_FLAGS})
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE "../include")
-target_link_libraries(${PROJECT_NAME} Mirage)
+target_link_libraries(${PROJECT_NAME} PRIVATE Mirage)
+
+if (CMAKE_COMPILER_IS_GNUCC)
+    target_link_libraries(${PROJECT_NAME} PRIVATE stdc++fs)
+endif ()
 
 add_test(${PROJECT_NAME} ${PROJECT_NAME})
