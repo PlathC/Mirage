@@ -57,8 +57,7 @@ namespace mrg
                     &tempWidth, &tempHeight, &jpegSubsamp) != 0)
             {
                 tjDestroy(_jpegDecompressor);
-                throw std::runtime_error("Error on decompressing header : " +
-                                         std::string(tjGetErrorStr2(_jpegDecompressor)));
+                throw std::runtime_error("Error on decompressing header : " + std::string(tjGetErrorStr()));
             }
 
             uint32_t width = static_cast<uint32_t>(tempWidth);
@@ -71,7 +70,7 @@ namespace mrg
                     != 0)
             {
                 tjDestroy(_jpegDecompressor);
-                throw std::runtime_error("Error on decompressing image file : " + std::string(tjGetErrorStr2(_jpegDecompressor)));
+                throw std::runtime_error("Error on decompressing image file : " + std::string(tjGetErrorStr()));
             }
 
             std::vector<T> resultData;
