@@ -6,7 +6,7 @@
 
 #include "Mirage/Core/Vec.hpp"
 
-TEST_CASE( "Vec3", "[Vec3]" )
+TEST_CASE( "Vec3", "[Vec]" )
 {
     SECTION( "Default ctor and accessing function" )
     {
@@ -107,7 +107,7 @@ TEST_CASE( "Vec3", "[Vec3]" )
     }
 }
 
-TEST_CASE( "Vec4", "[Vec4]" )
+TEST_CASE( "Vec4", "[Vec]" )
 {
     SECTION( "Default ctor and accessing function" )
     {
@@ -219,7 +219,7 @@ TEST_CASE( "Vec4", "[Vec4]" )
     }
 }
 
-TEST_CASE( "Vec5", "[Vec5]" )
+TEST_CASE( "Vec5", "[Vec]" )
 {
     SECTION( "Default ctor and accessing function" )
     {

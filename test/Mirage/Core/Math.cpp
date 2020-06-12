@@ -7,19 +7,19 @@
 
 #include "Mirage/Core/Math.hpp"
 
-TEST_CASE( "Atan", "[atan]" )
+TEST_CASE( "Atan", "[math]" )
 {
     REQUIRE( mrg::Atan(0) <= std::numeric_limits<double>::epsilon());
     REQUIRE( mrg::Atan(1) == Approx(mrg::Pi / 4.));
 }
 
-TEST_CASE( "Exp", "[exo]" )
+TEST_CASE( "Exp", "[math]" )
 {
     REQUIRE( mrg::Exp(0.)  == Approx(1.) );
     REQUIRE( mrg::Exp(22.) > std::numeric_limits<double>::epsilon());
 }
 
-TEST_CASE( "Sqrt", "[sqrt]" )
+TEST_CASE( "Sqrt", "[math]" )
 {
     REQUIRE( mrg::Sqrt(0.)  <= std::numeric_limits<double>::epsilon() );
     REQUIRE( mrg::Sqrt(1.)  == Approx(1.) );
@@ -28,7 +28,7 @@ TEST_CASE( "Sqrt", "[sqrt]" )
     REQUIRE( mrg::Sqrt(16.) == Approx(4.) );
 }
 
-TEST_CASE( "Pow", "[pow]" )
+TEST_CASE( "Pow", "[math]" )
 {
     REQUIRE( mrg::Pow(2., 2.)  == Approx(4.) );
     REQUIRE( mrg::Pow(2., 8.)  == Approx(256.) );
@@ -36,12 +36,12 @@ TEST_CASE( "Pow", "[pow]" )
     REQUIRE( mrg::Pow(4., 2.)  == Approx(16.) );
 }
 
-TEST_CASE( "Log", "[log]" )
+TEST_CASE( "Log", "[math]" )
 {
     REQUIRE( mrg::Log(1.) == Approx(0.));
 }
 
-TEST_CASE( "Sin", "[sin]" )
+TEST_CASE( "Sin", "[math]" )
 {
     REQUIRE( mrg::Sin(0.)                <= std::numeric_limits<double>::epsilon());
     REQUIRE( mrg::Sin(mrg::Pi / 6.)      == Approx(1./2.));
@@ -51,7 +51,7 @@ TEST_CASE( "Sin", "[sin]" )
     REQUIRE( mrg::Sin(mrg::Tau)          <= std::numeric_limits<double>::epsilon());
 }
 
-TEST_CASE( "Cos", "[cos]" )
+TEST_CASE( "Cos", "[math]" )
 {
     REQUIRE( mrg::Cos(0.)           == Approx( 1.));
     REQUIRE( mrg::Cos(mrg::Pi / 6.) == Approx(mrg::Sqrt(3.)/2.));
@@ -61,21 +61,21 @@ TEST_CASE( "Cos", "[cos]" )
     REQUIRE( mrg::Cos(mrg::Pi)      <= std::numeric_limits<double>::epsilon());
 }
 
-TEST_CASE( "Ceil", "[ceil]" )
+TEST_CASE( "Ceil", "[math]" )
 {
     REQUIRE(mrg::Ceil(2.3)       == Approx(3.));
     REQUIRE(mrg::Ceil(125.85465) == Approx(126.));
     REQUIRE(mrg::Ceil(-2.3)      == Approx(-2.));
 }
 
-TEST_CASE( "Floor", "[floor]" )
+TEST_CASE( "Floor", "[math]" )
 {
     REQUIRE(mrg::Floor(2.3)  == Approx(2.));
     REQUIRE(mrg::Floor(3.8)  == Approx(3.));
     REQUIRE(mrg::Floor(-3.8) == Approx(-4.));
 }
 
-TEST_CASE( "Trunc", "[trunc]" )
+TEST_CASE( "Trunc", "[math]" )
 {
     REQUIRE(mrg::Trunc(+2.7) == Approx(2.));
     REQUIRE(mrg::Trunc(-2.9) == Approx(-2.));

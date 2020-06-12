@@ -9,8 +9,8 @@
 TEST_CASE( "Matrix", "[matrix]" )
 {
     std::vector<char> pixels = {1 , 2 , 3,
-                                4, 5 ,6,
-                                7, 8, 9};
+                                4,  5 , 6,
+                                7,  8,  9};
     const mrg::Matrix<char> mat {pixels, 3, 3, 1};
 
     SECTION("Generic tests")

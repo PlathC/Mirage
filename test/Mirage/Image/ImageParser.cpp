@@ -11,7 +11,7 @@ namespace fs = std::filesystem;
 #include "Mirage/Image/ImageParser.hpp"
 
 
-TEST_CASE( "JPG", "[jpg]" )
+TEST_CASE( "JPG", "[parser]" )
 {
     mrg::Matrix<uint16_t> img;
     REQUIRE_NOTHROW(img = mrg::ImageParser::FromFile<uint16_t>("../samples/HouseDublin.jpg", 3));
@@ -37,7 +37,7 @@ TEST_CASE( "JPG", "[jpg]" )
     fs::remove_all(testFolder);
 }
 
-TEST_CASE( "PNG", "[png]" )
+TEST_CASE( "PNG", "[parser]" )
 {
     mrg::Matrix<uint16_t> img;
     REQUIRE_NOTHROW(img = mrg::ImageParser::FromFile<uint16_t>("../samples/lena.png", 4));
