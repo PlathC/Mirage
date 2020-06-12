@@ -19,6 +19,15 @@
   <property name="windowTitle">
    <string>Mirage Viewer</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget {
+	color : #eeeeee;
+	background-color : #222831;
+	font:Sego Ui
+}
+
+</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
@@ -29,7 +38,7 @@
       <item row="0" column="2">
        <widget class="QWidget" name="widget" native="true">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -45,6 +54,11 @@
           <width>200</width>
           <height>16777215</height>
          </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QWidget {
+	background-color:  rgb(50, 55, 62)
+}</string>
         </property>
         <layout class="QGridLayout" name="gridLayout_3">
          <property name="sizeConstraint">
@@ -63,6 +77,17 @@
                <height>16777215</height>
               </size>
              </property>
+             <property name="styleSheet">
+              <string notr="true">QWidget{
+    border-radius: 3px;
+    padding: 6px;
+    min-width: 6em;
+
+	color : black;
+    font: bold 10px &quot;Sego Ui&quot;;
+	background-color: #eeeeee
+}</string>
+             </property>
              <property name="text">
               <string>Open image</string>
              </property>
@@ -70,6 +95,17 @@
            </item>
            <item row="1" column="0">
             <widget class="QPushButton" name="m_pbSave">
+             <property name="styleSheet">
+              <string notr="true">QWidget{
+    border-radius: 3px;
+    padding: 6px;
+    min-width: 6em;
+
+	color : black;
+    font: bold 10px &quot;Sego Ui&quot;;
+	background-color: #eeeeee
+}</string>
+             </property>
              <property name="text">
               <string>Save image</string>
              </property>
@@ -82,8 +118,23 @@
       </item>
       <item row="0" column="1">
        <widget class="QLabel" name="m_lblImage">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QWidget {
+    border-radius: 3px;
+    padding: 6px;
+
+	color : #eeeeee;
+	background-color: #393e46
+}</string>
+        </property>
         <property name="text">
-         <string>TextLabel</string>
+         <string/>
         </property>
        </widget>
       </item>

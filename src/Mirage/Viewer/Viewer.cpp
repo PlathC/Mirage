@@ -5,7 +5,7 @@
 
 namespace mrg
 {
-    const mrg::Matrix<uchar> Viewer::whiteImage = mrg::Matrix<uchar>({ 255, 255, 255 }, 1, 1, 3);
+    const mrg::Matrix<uchar> Viewer::whiteImage = mrg::Matrix<uchar>({ 57, 62, 70 }, 1, 1, 3);
 
     Viewer::Viewer(ImageModifier modifier, QWidget* parent):
             QMainWindow(parent),
