@@ -56,31 +56,6 @@ One can use the Convolve function to filter an image with a kernel.
 The following example show how to apply a Gaussian Blur to an image using 
 a kernel provide in the library.
 
-```cpp
-#include <Mirage/Mirage.hpp>
-
-int main(int argc, char** argv)
-{
-    using namespace mrg;
-
-    Matrix<uint16_t> mat = ImageParser::FromFile<uint16_t>("../samples/rubberwhale.png", 4);
-    Matrix<uint16_t> matConvolve = Convolve(mat, mrg::averageKernel5x5);
-
-    auto scaled = Scale<uint16_t>(matConvolve, matConvolve.Width() * 2., matConvolve.Height() * 2.,
-            [](uint32_t x, uint32_t y, uint8_t k,
-                    const std::vector<uint16_t>& oldData,
-                    const ScalingSettings& settings) -> uint16_t
-                    {
-                        return mrg::ScalingNearestNeighbor(x, y, k, oldData, settings);
-                    }
-            );
-
-    ImageParser::ToFile(scaled, "../examples/filter/Results/rubberwhale-convolved.jpg");
-
-    return EXIT_SUCCESS;
-}
-```
-
 ##### Filter Results 
 
 ![RubberWhale classic](readmefiles/rubberwhale.png) ![RubberWhale convolve](readmefiles/rubberwhale-convolve.png) 
@@ -89,35 +64,6 @@ int main(int argc, char** argv)
 
 The library provides Canny and Sobel algorithm which allow to extract 
 contour lines within m_a given image.
-
-```cpp
-#include <Mirage/Mirage.hpp>
-
-int main(int argc, char** argv)
-{
-    using namespace mrg;
-
-    Matrix<uint16_t> mat = ImageParser::FromFile<uint16_t>("../samples/HouseDublin.jpg", 4);
-
-    Timer sobelTimer{}, cannyTimer{};
-
-    sobelTimer.Start();
-    Matrix<double> matSobel = Threshold(Sobel(mat));
-    sobelTimer.Stop();
-
-    cannyTimer.Start();
-    Matrix<double> matCanny = Canny(Convolve(mat, mrg::gaussianBlurKernel5x5));
-    cannyTimer.Stop();
-
-    std::cout << "Sobel compute time : " << sobelTimer.Duration() << std::endl;
-    std::cout << "Canny compute time : " << cannyTimer.Duration() << std::endl;
-
-    ImageParser::ToFile(matSobel, "../examples/edgedetection/Results/HouseDublin-Sobel.jpg");
-    ImageParser::ToFile(matCanny, "../examples/edgedetection/Results/HouseDublin-Canny.jpg");
-
-    return EXIT_SUCCESS;
-}
-```
 
 ##### Edges detection Results
 
@@ -138,28 +84,6 @@ Sobel :
 The library provide an histogram equalization function for grayscale and 
 color image.
 
-```cpp
-#include <Mirage/Mirage.hpp>
-
-int main(int argc, char** argv)
-{
-    using namespace mrg;
-
-    auto mat = ImageParser::FromFile<uint16_t>("../samples/lena.png", 4);
-    Timer timer{};
-
-    timer.Start();
-    auto matEq = HistogramEqualization(mat);
-    timer.Stop();
-
-    std::cout << "Duration : " << timer.Duration() << std::endl;
-
-    ImageParser::ToFile(matEq, "../examples/histeq/Results/lenaC-eq.png");
-
-    return EXIT_SUCCESS;
-}
-```
-
 ##### Histogram Equalization Results 
 
 ![Lena Gray](readmefiles/lena-gray.jpg) ![Equalized Lena](readmefiles/lena-eq.jpg) 
@@ -170,6 +94,7 @@ int main(int argc, char** argv)
 
 A viewer is implemented in order to provide an easy way to test each features with a
  visualization tool.
+ 
 ```cpp
 #include <QApplication>
 
