@@ -24,7 +24,7 @@ namespace mrg
         using ImageModifier = std::function<mrg::Matrix<uint16_t>(const mrg::Matrix<uint16_t>&)>;
 
     public:
-        explicit Viewer(ImageModifier modifier = ImageModifier(), QWidget* parent = nullptr);
+        explicit Viewer(const ImageModifier modifier = ImageModifier(), QWidget* parent = nullptr);
 
         void resizeEvent(QResizeEvent* event) override;
 

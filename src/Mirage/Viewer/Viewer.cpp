@@ -7,7 +7,7 @@ namespace mrg
 {
     const mrg::Matrix<uchar> Viewer::whiteImage = mrg::Matrix<uchar>({ 57, 62, 70 }, 1, 1, 3);
 
-    Viewer::Viewer(ImageModifier modifier, QWidget* parent):
+    Viewer::Viewer(const ImageModifier modifier, QWidget* parent):
             QMainWindow(parent),
             m_ui(new Ui::Viewer),
             m_modifier(std::move(modifier))
@@ -49,7 +49,7 @@ namespace mrg
 
             DrawImage(m_ui->m_lblImage, m_image);
         }
-        catch(std::exception& e)
+        catch(const std::exception& e)
         {
             QMessageBox::warning(this, "Parsing error", e.what());
             return;
