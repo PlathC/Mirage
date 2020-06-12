@@ -44,4 +44,4 @@ script:
   - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXE_LINKER_FLAGS=${LINKER_FLAGS} ..
   - cmake --build .
   - cd ../bin
-  - ./MIRAGE_TESTS
+  - ./MIRAGE_TESTS -d yes --order lex
