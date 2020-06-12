@@ -108,7 +108,9 @@ namespace mrg
         const uint32_t width  = img.Width();
         const uint32_t height = img.Height();
 
-        Matrix<Type> blurred = mrg::Convolve(img, mrg::gaussianBlurKernel5x5);
+        Matrix<Type> blurred = img;
+
+        mrg::Convolve(blurred, mrg::gaussianBlurKernel5x5);
 
         Matrix<double> gray = ToGrayScale<Type, double>(blurred);
         const double kernelH[3][3] = {{-1, 0, 1},
@@ -166,6 +168,7 @@ namespace mrg
                 double r = maximumValue;
                 double currentAngle = directionData[i * width + j];
 
+                // TODO: Adapt values to more than 8 bits depth
                 if(0 <= currentAngle || (157.5 <= currentAngle && currentAngle <= 180))
                 {
                     q = directionData[i * width + (j + 1)];
@@ -194,8 +197,8 @@ namespace mrg
             }
         }
 
-        // TODO: Avoid matrix reallocation
-        resultData = Threshold<double>(Matrix<double>(resultData, width, height, 1)).Data();
+        auto resultImg = Matrix<double>(resultData, width, height, 1);
+        Threshold(resultImg);
 
         for(uint32_t i = 1; i < height - 1; i++)
         {
@@ -223,20 +226,18 @@ namespace mrg
             }
         }
 
-        return Matrix<double>(resultData, width, height, 1);
+        return resultImg;
     }
 
     template<class ImageType, class KernelType>
-    Matrix<ImageType> Convolve(const Matrix<ImageType>& img, const Matrix<KernelType>& kernel)
+    void Convolve(Matrix<ImageType>& img, const Matrix<KernelType>& kernel)
     {
         const uint32_t kernelCenter = static_cast<uint32_t>(Floor(kernel.Width() / 2));
         const uint32_t width  = img.Width();
         const uint32_t height = img.Height();
         const uint8_t channel = img.Channel();
 
-        const auto& data = img.Data();
-        std::vector<ImageType> resultData(data);
-
+        auto& data = img.Data();
         for(uint32_t i = 0 + kernelCenter; i < height - kernelCenter; i++)
         {
             for(uint32_t j = 0 + kernelCenter; j < width - kernelCenter; j++)
@@ -252,26 +253,22 @@ namespace mrg
                             uint32_t yn = j + jk - kernelCenter;
 
                             uint32_t index = (xn * width + yn) * channel + k;
-                            value += static_cast<ImageType>(mrg::Trunc(data[index] * kernel.Get(ik, jk, 1)));
+                            value += static_cast<ImageType>(mrg::Trunc(data[index] * kernel.Get(ik, jk, 0)));
                         }
                     }
-                    resultData[(i * width + j) * channel + k] = value;
+                    data[(i * width + j) * channel + k] = value;
                 }
             }
         }
-
-        return Matrix<ImageType>(resultData, width, height, channel);
     }
 
     template<class ImageType>
-    Matrix<ImageType> Threshold(const Matrix<ImageType>& img)
+    void Threshold(Matrix<ImageType>& img)
     {
-        const uint32_t width  = img.Width();
-        const uint32_t height = img.Height();
-        [[maybe_unused]]const uint8_t channel = img.Channel();
+        [[maybe_unused]] const uint8_t channel = img.Channel();
         assert(channel == 1);
 
-        const auto& data = img.Data();
+        auto& data = img.Data();
 
         // http://www.labbookpages.co.uk/software/imgProc/otsuThreshold.html
         //TODO: Change uint32_t to bit depth type
@@ -317,29 +314,22 @@ namespace mrg
                 threshold = it->first;
             }
         }
-
-        std::vector<ImageType> threshData;
-        threshData.resize(data.size());
         for(unsigned int i = 0; i < data.size(); i++)
         {
             // TODO: Change 256 to image depth
-            threshData[i] = (data[i] < threshold) ? 0 : 255;
+            data[i] = (data[i] < threshold) ? 0 : 255;
         }
-
-        return Matrix<ImageType>(threshData, width, height, 1);
     }
 
     template<class ImageType>
-    Matrix<ImageType> HistogramEqualization(const Matrix<ImageType>& img)
+    void HistogramEqualization(Matrix<ImageType>& img)
     {
         const uint32_t width  = img.Width();
         const uint32_t height = img.Height();
         const uint8_t channel = img.Channel();
-        const auto& data = img.Data();
+        auto& data = img.Data();
 
         //https://en.wikipedia.org/wiki/Histogram_equalization#Implementation
-        std::vector<ImageType> resultData = std::vector<ImageType>((width * height) * channel);
-
         auto channelArrays = std::vector<std::vector<ImageType>>(channel);
 
         for(uint8_t k = 0; k < channel; k++)
@@ -387,16 +377,14 @@ namespace mrg
             {
                 for(unsigned int k = 0; k < channel; k++)
                 {
-                    resultData[(x * height + y) * channel + k] = channelArrays[k][(x * height + y)];
+                    data[(x * height + y) * channel + k] = channelArrays[k][(x * height + y)];
                 }
             }
         }
-
-        return Matrix<ImageType>(resultData, width, height, channel);
     }
 
     template<uint8_t kernelSize>
-    Matrix<double> GenerateGaussianKernel(int sigma)
+    Matrix<double> GenerateGaussianKernel(const int sigma)
     {
         assert(kernelSize % 2 != 0 && "The kernel k must be odd.");
 

@@ -12,14 +12,15 @@ namespace mrg
     }
 
     template<class Type>
-    Matrix<Type> Scale(const Matrix<Type>& img, uint32_t nWidth, uint32_t nHeight, ScalingFunction<Type> algorithm)
+    void Scale(Matrix<Type>& img, uint32_t nWidth, uint32_t nHeight, ScalingFunction<Type> algorithm)
     {
         uint32_t width  = img.Width();
         uint32_t height = img.Height();
         uint8_t channel = img.Channel();
 
-        const auto& data = img.Data();
-        std::vector<Type> nData = std::vector<Type>((nWidth * nHeight) * channel);
+        auto& data = img.Data();
+        auto nData = std::vector<Type>(nWidth * nHeight * channel);
+
         ScalingSettings settings{img.Width(), img.Height(), nWidth, nHeight, channel,
                                  static_cast<double>(width) / nWidth,
                                  static_cast<double>(height) / nHeight};
@@ -29,10 +30,12 @@ namespace mrg
             for(uint32_t y = 0; y < nHeight; y++)
             {
                 for(uint8_t k = 0; k < channel; k++)
+                {
                     nData[(y * nWidth + x) * channel + k] = algorithm(x, y, k, data, settings);
+                }
             }
         }
-        return Matrix<Type>(nData, nWidth, nHeight, channel);
+        img = Matrix<Type>(nData, nWidth, nHeight, channel);
     }
 
     template<class Type>

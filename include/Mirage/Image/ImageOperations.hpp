@@ -18,7 +18,7 @@ namespace mrg
     std::map<T, double> ComputeNormalizedHistogram(const std::vector<T> &channel, uint32_t width, uint32_t height);
 
     template<std::size_t size>
-    constexpr std::array<double, size> AverageKernelGenerator = [] { // OR: constexpr auto table
+    constexpr std::array<double, size> AverageKernelGenerator = [] {
         std::array<double, size> A = {};
         for (size_t i = 0; i < size; i++) {
             A[i] = 1.0 / static_cast<double>(size);
@@ -36,16 +36,16 @@ namespace mrg
     Matrix<double> Canny(const Matrix<Type>& img);
 
     template<class ImageType, class KernelType>
-    Matrix<ImageType> Convolve(const Matrix<ImageType>& img, const Matrix<KernelType>& kernel);
+    void Convolve(Matrix<ImageType>& img, const Matrix<KernelType>& kernel);
 
     template<class ImageType>
-    Matrix<ImageType> Threshold(const Matrix<ImageType>& img);
+    void Threshold(Matrix<ImageType>& img);
 
     template<class ImageType>
-    Matrix<ImageType> HistogramEqualization(const Matrix<ImageType>& img);
+    void HistogramEqualization(Matrix<ImageType>& img);
 
     template<int kernelSize>
-    Matrix<double> GenerateGaussianKernel(int sigma);
+    Matrix<double> GenerateGaussianKernel(const int sigma);
 
     const Matrix<double> averageKernel5x5 = Matrix<double>(AverageKernelGenerator<25>,5, 5, 1);
 

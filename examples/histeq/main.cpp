@@ -12,12 +12,12 @@ int main(int argc, char** argv)
     Timer timer{};
 
     timer.Start();
-    auto matEq = HistogramEqualization(mat);
+    HistogramEqualization(mat);
     timer.Stop();
 
     std::cout << "Duration : " << timer.Duration() << std::endl;
 
-    ImageParser::ToFile(matEq, "../examples/histeq/Results/lenaC-eq.png");
+    ImageParser::ToFile(mat, "../examples/histeq/Results/lenaC-eq.png");
 
     return EXIT_SUCCESS;
 }

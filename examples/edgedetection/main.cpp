@@ -9,11 +9,13 @@ int main(int argc, char** argv)
     Timer sobelTimer{}, cannyTimer{};
 
     sobelTimer.Start();
-    Matrix<double> matSobel = Threshold(Sobel(mat));
+    auto matSobel = Sobel(mat);
+    Threshold(matSobel);
     sobelTimer.Stop();
 
     cannyTimer.Start();
-    Matrix<double> matCanny = Canny(Convolve(mat, mrg::gaussianBlurKernel5x5));
+    Convolve(mat, mrg::gaussianBlurKernel5x5);
+    Matrix<double> matCanny = Canny(mat);
     cannyTimer.Stop();
 
     std::cout << "Sobel compute time : " << sobelTimer.Duration() << std::endl;

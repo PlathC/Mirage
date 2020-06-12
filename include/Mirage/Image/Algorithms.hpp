@@ -34,7 +34,7 @@ namespace mrg
                                 const ScalingSettings& settings);
 
     template<typename Type>
-    Matrix<Type> Scale(const Matrix<Type>& img, uint32_t nWidth, uint32_t nHeight, ScalingFunction<Type> algorithm);
+    void Scale(Matrix<Type>& img, uint32_t nWidth, uint32_t nHeight, ScalingFunction<Type> algorithm);
 
     template<typename Type>
     Matrix<Type> Crop(const Matrix<Type>& img, uint32_t bWidth, uint32_t bHeight, uint32_t eWidth, uint32_t eHeight);
