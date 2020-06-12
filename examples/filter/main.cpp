@@ -16,12 +16,7 @@ int main(int argc, char** argv)
     Convolve(mat, mrg::averageKernel5x5);
 
     Scale<uint16_t>(mat, mat.Width() * 2, mat.Height() * 2,
-            [](uint32_t x, uint32_t y, uint8_t k,
-                    const std::vector<uint16_t>& oldData,
-                    const ScalingSettings& settings) -> uint16_t
-                    {
-                        return mrg::ScalingNearestNeighbor(x, y, k, oldData, settings);
-                    }
+            static_cast<mrg::ScalingFunction<uint16_t>>(&mrg::ScalingNearestNeighbor<uint16_t>)
             );
 
     filterTimer.Stop();

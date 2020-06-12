@@ -39,7 +39,7 @@ namespace mrg
     }
 
     template<class Type>
-    Matrix<Type> Crop(const Matrix<Type>& img, uint32_t bWidth, uint32_t bHeight, uint32_t eWidth, uint32_t eHeight)
+    void Crop(Matrix<Type>& img, uint32_t bWidth, uint32_t bHeight, uint32_t eWidth, uint32_t eHeight)
     {
         uint32_t width   = img.Width();
         uint32_t height  = img.Height();
@@ -53,7 +53,7 @@ namespace mrg
 
         uint32_t trueNewWidth   = eWidth - bWidth;
         uint32_t trueNewHeight  = eHeight - bHeight;
-        std::vector<Type> nData = std::vector<Type>(trueNewWidth * trueNewHeight * channel);
+        auto nData = std::vector<Type>(trueNewWidth * trueNewHeight * channel);
 
         for(uint32_t x = 0; x < trueNewWidth; x++)
         {
@@ -68,6 +68,6 @@ namespace mrg
                 }
             }
         }
-        return mrg::Matrix<Type>(nData, trueNewWidth, trueNewHeight, channel);
+        img = mrg::Matrix<Type>(nData, trueNewWidth, trueNewHeight, channel);
     }
 }
