@@ -8,16 +8,24 @@ int main(int argc, char** argv)
 {
     using namespace mrg;
 
-    auto mat = ImageParser::FromFile<uint16_t>("../samples/lena.png", 4);
-    Timer timer{};
+    try
+    {
+        auto mat = ImageParser::FromFile<uint16_t>("./samples/lena.png", 4);
+        Timer timer{};
 
-    timer.Start();
-    HistogramEqualization(mat);
-    timer.Stop();
+        timer.Start();
+        HistogramEqualization(mat);
+        timer.Stop();
 
-    std::cout << "Duration : " << timer.Duration() << std::endl;
+        std::cout << "Duration : " << timer.Duration() << std::endl;
 
-    ImageParser::ToFile(mat, "../examples/histeq/Results/lenaC-eq.png");
+        ImageParser::ToFile(mat, "./lenaC-eq.png");
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << std::endl;
+        return EXIT_FAILURE;
+    }
 
     return EXIT_SUCCESS;
 }

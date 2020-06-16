@@ -10,20 +10,28 @@ int main(int argc, char** argv)
 
     Timer filterTimer{};
 
-    Matrix<uint16_t> mat = ImageParser::FromFile<uint16_t>("../samples/rubberwhale.png", 4);
+    try
+    {
+        Matrix<uint16_t> mat = ImageParser::FromFile<uint16_t>("./samples/rubberwhale.png", 4);
 
-    filterTimer.Start();
-    Convolve(mat, mrg::averageKernel5x5);
+        filterTimer.Start();
+        Convolve(mat, mrg::averageKernel5x5);
 
-    Scale<uint16_t>(mat, mat.Width() * 2, mat.Height() * 2,
-            static_cast<mrg::ScalingFunction<uint16_t>>(&mrg::ScalingNearestNeighbor<uint16_t>)
-            );
+        Scale<uint16_t>(mat, mat.Width() * 2, mat.Height() * 2,
+                        static_cast<mrg::ScalingFunction<uint16_t>>(&mrg::ScalingNearestNeighbor<uint16_t>)
+        );
 
-    filterTimer.Stop();
+        filterTimer.Stop();
 
-    std::cout << "Filter compute time : " << filterTimer.Duration() << std::endl;
+        std::cout << "Filter compute time : " << filterTimer.Duration() << std::endl;
 
-    ImageParser::ToFile(mat, "../examples/filter/Results/rubberwhale-convolved.jpg");
+        ImageParser::ToFile(mat, "./rubberwhale-convolved.jpg");
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << std::endl;
+        return EXIT_FAILURE;
+    }
 
     return EXIT_SUCCESS;
 }
