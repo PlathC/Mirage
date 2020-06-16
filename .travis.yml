@@ -24,7 +24,7 @@ matrix:
             - cmake
             - cmake-data
             - qt510base
-            - rubygems
+            - ruby
       env:
         - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
         - LINKER_FLAGS=""
