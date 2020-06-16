@@ -31,7 +31,7 @@ if(MSVC)
 elseif(MINGW)
     set(ZLIB_LIBRARY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libzlib.dll.a)
 elseif(UNIX)
-    set(ZLIB_LIBRARY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libz.so.a)
+    set(ZLIB_LIBRARY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libz.so)
 endif()
 
 # Work with png and zlib as embedded library
