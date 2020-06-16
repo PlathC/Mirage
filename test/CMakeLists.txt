@@ -28,10 +28,10 @@ target_include_directories(
 )
 
 if (COVERAGE)
-    target_compile_options(tests PRIVATE
+    target_compile_options(${PROJECT_NAME} PRIVATE
             ${MIRAGE_COMPILATION_FLAGS}
             --coverage)
-    target_link_libraries(tests PRIVATE --coverage)
+    target_link_libraries(${PROJECT_NAME} PRIVATE --coverage)
 else()
     target_compile_options(${PROJECT_NAME} PRIVATE ${MIRAGE_COMPILATION_FLAGS})
 endif()
