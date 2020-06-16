@@ -2,6 +2,8 @@ project(MIRAGE_TESTS)
 
 enable_testing()
 
+SET(COVERAGE OFF CACHE BOOL "Coverage")
+
 set(CMAKE_CXX_STANDARD 17)
 
 set(TESTS_SRC
@@ -25,7 +27,15 @@ target_include_directories(
         "${CMAKE_CURRENT_SOURCE_DIR}/Catch2"
 )
 
-target_compile_options(${PROJECT_NAME} PRIVATE ${MIRAGE_COMPILATION_FLAGS})
+if (COVERAGE)
+    target_compile_options(tests PRIVATE
+            ${MIRAGE_COMPILATION_FLAGS}
+            --coverage)
+    target_link_libraries(tests PRIVATE --coverage)
+else()
+    target_compile_options(${PROJECT_NAME} PRIVATE ${MIRAGE_COMPILATION_FLAGS})
+endif()
+
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE "../include")
 target_link_libraries(${PROJECT_NAME} PRIVATE Mirage)
 

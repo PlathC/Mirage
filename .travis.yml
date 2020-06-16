@@ -41,11 +41,8 @@ script:
   - cmake --build .
   - cd ..
   - mkdir Release && cd Release
-  - ./configure --enable-gcov
-  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXE_LINKER_FLAGS=${LINKER_FLAGS} ..
+  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXE_LINKER_FLAGS=${LINKER_FLAGS} -DCOVERAGE=1 ..
   - cmake --build .
   - cd bin
   - ./MIRAGE_TESTS -d yes --order lex
-
-after_success:
-  - coveralls --exclude lib --exclude tests --gcov-options '\-lp'
+  - coveralls --root .. -E ".*CMakeFiles.*"
