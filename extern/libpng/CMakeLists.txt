@@ -585,32 +585,6 @@ if(PNG_SHARED AND WIN32)
   set_target_properties(png PROPERTIES DEFINE_SYMBOL PNG_BUILD_DLL)
 endif()
 
-function(png_add_test)
-  set(options)
-  set(oneValueArgs NAME COMMAND)
-  set(multiValueArgs OPTIONS FILES)
-  cmake_parse_arguments(_PAT "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
-
-  if(NOT _PAT_NAME)
-    message(FATAL_ERROR "png_add_test: Missing NAME argument")
-  endif()
-  if(NOT _PAT_COMMAND)
-    message(FATAL_ERROR "png_add_test: Missing COMMAND argument")
-  endif()
-
-  set(TEST_OPTIONS "${_PAT_OPTIONS}")
-  set(TEST_FILES "${_PAT_FILES}")
-
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/scripts/test.cmake.in"
-                 "${CMAKE_CURRENT_BINARY_DIR}/tests/${_PAT_NAME}.cmake" @ONLY)
-  add_test(NAME "${_PAT_NAME}"
-           COMMAND "${CMAKE_COMMAND}"
-           "-DLIBPNG=$<TARGET_FILE:png>"
-           "-DTEST_COMMAND=$<TARGET_FILE:${_PAT_COMMAND}>"
-           -P "${CMAKE_CURRENT_BINARY_DIR}/tests/${_PAT_NAME}.cmake")
-endfunction()
-
-
 # Set a variable with CMake code which:
 # Creates a symlink from src to dest (if possible) or alternatively
 # copies if different.
