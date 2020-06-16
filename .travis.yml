@@ -23,9 +23,6 @@ matrix:
             - g++-9
             - cmake
             - cmake-data
-            - libpng-dev
-            - libjpeg-turbo8-dev
-            - zlib1g-dev
             - qt510base
       env:
         - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"

@@ -8,27 +8,44 @@ set(CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)
 
 set(CMAKE_CXX_STANDARD 17)
 
-if (CMAKE_COMPILER_IS_GNUCC)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
-elseif (MSVC)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17 /W4")
-endif ()
-
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake/Modules/")
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 option(MIRAGE_BUILD_VIEWER "Build Mirage viewer" ON)
 option(MIRAGE_BUILD_EXAMPLES "Build Mirage examples" ON)
 option(MIRAGE_BUILD_TESTS "Build Mirage tests" ON)
 
-find_package(PNG REQUIRED)
-message(STATUS "Found LibPNG : " ${PNG_INCLUDE_DIRS})
+add_subdirectory(extern/zlib)
+list(APPEND ZLIB_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/extern/zlib/")
+list(APPEND ZLIB_INCLUDE_DIR "${CMAKE_BINARY_DIR}/extern/zlib/")
 
-find_package(JPEGTURBO REQUIRED)
-message(STATUS "Found JpegTurbo : " ${JPEGTURBO_INCLUDE_DIR})
+if(MSVC)
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR NOT CMAKE_BUILD_TYPE)
+        set(ZLIB_LIBRARY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Debug/zlibd.lib)
+    elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+        set(ZLIB_LIBRARY ${${CMAKE_LIBRARY_OUTPUT_DIRECTORY}}/Release/zlib.lib)
+    endif()
+elseif(MINGW)
+    set(ZLIB_LIBRARY ${${CMAKE_LIBRARY_OUTPUT_DIRECTORY}}/libzlib.dll.a)
+elseif(UNIX)
+    set(ZLIB_LIBRARY ${${CMAKE_LIBRARY_OUTPUT_DIRECTORY}}/libzlib.a)
+endif()
+message("ZLIB ==> ${ZLIB_LIBRARY} / ${CMAKE_BUILD_TYPE}")
+# Work with png and zlib as embedded library
+set(PNG_BUILD_ZLIB ON CACHE BOOL "" FORCE)
+add_subdirectory(extern/libpng)
+list(APPEND PNG_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/extern/libpng/")
+list(APPEND PNG_INCLUDE_DIR "${CMAKE_BINARY_DIR}/extern/libpng/")
+
+# Force to compile zlib alongside libpng
+add_dependencies(png zlib)
+
+add_subdirectory(extern/libjpeg-turbo)
+list(APPEND JPEGTURBO_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/extern/libjpeg-turbo/")
+list(APPEND JPEGTURBO_INCLUDE_DIR "${CMAKE_BINARY_DIR}/extern/libjpeg-turbo/")
 
 # Based on https://github.com/lefticus/cppbestpractices/blob/master/02-Use_the_Tools_Available.md
 if (CMAKE_COMPILER_IS_GNUCC)
@@ -181,7 +198,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/Mirage
         ${CMAKE_CURRENT_SOURCE_DIR}/include/Mirage/Image/Parser
         ${CMAKE_CURRENT_SOURCE_DIR}/include/Mirage/Viewer)
 
-add_library(${PROJECT_NAME} STATIC ${HEADERS} ${SOURCES})
+add_library(${PROJECT_NAME} ${HEADERS} ${SOURCES})
 target_compile_options(${PROJECT_NAME} INTERFACE)
 
 if (CMAKE_COMPILER_IS_GNUCC)
@@ -198,12 +215,15 @@ target_compile_options(${PROJECT_NAME} PUBLIC ${MIRAGE_COMPILATION_FLAGS})
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
-target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${JPEGTURBO_INCLUDE_DIR})
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/)
+target_include_directories(${PROJECT_NAME} PUBLIC ${JPEGTURBO_INCLUDE_DIR})
+target_include_directories(${PROJECT_NAME} PUBLIC ${PNG_INCLUDE_DIR})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-        PNG::PNG
-        ${TURBOJPEG_LIBRARIES}
-        ${GLFW_STATIC_LIBRARIES})
+        zlib
+        turbojpeg
+        png
+        )
 
 if(${BUILD_VIEWER})
     target_link_libraries(${PROJECT_NAME} PRIVATE
@@ -217,3 +237,5 @@ endif()
 if(${MIRAGE_BUILD_TESTS})
     add_subdirectory(test)
 endif()
+
+file(COPY samples DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
