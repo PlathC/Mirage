@@ -9,6 +9,5 @@ if(MSVC AND CMAKE_BUILD_TYPE STREQUAL "Release")
     target_link_options(${PROJECT_NAME} PRIVATE /SUBSYSTEM:windows /ENTRY:mainCRTStartup)
 endif()
 
-
 target_link_libraries(${PROJECT_NAME} PRIVATE Mirage)
 set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "${PROJECT_NAME}$<$<CONFIG:Debug>:d>")
