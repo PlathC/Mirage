@@ -31,9 +31,9 @@ if(MSVC)
 elseif(MINGW)
     set(ZLIB_LIBRARY ${${CMAKE_LIBRARY_OUTPUT_DIRECTORY}}/libzlib.dll.a)
 elseif(UNIX)
-    set(ZLIB_LIBRARY ${${CMAKE_LIBRARY_OUTPUT_DIRECTORY}}/libzlib.a)
+    set(ZLIB_LIBRARY ${${CMAKE_LIBRARY_OUTPUT_DIRECTORY}}/libz.so.a)
 endif()
-message("ZLIB ==> ${ZLIB_LIBRARY} / ${CMAKE_BUILD_TYPE}")
+
 # Work with png and zlib as embedded library
 set(PNG_BUILD_ZLIB ON CACHE BOOL "" FORCE)
 add_subdirectory(extern/libpng)
