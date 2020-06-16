@@ -19,7 +19,7 @@ namespace mrg
 
             if (!fs::exists(fileName.c_str()))
             {
-                throw std::runtime_error("Can't find the image file.");
+                throw std::runtime_error("Can't find the image file " + fileName + " at " + fs::current_path().string());
             }
 
             std::string::size_type idx = fileName.rfind('.');
