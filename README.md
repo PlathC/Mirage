@@ -4,7 +4,7 @@ An image processing library for learning purpose in C++17.
 
 [![Build Status](https://travis-ci.org/PlathC/Mirage.svg?branch=master)](https://travis-ci.org/PlathC/Mirage)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/e7674eb14f3a4636b98ded41d9cbb42c)](https://www.codacy.com/manual/PlathC/Mirage?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PlathC/Mirage&amp;utm_campaign=Badge_Grade) 
-[![Coverage Status](https://coveralls.io/repos/github/PlathC/Mirage/badge.svg?branch=master)](https://coveralls.io/github/PlathC/Mirage?branch=master)
+
 <h2 align="center">The library</h2>
 
 ### __Tasks__
