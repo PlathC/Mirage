@@ -173,7 +173,7 @@ set(SOURCES
         src/Mirage/Image/Parser/PngParser.cpp
         src/Mirage/Image/Parser/JpegParser.cpp)
 
-if(${BUILD_VIEWER})
+if(${MIRAGE_BUILD_VIEWER})
 
     find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
@@ -198,7 +198,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/Mirage
         ${CMAKE_CURRENT_SOURCE_DIR}/include/Mirage/Image/Parser
         ${CMAKE_CURRENT_SOURCE_DIR}/include/Mirage/Viewer)
 
-add_library(${PROJECT_NAME} ${HEADERS} ${SOURCES})
+add_library(${PROJECT_NAME} STATIC ${HEADERS} ${SOURCES})
 target_compile_options(${PROJECT_NAME} INTERFACE)
 
 if (CMAKE_COMPILER_IS_GNUCC)
@@ -225,12 +225,12 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         png
         )
 
-if(${BUILD_VIEWER})
+if(${MIRAGE_BUILD_VIEWER})
     target_link_libraries(${PROJECT_NAME} PRIVATE
             Qt5::Widgets)
 endif()
 
-if(${BUILD_EXAMPLES})
+if(${MIRAGE_BUILD_EXAMPLES})
     add_subdirectory(examples)
 endif()
 
