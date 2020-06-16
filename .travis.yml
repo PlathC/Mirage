@@ -28,6 +28,9 @@ matrix:
         - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
         - LINKER_FLAGS=""
 
+before_install:
+  - pip install --user cpp-coveralls
+
 install:
   - eval "${MATRIX_EVAL}"
 
@@ -38,7 +41,11 @@ script:
   - cmake --build .
   - cd ..
   - mkdir Release && cd Release
+  - ./configure --enable-gcov
   - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXE_LINKER_FLAGS=${LINKER_FLAGS} ..
   - cmake --build .
   - cd bin
   - ./MIRAGE_TESTS -d yes --order lex
+
+after_success:
+  - coveralls --exclude lib --exclude tests --gcov-options '\-lp'
