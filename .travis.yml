@@ -48,7 +48,7 @@ script:
   - ./MIRAGE_TESTS -d yes --order lex
   - cd ../..
   - ls -l
-  - lcov -d ./CMakeFiles/Mirage.dir/src/ -c -o coverage.info &&
+  - lcov -d ./Release/CMakeFiles/Mirage.dir/src/ -c -o coverage.info &&
     lcov -r coverage.info '/usr/*' -o coverage.info &&
     lcov -l coverage.info &&
     coveralls-lcov coverage.info;
