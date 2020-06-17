@@ -42,8 +42,8 @@ __Image processing features__
 
 | Feature                          | Dependencies |
 |----------------------------------|--------------|
-| Mirage + example                 |None          | 
-| MIRAGE_BUILD_VIEWER              |QT5           | 
+| Mirage + example                 | None         | 
+| MIRAGE_BUILD_VIEWER              | QT5          | 
  
 ### Compiler
 
