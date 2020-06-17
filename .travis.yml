@@ -1,7 +1,5 @@
 language : cpp
 dist: trusty
-python:
-  - 3.6
 
 os:
   - linux
@@ -19,6 +17,7 @@ matrix:
             - george-edison55-precise-backports
             - ubuntu-sdk-team
             - sourceline: ppa:beineri/opt-qt-5.10.1-trusty
+            - python3
           packages:
             - gcc-9
             - g++-9
@@ -31,8 +30,7 @@ matrix:
         - LINKER_FLAGS=""
 
 before_install:
-  - python3.6 -m pip install -U pip
-  - python3.6 -m pip install --user cpp-coveralls
+  - pip3 install --user cpp-coveralls
 
 install:
   - eval "${MATRIX_EVAL}"
