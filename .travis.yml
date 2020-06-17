@@ -24,6 +24,7 @@ matrix:
             - cmake
             - cmake-data
             - qt510base
+            - lcov
             - ruby
 
       env:
