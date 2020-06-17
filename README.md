@@ -22,17 +22,17 @@ __Image processing features__
 | Feature                          | Progress             |
 |----------------------------------|----------------------|
 | Image structure                  | Done                 |
-| Bit depth / Pixel type           | To do                |
-| DFT                              | To do                |
 | Filter                           | Done                 |
 | Sobel / Threshold                | Done                 |
 | Histogram Equalization           | Done                 |
-| Adaptive Histogram Equalization  | To do                |
 | Canny                            | Done                 |
-| Crop / Scale                     | Done (RT to do)      |
+| Crop / Scale                     | Done                 |
+| Bit depth / Pixel type           | To do                |
+| DFT                              | To do                |
+| Adaptive Histogram Equalization  | To do                |
+| Floyd-Steinberg                  | To do                |
 | Video support                    | To do                |
 | Optimization (Realtime use)      | To do                |
-| Test (Catch2)                    | In dev               |
 
 <h2 align="center">Build</h2>
 
