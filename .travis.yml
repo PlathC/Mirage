@@ -1,9 +1,6 @@
 language : cpp
 dist: trusty
 
-os:
-  - linux
-
 git:
   depth: false
 
@@ -23,6 +20,7 @@ matrix:
             - cmake
             - cmake-data
             - qt510base
+            - python3
             - python3-pip
 
       env:
