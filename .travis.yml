@@ -11,7 +11,7 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - ubuntu-sdk-team
+            - sourceline: ppa:ubuntu-sdk-team/ppa
             - sourceline: ppa:beineri/opt-qt-5.12.0-bionic
             - sourceline: ppa:george-edison55/precise-backports
           packages:
