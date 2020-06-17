@@ -30,6 +30,7 @@ matrix:
         - LINKER_FLAGS=""
 
 before_install:
+  - pip3 install --user urllib3[secure]
   - pip3 install --user cpp-coveralls
 
 install:
@@ -48,4 +49,4 @@ script:
   - ./MIRAGE_TESTS -d yes --order lex
   - cd ../..
   - ls -l
-  - coveralls --exclude CMake --exclude Examples --exclude extern --exclude readmefiles --exclude samples --exclude test
+  - coveralls -r . -b ./Release --exclude CMake --exclude Examples --exclude extern --exclude readmefiles --exclude samples --exclude test
