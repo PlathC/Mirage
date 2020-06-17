@@ -52,7 +52,8 @@ script:
   - cd ../..
   - ls -l
   - >
-    coveralls -r $PWD -b ./Release
+    coveralls -r $PWD -b $PWD/Release
     --exclude CMake --exclude Examples --exclude extern --exclude readmefiles
     --exclude samples --exclude test
-    --extension cpp --extension hpp --extension inl
+    --extension .cpp --extension .hpp --extension .inl
+
