@@ -31,8 +31,9 @@ matrix:
         - LINKER_FLAGS=""
 
 before_install:
-  - pip3 install -U pip
-  - pip3 install --user cpp-coveralls
+  - pyenv version
+  - pip install -U pip
+  - pip install --user cpp-coveralls
 
 install:
   - eval "${MATRIX_EVAL}"
