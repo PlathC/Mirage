@@ -17,8 +17,6 @@ matrix:
           packages:
             - gcc-9
             - g++-9
-            - cmake
-            - cmake-data
             - qt511base
             - mesa-common-dev
             - libglu1-mesa-dev
@@ -28,9 +26,14 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
         - LINKER_FLAGS=""
+        - CMAKE_DIR="${HOME}/cmake" PATH="${CMAKE_DIR}/:${CMAKE_DIR}/bin:$PATH"
 
 before_install:
   - gem install coveralls-lcov
+  - travis_retry wget -q https://cmake.org/files/v3.13/cmake-3.13.3-Linux-x86_64.tar.gz
+  - tar -xvf cmake-3.13.3-Linux-x86_64.tar.gz > /dev/null
+  - mv cmake-3.13.3-Linux-x86_64 "${CMAKE_DIR}"
+  - cd ${TRAVIS_BUILD_DIR}
 
 install:
   - eval "${MATRIX_EVAL}"
