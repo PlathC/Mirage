@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.13)
 project(MirageHistEqualizerExample)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../include)
