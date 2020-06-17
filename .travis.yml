@@ -70,7 +70,7 @@ install:
   - eval "${MATRIX_EVAL}"
 
 script:
-  - echo "Building..."
+  - echo "Building.."
   - mkdir Debug && cd Debug
   - cmake -DCMAKE_BUILD_TYPE=${BUILD_CONFIGURATION} -DCMAKE_EXE_LINKER_FLAGS=${LINKER_FLAGS} -DMIRAGE_COVERAGE=true ..
   - cmake --build . --target MIRAGE_TESTS
