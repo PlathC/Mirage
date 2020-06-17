@@ -1,5 +1,5 @@
 language : cpp
-dist: xenial
+dist: trusty
 
 git:
   depth: false
@@ -13,7 +13,7 @@ matrix:
             - ubuntu-toolchain-r-test
             - george-edison55-precise-backports
             - ubuntu-sdk-team
-            - sourceline: ppa:beineri/opt-qt-5.10.1-xenial
+            - sourceline: ppa:beineri/opt-qt-5.10.1-trusty
           packages:
             - gcc-9
             - g++-9
