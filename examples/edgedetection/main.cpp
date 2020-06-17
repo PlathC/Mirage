@@ -6,7 +6,7 @@ int main(int argc, char** argv)
 
     try 
     {
-        Matrix<uint16_t> mat = ImageParser::FromFile<uint16_t>("./samples/lena.png", 4);
+        Matrix<uint16_t> mat = ImageParser::FromFile<uint16_t>("./samples/HouseDublin.jpg", 4);
 
         Timer sobelTimer{}, cannyTimer{};
 
