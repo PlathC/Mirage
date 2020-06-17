@@ -38,7 +38,7 @@ install:
 script:
   - echo "Building..."
   - mkdir Release && cd Release
-  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXE_LINKER_FLAGS=${LINKER_FLAGS} -DCOVERAGE=1 ..
+  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXE_LINKER_FLAGS=${LINKER_FLAGS} -DMIRAGE_COVERAGE=true ..
   - cmake --build . --target MIRAGE_TESTS
   - cmake --build . --target MirageEdgeDetectionExample
   - cmake --build . --target MirageFilterExample
@@ -46,6 +46,5 @@ script:
   - cmake --build . --target MirageViewerExample
   - cd bin
   - ./MIRAGE_TESTS -d yes --order lex
-  - cd ../..
-  - coveralls
-
+  - cd ..
+  - coveralls --repo-token=${COVERALLS_TOKEN}
