@@ -108,11 +108,8 @@ namespace mrg
         const uint32_t width  = img.Width();
         const uint32_t height = img.Height();
 
-        Matrix<Type> blurred = img;
 
-        mrg::Convolve(blurred, mrg::gaussianBlurKernel5x5);
-
-        Matrix<double> gray = ToGrayScale<Type, double>(blurred);
+        Matrix<double> gray = ToGrayScale<Type, double>(img);
         const double kernelH[3][3] = {{-1, 0, 1},
                                       {-2, 0, 2},
                                       {-1, 0, 1}};
@@ -232,7 +229,7 @@ namespace mrg
     template<class ImageType, class KernelType>
     void Convolve(Matrix<ImageType>& img, const Matrix<KernelType>& kernel)
     {
-        const uint32_t kernelCenter = static_cast<uint32_t>(Floor(kernel.Width() / 2));
+        const uint32_t kernelCenter = static_cast<uint32_t>(mrg::Floor(kernel.Width() / 2));
         const uint32_t width  = img.Width();
         const uint32_t height = img.Height();
         const uint8_t channel = img.Channel();
@@ -253,7 +250,7 @@ namespace mrg
                             uint32_t yn = j + jk - kernelCenter;
 
                             uint32_t index = (xn * width + yn) * channel + k;
-                            value += static_cast<ImageType>(mrg::Trunc(data[index] * kernel.Get(ik, jk, 0)));
+                            value += static_cast<ImageType>(mrg::Floor(data[index] * kernel.Get(ik, jk, 0)));
                         }
                     }
                     data[(i * width + j) * channel + k] = value;
