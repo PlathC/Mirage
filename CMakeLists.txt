@@ -74,9 +74,15 @@ if (CMAKE_COMPILER_IS_GNUCC)
                 -Wformat=2)
 
         if(MIRAGE_COVERAGE)
+            message(STATUS "Add coverage compilation flags")
+
             set(MIRAGE_COMPILATION_FLAGS
                     ${MIRAGE_COMPILATION_FLAGS}
+                    -g
+                    -O0
+                    -fprofile-arcs
                     -ftest-coverage)
+            set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE 1)
         endif()
     else()
         set(MIRAGE_COMPILATION_FLAGS
