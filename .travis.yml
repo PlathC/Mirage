@@ -57,7 +57,7 @@ matrix:
 
 
 before_install:
-  - if [[ ${BUILD_TESTS} = true ]] then
+  - if [[ ${BUILD_TESTS} = true ]]; then
       pip3 install --user -U pip;
       pip3 install --user urllib3[secure];
       pip3 install --user cpp-coveralls;
@@ -81,7 +81,7 @@ script:
   - cmake --build . --target MirageViewerExample
   - cd bin
   - ./MIRAGE_TESTS -d yes --order lex
-  - if [[ ${BUILD_TESTS} = true ]] then
+  - if [[ ${BUILD_TESTS} = true ]]; then
       cd ../..;
       coveralls -r $PWD -b $PWD/Debug --gcov gcov-9
       --exclude CMake --exclude examples --exclude extern --exclude readmefiles
