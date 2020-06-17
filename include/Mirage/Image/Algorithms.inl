@@ -43,16 +43,16 @@ namespace mrg
     {
         uint32_t width   = img.Width();
         uint32_t height  = img.Height();
-        uint32_t channel = img.Channel();
+        uint8_t channel  = img.Channel();
         const auto& data = img.Data();
 
-        assert(bWidth >= 0   && bWidth <= width);
-        assert(bHeight >= 0  && bHeight <= height);
-        assert(eWidth >= 0   && eWidth <= width);
-        assert(eHeight >= 0  && eHeight <= height);
+        assert(bWidth  <= width);
+        assert(bHeight <= height);
+        assert(eWidth  <= width);
+        assert(eHeight <= height);
 
-        uint32_t trueNewWidth   = eWidth - bWidth;
-        uint32_t trueNewHeight  = eHeight - bHeight;
+        uint32_t trueNewWidth  = eWidth - bWidth;
+        uint32_t trueNewHeight = eHeight - bHeight;
         auto nData = std::vector<Type>(trueNewWidth * trueNewHeight * channel);
 
         for(uint32_t x = 0; x < trueNewWidth; x++)
@@ -63,11 +63,12 @@ namespace mrg
                 uint32_t oldY = y + bHeight;
                 for(uint8_t k = 0; k < channel; k++)
                 {
-                    nData[(y * trueNewWidth + x) * channel + k] =
-                            data[(oldY * (width) + oldX) * channel + k];
+                    nData[(x * trueNewHeight + y) * channel + k] =
+                            data[(oldX * height + oldY) * channel + k];
                 }
             }
         }
         img = mrg::Matrix<Type>(nData, trueNewWidth, trueNewHeight, channel);
     }
+
 }
