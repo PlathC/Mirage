@@ -28,7 +28,7 @@ target_include_directories(
 )
 
 target_compile_options(${PROJECT_NAME} PRIVATE ${MIRAGE_COMPILATION_FLAGS})
-
+target_link_options(${PROJECT_NAME} PRIVATE ${MIRAGE_LINKER_FLAGS})
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE "../include")
 target_link_libraries(${PROJECT_NAME} PRIVATE Mirage)
 

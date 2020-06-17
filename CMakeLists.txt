@@ -83,6 +83,10 @@ if (CMAKE_COMPILER_IS_GNUCC)
                     -fprofile-arcs
                     -ftest-coverage)
             set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE 1)
+            set(MIRAGE_LINKER_FLAGS
+                    ${MIRAGE_LINKER_FLAGS}
+                    -lgcov
+                    --coverage)
         endif()
     else()
         set(MIRAGE_COMPILATION_FLAGS
@@ -151,6 +155,10 @@ elseif (MSVC)
                 /w14640
                 /w14826
                 /w14928)
+        set(MIRAGE_LINKER_FLAGS
+                ${MIRAGE_LINKER_FLAGS}
+                /SUBSYSTEM:windows
+                /ENTRY:mainCRTStartup)
     endif()
 endif ()
 

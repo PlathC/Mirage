@@ -12,9 +12,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../include)
 add_executable(${PROJECT_NAME} main.cpp)
 target_compile_options(${PROJECT_NAME} PRIVATE ${MIRAGE_COMPILATION_FLAGS})
 
-if(MSVC AND CMAKE_BUILD_TYPE STREQUAL "Release")
-    target_link_options(${PROJECT_NAME} PRIVATE /SUBSYSTEM:windows /ENTRY:mainCRTStartup)
-endif()
+target_link_options(${PROJECT_NAME} PRIVATE ${MIRAGE_LINKER_FLAGS})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets)
 
