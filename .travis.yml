@@ -47,4 +47,4 @@ script:
   - cd bin
   - ./MIRAGE_TESTS -d yes --order lex
   - cd ../..
-  - coveralls --repo-token=$COVERALLS_TOKEN --exclude CMake --exclude Examples --exclude extern --exclude readmefiles --exclude samples --exclude test
+  - coveralls --exclude CMake --exclude Examples --exclude extern --exclude readmefiles --exclude samples --exclude test
