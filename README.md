@@ -28,6 +28,7 @@ __Image processing features__
 | Histogram Equalization           | Done                 |
 | Canny                            | Done                 |
 | Crop / Scale                     | Done                 |
+| Matrix transform                 | To do                |
 | Bit depth / Pixel type           | To do                |
 | DFT                              | To do                |
 | Adaptive Histogram Equalization  | To do                |
