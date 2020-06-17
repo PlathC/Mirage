@@ -56,10 +56,10 @@ script:
   - ./MIRAGE_TESTS -d yes --order lex
   - cd ../..
   - ls -l
-  - gcov -v
-  - g++ -v
+  - gcov9 -v
+  - g++9 -v
   - >
-    coveralls -r $PWD -b $PWD/Debug
+    coveralls -r $PWD -b $PWD/Debug --gcov gcov9
     --exclude CMake --exclude examples --exclude extern --exclude readmefiles
     --exclude samples --exclude test
     --extension .cpp --extension .hpp --extension .inl
