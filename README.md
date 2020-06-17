@@ -40,9 +40,7 @@ __Image processing features__
 
 ### Dependencies 
 
-*   LibPng
-*   LibJpeg-turbo
-*   Qt5
+*   Qt5 [Only for MIRAGE_BUILD_VIEWER]
  
 ### Compiler
 
