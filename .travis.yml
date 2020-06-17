@@ -79,7 +79,7 @@ script:
   - cmake --build . --target MirageHistEqualizerExample
   - cmake --build . --target MirageViewerExample
   - if [[ ${BUILD_TESTS} = true ]]; then
-      cmake --build . --target MIRAGE_TESTS
+      cmake --build . --target MIRAGE_TESTS;
       cd bin;
       ./MIRAGE_TESTS -d yes --order lex;
       cd ../..;
