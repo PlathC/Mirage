@@ -21,15 +21,18 @@ matrix:
             - mesa-common-dev
             - libglu1-mesa-dev
             - lcov
-            - ruby
+            - python3
+            - python3-pip
+            - python3-setuptools
 
       env:
         - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
         - LINKER_FLAGS=""
-        - CMAKE_DIR="${HOME}/cmake" PATH="${CMAKE_DIR}/:${CMAKE_DIR}/bin:$PATH"
 
 before_install:
-  - gem install coveralls-lcov
+  - pip3 install --user -U pip
+  - pip3 install --user urllib3[secure]
+  - pip3 install --user cpp-coveralls
   - travis_retry wget -q https://cmake.org/files/v3.13/cmake-3.13.3-Linux-x86_64.tar.gz
   - tar -xvf cmake-3.13.3-Linux-x86_64.tar.gz > /dev/null
   - mv cmake-3.13.3-Linux-x86_64 "${CMAKE_DIR}"
@@ -51,7 +54,8 @@ script:
   - ./MIRAGE_TESTS -d yes --order lex
   - cd ../..
   - ls -l
-  - lcov -d ./Debug/CMakeFiles/Mirage.dir/src/ -c -o coverage.info &&
-    lcov -r coverage.info '/usr/*' -o coverage.info &&
-    lcov -l coverage.info &&
-    coveralls-lcov coverage.info;
+  - >
+    coveralls -r $PWD -b $PWD/Release
+    --exclude CMake --exclude Examples --exclude extern --exclude readmefiles
+    --exclude samples --exclude test
+    --extension .cpp --extension .hpp --extension .inl
