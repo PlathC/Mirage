@@ -39,8 +39,13 @@ script:
   - echo "Building..."
   - mkdir Release && cd Release
   - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXE_LINKER_FLAGS=${LINKER_FLAGS} -DCOVERAGE=1 ..
-  - cmake --build .
+  - cmake --build . --target MIRAGE_TESTS
+  - cmake --build . --target MirageEdgeDetectionExample
+  - cmake --build . --target MirageFilterExample
+  - cmake --build . --target MirageHistEqualizerExample
+  - cmake --build . --target MirageViewerExample
   - cd bin
   - ./MIRAGE_TESTS -d yes --order lex
-  - coveralls --root .. -E ".*CMakeFiles.*" --extension "inl"
+  - cd ..
+  - coveralls
 
