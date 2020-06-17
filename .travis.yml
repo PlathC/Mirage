@@ -20,6 +20,8 @@ matrix:
             - cmake
             - cmake-data
             - qt511base
+            - mesa-common-dev
+            - libglu1-mesa-dev
             - python3
             - python3-pip
             - python3-setuptools
