@@ -7,53 +7,53 @@ git:
 matrix:
   include:
     - name: "Linux - Debug + tests"
-        os: linux
-        addons:
-          apt:
-            sources:
-              - ubuntu-toolchain-r-test
-              - sourceline: ppa:ubuntu-sdk-team/ppa
-              - sourceline: ppa:beineri/opt-qt-5.11.1-xenial
-              - sourceline: ppa:george-edison55/precise-backports
-            packages:
-              - gcc-9
-              - g++-9
-              - qt511base
-              - mesa-common-dev
-              - libglu1-mesa-dev
-              - lcov
-              - python3
-              - python3-pip
-              - python3-setuptools
-              - ggcov
-            env:
-              - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
-              - LINKER_FLAGS=""
-              - CMAKE_DIR="${HOME}/cmake" PATH="${CMAKE_DIR}/:${CMAKE_DIR}/bin:$PATH"
-              - BUILD_CONFIGURATION="Debug"
-              - BUILD_TESTS=true
+      os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - sourceline: ppa:ubuntu-sdk-team/ppa
+            - sourceline: ppa:beineri/opt-qt-5.11.1-xenial
+            - sourceline: ppa:george-edison55/precise-backports
+          packages:
+            - gcc-9
+            - g++-9
+            - qt511base
+            - mesa-common-dev
+            - libglu1-mesa-dev
+            - lcov
+            - python3
+            - python3-pip
+            - python3-setuptools
+            - ggcov
+      env:
+        - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
+        - LINKER_FLAGS=""
+        - CMAKE_DIR="${HOME}/cmake" PATH="${CMAKE_DIR}/:${CMAKE_DIR}/bin:$PATH"
+        - BUILD_CONFIGURATION="Debug"
+        - BUILD_TESTS=true
 
     - name: "Linux - Release"
-        os: linux
-        addons:
-          apt:
-            sources:
-              - ubuntu-toolchain-r-test
-              - sourceline: ppa:ubuntu-sdk-team/ppa
-              - sourceline: ppa:beineri/opt-qt-5.11.1-xenial
-              - sourceline: ppa:george-edison55/precise-backports
-            packages:
-              - gcc-9
-              - g++-9
-              - qt511base
-              - mesa-common-dev
-              - libglu1-mesa-dev
-            env:
-              - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
-              - LINKER_FLAGS=""
-              - CMAKE_DIR="${HOME}/cmake" PATH="${CMAKE_DIR}/:${CMAKE_DIR}/bin:$PATH"
-              - BUILD_CONFIGURATION="Release"
-              - BUILD_TESTS=false
+      os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - sourceline: ppa:ubuntu-sdk-team/ppa
+            - sourceline: ppa:beineri/opt-qt-5.11.1-xenial
+            - sourceline: ppa:george-edison55/precise-backports
+          packages:
+            - gcc-9
+            - g++-9
+            - qt511base
+            - mesa-common-dev
+            - libglu1-mesa-dev
+      env:
+        - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
+        - LINKER_FLAGS=""
+        - CMAKE_DIR="${HOME}/cmake" PATH="${CMAKE_DIR}/:${CMAKE_DIR}/bin:$PATH"
+        - BUILD_CONFIGURATION="Release"
+        - BUILD_TESTS=false
 
 
 before_install:
