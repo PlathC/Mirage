@@ -6,32 +6,58 @@ git:
 
 matrix:
   include:
-    - os : linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - sourceline: ppa:ubuntu-sdk-team/ppa
-            - sourceline: ppa:beineri/opt-qt-5.11.1-xenial
-            - sourceline: ppa:george-edison55/precise-backports
-          packages:
-            - gcc-9
-            - g++-9
-            - qt511base
-            - mesa-common-dev
-            - libglu1-mesa-dev
-            - lcov
-            - python3
-            - python3-pip
-            - python3-setuptools
-            - ggcov
+    - name: "Linux - Debug + tests"
+        os: linux
+        addons:
+          apt:
+            sources:
+              - ubuntu-toolchain-r-test
+              - sourceline: ppa:ubuntu-sdk-team/ppa
+              - sourceline: ppa:beineri/opt-qt-5.11.1-xenial
+              - sourceline: ppa:george-edison55/precise-backports
+            packages:
+              - gcc-9
+              - g++-9
+              - qt511base
+              - mesa-common-dev
+              - libglu1-mesa-dev
+              - lcov
+              - python3
+              - python3-pip
+              - python3-setuptools
+              - ggcov
+            env:
+              - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
+              - LINKER_FLAGS=""
+              - CMAKE_DIR="${HOME}/cmake" PATH="${CMAKE_DIR}/:${CMAKE_DIR}/bin:$PATH"
+              - BUILD_CONFIGURATION="Debug"
+              - BUILD_TESTS=true
 
-      env:
-        - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
-        - LINKER_FLAGS=""
-        - CMAKE_DIR="${HOME}/cmake" PATH="${CMAKE_DIR}/:${CMAKE_DIR}/bin:$PATH"
+    - name: "Linux - Release"
+        os: linux
+        addons:
+          apt:
+            sources:
+              - ubuntu-toolchain-r-test
+              - sourceline: ppa:ubuntu-sdk-team/ppa
+              - sourceline: ppa:beineri/opt-qt-5.11.1-xenial
+              - sourceline: ppa:george-edison55/precise-backports
+            packages:
+              - gcc-9
+              - g++-9
+              - qt511base
+              - mesa-common-dev
+              - libglu1-mesa-dev
+            env:
+              - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
+              - LINKER_FLAGS=""
+              - CMAKE_DIR="${HOME}/cmake" PATH="${CMAKE_DIR}/:${CMAKE_DIR}/bin:$PATH"
+              - BUILD_CONFIGURATION="Release"
+              - BUILD_TESTS=false
+
 
 before_install:
+  - if [[ ${BUILD_TESTS} = true ]] then
   - pip3 install --user -U pip
   - pip3 install --user urllib3[secure]
   - pip3 install --user cpp-coveralls
@@ -46,7 +72,7 @@ install:
 script:
   - echo "Building..."
   - mkdir Debug && cd Debug
-  - cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXE_LINKER_FLAGS=${LINKER_FLAGS} -DMIRAGE_COVERAGE=true ..
+  - cmake -DCMAKE_BUILD_TYPE=${BUILD_CONFIGURATION} -DCMAKE_EXE_LINKER_FLAGS=${LINKER_FLAGS} -DMIRAGE_COVERAGE=true ..
   - cmake --build . --target MIRAGE_TESTS
   - cmake --build . --target MirageEdgeDetectionExample
   - cmake --build . --target MirageFilterExample
@@ -54,12 +80,10 @@ script:
   - cmake --build . --target MirageViewerExample
   - cd bin
   - ./MIRAGE_TESTS -d yes --order lex
-  - cd ../..
-  - ls -l
-  - gcov-9 -v
-  - g++-9 -v
-  - >
-    coveralls -r $PWD -b $PWD/Debug --gcov gcov-9
-    --exclude CMake --exclude examples --exclude extern --exclude readmefiles
-    --exclude samples --exclude test
-    --extension .cpp --extension .hpp --extension .inl --gcov-options '\-lp'
+  - if [[ ${BUILD_TESTS} = true ]] then
+      cd ../..;
+      coveralls -r $PWD -b $PWD/Debug --gcov gcov-9
+      --exclude CMake --exclude examples --exclude extern --exclude readmefiles
+      --exclude samples --exclude test
+      --extension .cpp --extension .hpp --extension .inl --gcov-options '\-lp';
+    fi
