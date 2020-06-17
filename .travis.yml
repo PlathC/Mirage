@@ -24,9 +24,15 @@ matrix:
             - cmake
             - cmake-data
             - qt510base
+            - ruby
+
       env:
         - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
         - LINKER_FLAGS=""
+
+before_install:
+  - gem install coveralls-lcov
+
 install:
   - eval "${MATRIX_EVAL}"
 
@@ -37,3 +43,8 @@ script:
   - cmake --build .
   - cd bin
   - ./MIRAGE_TESTS -d yes --order lex
+  - lcov -d ./CMakeFiles/Mirage.dir/src/ -c -o coverage.info &&
+    lcov -r coverage.info '/usr/*' -o coverage.info &&
+    lcov -l coverage.info &&
+    coveralls-lcov coverage.info;
+
