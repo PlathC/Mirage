@@ -46,6 +46,6 @@ script:
   - cmake --build . --target MirageViewerExample
   - cd bin
   - ./MIRAGE_TESTS -d yes --order lex
-  - cd ..
+  - cd ../..
   - coveralls
 
