@@ -58,9 +58,10 @@ matrix:
 
 before_install:
   - if [[ ${BUILD_TESTS} = true ]] then
-  - pip3 install --user -U pip
-  - pip3 install --user urllib3[secure]
-  - pip3 install --user cpp-coveralls
+      pip3 install --user -U pip;
+      pip3 install --user urllib3[secure];
+      pip3 install --user cpp-coveralls;
+    fi
   - travis_retry wget -q https://cmake.org/files/v3.13/cmake-3.13.3-Linux-x86_64.tar.gz
   - tar -xvf cmake-3.13.3-Linux-x86_64.tar.gz > /dev/null
   - mv cmake-3.13.3-Linux-x86_64 "${CMAKE_DIR}"
