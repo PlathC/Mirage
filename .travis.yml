@@ -51,4 +51,7 @@ script:
   - ./MIRAGE_TESTS -d yes --order lex
   - cd ../..
   - ls -l
-  - coveralls -r $PWD -b $PWD/Release --exclude CMake --exclude Release --exclude examples --exclude extern --exclude readmefiles --exclude samples --exclude test
+  - coveralls -r $PWD -b ./Release \
+    --exclude CMake --exclude Examples --exclude extern --exclude readmefiles \
+    --exclude samples --exclude test \
+    --extension cpp --extension hpp --extension inl
