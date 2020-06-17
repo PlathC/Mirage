@@ -1,5 +1,5 @@
 language : cpp
-dist: bionic
+dist: xenial
 
 git:
   depth: false
@@ -11,7 +11,8 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - sourceline: ppa:beineri/opt-qt-5.12.0-bionic
+            - sourceline: ppa:ubuntu-sdk-team/ppa
+            - sourceline: ppa:beineri/opt-qt-5.11.1-xenial
             - sourceline: ppa:george-edison55/precise-backports
           packages:
             - gcc-9
