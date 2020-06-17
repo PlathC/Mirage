@@ -56,6 +56,8 @@ script:
   - ./MIRAGE_TESTS -d yes --order lex
   - cd ../..
   - ls -l
+  - gcov -v
+  - g++ -v
   - >
     coveralls -r $PWD -b $PWD/Debug
     --exclude CMake --exclude examples --exclude extern --exclude readmefiles
