@@ -17,13 +17,13 @@ matrix:
             - george-edison55-precise-backports
             - ubuntu-sdk-team
             - sourceline: ppa:beineri/opt-qt-5.10.1-trusty
-            - python3
           packages:
             - gcc-9
             - g++-9
             - cmake
             - cmake-data
             - qt510base
+            - python3-pip
 
       env:
         - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
