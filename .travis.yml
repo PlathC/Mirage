@@ -72,7 +72,7 @@ install:
 
 script:
   - echo "Building.."
-  - mkdir Debug && cd Debug
+  - mkdir build && cd build
   - cmake -DCMAKE_BUILD_TYPE=${BUILD_CONFIGURATION} -DCMAKE_EXE_LINKER_FLAGS=${LINKER_FLAGS} -DMIRAGE_COVERAGE=true ..
   - cmake --build . --target MirageEdgeDetectionExample
   - cmake --build . --target MirageFilterExample
@@ -83,7 +83,7 @@ script:
       cd bin;
       ./MIRAGE_TESTS -d yes --order lex;
       cd ../..;
-      coveralls -r $PWD -b $PWD/Debug --gcov gcov-9
+      coveralls -r $PWD -b $PWD/build --gcov gcov-9
       --exclude CMake --exclude examples --exclude extern --exclude readmefiles
       --exclude samples --exclude test
       --extension .cpp --extension .hpp --extension .inl --gcov-options '\-lp';
