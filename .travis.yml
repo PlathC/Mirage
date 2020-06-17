@@ -42,5 +42,5 @@ script:
   - cmake --build .
   - cd bin
   - ./MIRAGE_TESTS -d yes --order lex
-  - coveralls --root .. -E ".*CMakeFiles.*"
+  - coveralls --root .. -E ".*CMakeFiles.*" --extension "inl"
 
