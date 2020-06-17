@@ -19,7 +19,7 @@ matrix:
             - g++-9
             - cmake
             - cmake-data
-            - qt510base
+            - qt511base
             - python3
             - python3-pip
             - python3-setuptools
