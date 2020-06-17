@@ -28,6 +28,7 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
         - LINKER_FLAGS=""
+        - CMAKE_DIR="${HOME}/cmake" PATH="${CMAKE_DIR}/:${CMAKE_DIR}/bin:$PATH"
 
 before_install:
   - pip3 install --user -U pip
