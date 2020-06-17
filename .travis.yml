@@ -1,5 +1,5 @@
 language : cpp
-dist: trusty
+dist: xenial
 
 git:
   depth: false
@@ -28,7 +28,7 @@ matrix:
         - LINKER_FLAGS=""
 
 before_install:
-  - pip3 install -U pip
+  - pip3 install --user -U pip
   - pip3 install --user urllib3[secure]
   - pip3 install --user cpp-coveralls
 
