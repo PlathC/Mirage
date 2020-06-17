@@ -27,14 +27,7 @@ target_include_directories(
         "${CMAKE_CURRENT_SOURCE_DIR}/Catch2"
 )
 
-if (COVERAGE)
-    target_compile_options(${PROJECT_NAME} PRIVATE
-            ${MIRAGE_COMPILATION_FLAGS}
-            --coverage)
-    target_link_libraries(${PROJECT_NAME} PRIVATE --coverage)
-else()
-    target_compile_options(${PROJECT_NAME} PRIVATE ${MIRAGE_COMPILATION_FLAGS})
-endif()
+compile_options(${PROJECT_NAME} PRIVATE ${MIRAGE_COMPILATION_FLAGS})
 
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE "../include")
 target_link_libraries(${PROJECT_NAME} PRIVATE Mirage)

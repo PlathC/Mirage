@@ -17,6 +17,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 option(MIRAGE_BUILD_VIEWER "Build Mirage viewer" ON)
 option(MIRAGE_BUILD_EXAMPLES "Build Mirage examples" ON)
 option(MIRAGE_BUILD_TESTS "Build Mirage tests" ON)
+option(MIRAGE_COVERAGE "Enable code coverage" OFF)
 
 add_subdirectory(extern/zlib)
 list(APPEND ZLIB_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/extern/zlib/")
@@ -71,6 +72,12 @@ if (CMAKE_COMPILER_IS_GNUCC)
                 -Wuseless-cast
                 -Wdouble-promotion
                 -Wformat=2)
+
+        if(MIRAGE_COVERAGE)
+            set(MIRAGE_COMPILATION_FLAGS
+                    ${MIRAGE_COMPILATION_FLAGS}
+                    -ftest-coverage)
+        endif()
     else()
         set(MIRAGE_COMPILATION_FLAGS
                 -DNDEBUG
