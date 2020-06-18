@@ -85,6 +85,6 @@ script:
       cd ../..;
       coveralls -r $PWD -b $PWD/build --gcov gcov-9
       --exclude CMake --exclude examples --exclude extern --exclude readmefiles
-      --exclude samples --exclude test --exclude build
+      --exclude samples --exclude test
       --extension .cpp --extension .hpp --extension .inl --gcov-options '\-lp';
     fi
