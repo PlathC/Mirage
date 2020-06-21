@@ -48,7 +48,7 @@ __Image processing features__
  
 ### Compiler
 
-This project has been tested with MinGW and MSVC (VS2017).
+This project has been tested with MinGW and MSVC (VS2019).
 
 <h2 align="center">Examples</h2>
 
