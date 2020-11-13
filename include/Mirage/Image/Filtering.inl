@@ -250,7 +250,7 @@ namespace mrg
                             uint32_t yn = j + jk - kernelCenter;
 
                             uint32_t index = (xn * width + yn) * channel + k;
-                            value += static_cast<ImageType>(mrg::Floor(data[index] * kernel.Get(ik, jk, 0)));
+                            value += static_cast<ImageType>(mrg::Floor(data[index] * kernel.Get({ik, jk}, 0)));
                         }
                     }
                     data[(i * width + j) * channel + k] = value;
@@ -378,6 +378,38 @@ namespace mrg
                 }
             }
         }
+    }
+
+    template<class ImageType>
+    std::vector<std::complex<double>> DFT(const Matrix<ImageType>& img)
+    {
+        assert(img.Channel() == 1 && "The DFT only work on single channel images.");
+
+        const auto& data = img.Data();
+        const auto imageSize = data.size();
+        auto result = std::vector<std::complex<double>>(imageSize);
+
+        for(size_t k = 0; k < imageSize; k++)
+        {
+            std::complex<double> sum = {0, 0};
+
+            for(size_t t = 0; t < imageSize; t++)
+            {
+                double angle = 2 * mrg::Pi * static_cast<double>(t) * static_cast<double>(k) / static_cast<double>(imageSize);
+                std::complex<double> exponential = {
+                        mrg::Cos(angle),
+                        -mrg::Sin(angle)
+                };
+                std::complex<double> imageValue = {
+                        data[t],
+                        data[t]
+                };
+
+                sum += imageValue * exponential;
+            }
+            result[k] = sum;
+        }
+        return result;
     }
 
     template<uint8_t kernelSize>

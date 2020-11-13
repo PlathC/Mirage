@@ -4,7 +4,7 @@
 
 #include "catch.hpp"
 
-#include "Mirage/Image/Algorithms.hpp"
+#include "Mirage/Image/Operations.hpp"
 
 TEST_CASE("Scale", "[algorithm]")
 {
@@ -40,9 +40,19 @@ TEST_CASE("Crop", "[algorithm]")
     mrg::Matrix<char> mat = mrg::Matrix<char>(pixels, 3, 4, 1);
 
     mrg::Crop(mat, 1, 1, 3, 3);
-    auto t = mat.Get(0, 0, 0);
     REQUIRE(mat.Width()       == 2);
     REQUIRE(mat.Height()      == 2);
     REQUIRE(mat.Data().size() == 4);
-    REQUIRE(mat.Get(0, 0, 0)  == 6);
+    REQUIRE(mat.Get({0, 0}, 0)  == 6);
+}
+
+TEST_CASE("Rotate", "[algorithm]")
+{
+    const std::vector<char> pixels = {1, 2,  3,
+                                      4, 5,  6,
+                                      7, 8, 9};
+    mrg::Matrix<char> mat = mrg::Matrix<char>(pixels, 3, 3, 1);
+
+    mat = mrg::Rotate(mat, mrg::Pi/2);
+    REQUIRE(mat.Get({0, 0}, 0) == 6);
 }

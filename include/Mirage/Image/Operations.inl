@@ -12,7 +12,7 @@ namespace mrg
     }
 
     template<class Type>
-    void Scale(Matrix<Type>& img, uint32_t nWidth, uint32_t nHeight, ScalingFunction<Type> algorithm)
+    void Scale(Matrix<Type>& img, const uint32_t nWidth, const uint32_t nHeight, const ScalingFunction<Type> algorithm)
     {
         uint32_t width  = img.Width();
         uint32_t height = img.Height();
@@ -39,7 +39,7 @@ namespace mrg
     }
 
     template<class Type>
-    void Crop(Matrix<Type>& img, uint32_t bWidth, uint32_t bHeight, uint32_t eWidth, uint32_t eHeight)
+    void Crop(Matrix<Type>& img, const uint32_t bWidth, const uint32_t bHeight, const uint32_t eWidth, const uint32_t eHeight)
     {
         uint32_t width   = img.Width();
         uint32_t height  = img.Height();
@@ -71,4 +71,37 @@ namespace mrg
         img = mrg::Matrix<Type>(nData, trueNewWidth, trueNewHeight, channel);
     }
 
+    template<class Type>
+    Matrix<Type> Rotate(const Matrix<Type>& img, const double angle)
+    {
+        const auto& data = img.Data();
+        auto nData = std::vector<Type>(data.size(), 0);
+        const uint32_t width = img.Width();
+        const uint32_t height = img.Height();
+        const uint32_t channel = img.Channel();
+
+        for(uint32_t i = 0; i < width; i++)
+        {
+            for(uint32_t j = 0; j < height; j++)
+            {
+                int32_t nX = static_cast<int32_t>(
+                        mrg::Trunc(mrg::Cos(angle) * i - mrg::Sin(angle) * j)
+                );
+
+                int32_t nY = static_cast<int32_t>(
+                        mrg::Trunc(mrg::Sin(angle) * i + mrg::Cos(angle) * j)
+                );
+
+                if(nX >= 0 && nX < width && nY >= 0 && nY < height)
+                {
+                    for(uint8_t k = 0; k < channel; k++)
+                    {
+                        nData[(nX * height + nY) * channel + k] =
+                                data[(i * height + j) * channel + k];
+                    }
+                }
+            }
+        }
+        return Matrix<Type>(nData, width, height, channel);
+    }
 }

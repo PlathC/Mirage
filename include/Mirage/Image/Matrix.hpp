@@ -35,9 +35,9 @@ namespace mrg
         Matrix& operator=(const Matrix&) = default;
         Matrix& operator=(Matrix&&) = default;
 
-        [[nodiscard]] Type& Get(uint32_t w, uint32_t h, uint8_t channel);
-        [[nodiscard]] Type Get(uint32_t w, uint32_t h, uint8_t channel) const;
-        void Set(uint32_t w, uint32_t h, uint8_t k, const Type& t);
+        [[nodiscard]] Type& Get(const Vec2<uint32_t>& position, uint8_t channel);
+        [[nodiscard]] Type Get(const Vec2<uint32_t>& position, uint8_t channel) const;
+        void Set(const Vec2<uint32_t>& position, uint8_t k, const Type& t);
 
         std::vector<Type>& Data();
         const std::vector<Type>& Data() const;

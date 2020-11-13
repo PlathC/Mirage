@@ -26,22 +26,22 @@ TEST_CASE( "Matrix", "[matrix]" )
 
     SECTION("Pixel access")
     {
-        REQUIRE(mat.Get(0, 0, 0) == 1);
-        REQUIRE(mat.Get(0, 1, 0) == 2);
-        REQUIRE(mat.Get(0, 2, 0) == 3);
-        REQUIRE(mat.Get(1, 0, 0) == 4);
-        REQUIRE(mat.Get(1, 1, 0) == 5);
-        REQUIRE(mat.Get(1, 2, 0) == 6);
-        REQUIRE(mat.Get(2, 0, 0) == 7);
-        REQUIRE(mat.Get(2, 1, 0) == 8);
-        REQUIRE(mat.Get(2, 2, 0) == 9);
+        REQUIRE(mat.Get({0, 0}, 0) == 1);
+        REQUIRE(mat.Get({0, 1}, 0) == 2);
+        REQUIRE(mat.Get({0, 2}, 0) == 3);
+        REQUIRE(mat.Get({1, 0}, 0) == 4);
+        REQUIRE(mat.Get({1, 1}, 0) == 5);
+        REQUIRE(mat.Get({1, 2}, 0) == 6);
+        REQUIRE(mat.Get({2, 0}, 0) == 7);
+        REQUIRE(mat.Get({2, 1}, 0) == 8);
+        REQUIRE(mat.Get({2, 2}, 0) == 9);
     }
 
     SECTION("Pixel modification")
     {
         mrg::Matrix<char> mat1 {pixels,3, 3, 1};
 
-        mat1.Set(0, 0, 0, -1);
-        REQUIRE(mat1.Get(0, 0, 0) == -1);
+        mat1.Set({0, 0}, 0, -1);
+        REQUIRE(mat1.Get({0, 0}, 0) == -1);
     }
 }

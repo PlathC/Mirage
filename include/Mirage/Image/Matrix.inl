@@ -27,8 +27,9 @@ namespace mrg {
     m_width(width),
     m_height(height),
     m_channelNumber(channelNumber),
-    m_data(pixels)
+    m_data()
     {
+        std::copy(pixels.begin(), pixels.end(), std::back_inserter(m_data));
     }
 
     template<class Type>
@@ -39,11 +40,7 @@ namespace mrg {
     m_channelNumber(channelNumber),
     m_data()
     {
-        m_data.resize(Size);
-        for(size_t i = 0; i < Size; i++)
-        {
-            m_data[i] = pixels[i];
-        }
+        std::copy(pixels.begin(), pixels.end(), std::back_inserter(m_data));
     }
 
     template<class Type>
@@ -61,21 +58,21 @@ namespace mrg {
     }
 
     template<class Type>
-    Type Matrix<Type>::Get(uint32_t w, uint32_t h, uint8_t channel) const
+    Type Matrix<Type>::Get(const Vec2<uint32_t>& position, uint8_t channel) const
     {
-        assert(w < m_width);
-        assert(h < m_height);
+        assert(position[0] < m_width);
+        assert(position[1] < m_height);
         assert(channel < m_channelNumber);
-        return m_data[(w * m_height + h) * m_channelNumber + channel];
+        return m_data[(position[0] * m_height + position[1]) * m_channelNumber + channel];
     }
 
     template<class Type>
-    Type& Matrix<Type>::Get(uint32_t w, uint32_t h, uint8_t channel)
+    Type& Matrix<Type>::Get(const Vec2<uint32_t>& position, uint8_t channel)
     {
-        assert(w < m_width);
-        assert(h < m_height);
+        assert(position[0] < m_width);
+        assert(position[1] < m_height);
         assert(channel < m_channelNumber);
-        return m_data[(w * m_height + h) * m_channelNumber + channel];
+        return m_data[(position[0] * m_height + position[1]) * m_channelNumber + channel];
     }
 
     template<class Type>
@@ -112,12 +109,12 @@ namespace mrg {
     }
 
     template<class Type>
-    void Matrix<Type>::Set(uint32_t w, uint32_t h, uint8_t k, const Type& t)
+    void Matrix<Type>::Set(const Vec2<uint32_t>& position, uint8_t k, const Type& t)
     {
-        assert(w < m_width);
-        assert(h < m_height);
+        assert(position[0] < m_width);
+        assert(position[1] < m_height);
         assert(k < m_channelNumber);
-        m_data[(w * m_height + h) * m_channelNumber + k] = t;
+        m_data[(position[0] * m_height + position[1]) * m_channelNumber + k] = t;
     }
 
 }

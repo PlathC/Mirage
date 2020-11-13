@@ -2,8 +2,8 @@
 // Created by Platholl on 03/06/2020.
 //
 
-#ifndef MIRAGE_ALGORITHMS_HPP
-#define MIRAGE_ALGORITHMS_HPP
+#ifndef MIRAGE_OPERATIONS_HPP
+#define MIRAGE_OPERATIONS_HPP
 
 #include <functional>
 
@@ -34,12 +34,15 @@ namespace mrg
                                 const ScalingSettings& settings);
 
     template<typename Type>
-    void Scale(Matrix<Type>& img, uint32_t nWidth, uint32_t nHeight, ScalingFunction<Type> algorithm);
+    void Scale(Matrix<Type>& img, const uint32_t nWidth, const uint32_t nHeight, const ScalingFunction<Type> algorithm);
 
     template<typename Type>
-    void Crop(Matrix<Type>& img, uint32_t bWidth, uint32_t bHeight, uint32_t eWidth, uint32_t eHeight);
+    void Crop(Matrix<Type>& img, const uint32_t bWidth, const uint32_t bHeight, const uint32_t eWidth, const uint32_t eHeight);
+
+    template<class Type>
+    Matrix<Type> Rotate(const Matrix<Type>& img, const double angle);
 }
 
-#include "Algorithms.inl"
+#include "Operations.inl"
 
-#endif //MIRAGE_ALGORITHMS_HPP
+#endif //MIRAGE_OPERATIONS_HPP

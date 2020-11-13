@@ -152,6 +152,7 @@ namespace mrg
         Vec<Type, Size> Normalize() const;
 
         Type& Get(const unsigned int index);
+        Type& Get(const unsigned int index) const;
 
         friend std::ostream& operator<<(std::ostream& os, const Vec<Type, Size>& v)
         {
@@ -189,14 +190,16 @@ namespace mrg
         return result;
     }
 
-    using Vec2c    = Vec<char, 2>;
-    using Vec2i    = Vec<int, 2>;
-    using Vec2ui8  = Vec<uint8_t, 2>;
-    using Vec2ui16 = Vec<uint16_t, 2>;
-    using Vec2ui32 = Vec<uint32_t, 2>;
-    using Vec2f    = Vec<float, 2>;
-    using Vec2l    = Vec<long, 2>;
-    using Vec2d    = Vec<double, 2>;
+    template<class Type>
+    using Vec2     = Vec<Type, 2>;
+    using Vec2c    = Vec2<char>;
+    using Vec2i    = Vec2<int>;
+    using Vec2ui8  = Vec2<uint8_t>;
+    using Vec2ui16 = Vec2<uint16_t>;
+    using Vec2ui32 = Vec2<uint32_t>;
+    using Vec2f    = Vec2<float>;
+    using Vec2l    = Vec2<long>;
+    using Vec2d    = Vec2<double>;
 
     using Vec3c    = Vec3<char>;
     using Vec3i    = Vec3<int>;

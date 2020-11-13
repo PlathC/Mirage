@@ -558,4 +558,10 @@ namespace mrg
     {
         return elements[index];
     }
+
+    template<class Type, unsigned int Size>
+    Type& Vec<Type, Size>::Get(const unsigned int index) const
+    {
+        return elements[index];
+    }
 }

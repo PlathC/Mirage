@@ -170,10 +170,10 @@ set(HEADERS
         include/Mirage/Core/Macro.hpp
         include/Mirage/Image/Matrix.hpp
         include/Mirage/Image/Matrix.inl
-        include/Mirage/Image/Algorithms.hpp
-        include/Mirage/Image/Algorithms.inl
-        include/Mirage/Image/ImageOperations.hpp
-        include/Mirage/Image/ImageOperations.inl
+        include/Mirage/Image/Operations.hpp
+        include/Mirage/Image/Operations.inl
+        include/Mirage/Image/Filtering.hpp
+        include/Mirage/Image/Filtering.inl
         include/Mirage/Image/ImageParser.hpp
         include/Mirage/Image/ImageParser.inl
         include/Mirage/Image/Parser/IParser.hpp
@@ -189,7 +189,7 @@ set(SOURCES
         src/Mirage/Core/Timer.cpp
         src/Mirage/Image/Matrix.cpp
         src/Mirage/Image/ImageParser.cpp
-        src/Mirage/Image/Algorithms.cpp
+        src/Mirage/Image/Operations.cpp
         src/Mirage/Image/Parser/IParser.cpp
         src/Mirage/Image/Parser/PngParser.cpp
         src/Mirage/Image/Parser/JpegParser.cpp)

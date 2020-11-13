@@ -2,9 +2,10 @@
 // Created by Platholl on 03/06/2020.
 //
 
-#ifndef MIRAGE_IMAGEOPERATIONS_HPP
-#define MIRAGE_IMAGEOPERATIONS_HPP
+#ifndef MIRAGE_FILTERING_HPP
+#define MIRAGE_FILTERING_HPP
 
+#include <complex>
 #include <map>
 
 #include "Matrix.hpp"
@@ -44,6 +45,9 @@ namespace mrg
     template<class ImageType>
     void HistogramEqualization(Matrix<ImageType>& img);
 
+    template<class ImageType>
+    std::vector<std::complex<double>> DFT(const Matrix<ImageType>& img);
+
     template<int kernelSize>
     Matrix<double> GenerateGaussianKernel(const int sigma);
 
@@ -80,6 +84,6 @@ namespace mrg
                                                            5, 5, 1);
 }
 
-#include "ImageOperations.inl"
+#include "Filtering.inl"
 
-#endif //MIRAGE_IMAGEOPERATIONS_HPP
+#endif //MIRAGE_FILTERING_HPP
