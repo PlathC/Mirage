@@ -28,7 +28,7 @@ namespace mrg
             {
                 std::string extension = fileName.substr(idx + 1);
                 std::transform(extension.begin(), extension.end(), extension.begin(),
-                               [](unsigned char c){ return std::tolower(c); });
+                               [](unsigned char c){ return static_cast<char>(std::tolower(c)); });
 
                 auto CheckExtension = [&extension](ImageFile type) -> bool {
                     return std::find(formats.at(type).begin(),

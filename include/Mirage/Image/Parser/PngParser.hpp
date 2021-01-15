@@ -15,7 +15,7 @@ namespace mrg
         template<typename T>
         class PngParser : public IParser<T> {
         public:
-            Matrix<T> Parse(const std::string& _fileName, const uint8_t channel) override;
+            Matrix<T> Parse(const std::string& fileName, uint8_t channel) override;
 
             void Write(const Matrix<T> &mat, const std::string& _fileName) override;
 
@@ -25,16 +25,12 @@ namespace mrg
                 Write
             };
 
-            bool Init(ActionType actionType);
-
-            std::string m_fileName;
-            FILE *m_file = nullptr;
+            //bool Init(ActionType actionType);
 
             png_byte m_colorType;
             png_byte m_bitDepth;
-            png_structp m_png;
-            png_infop m_info;
-            png_bytep* m_rowPointers = nullptr;
+
+            //png_bytep* m_rowPointers = nullptr;
         };
     }
 }
