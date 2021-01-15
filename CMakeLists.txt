@@ -25,9 +25,9 @@ list(APPEND ZLIB_INCLUDE_DIR "${CMAKE_BINARY_DIR}/extern/zlib/")
 
 if(MSVC)
     if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR NOT CMAKE_BUILD_TYPE)
-        set(ZLIB_LIBRARY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Debug/zlibd.lib)
+        set(ZLIB_LIBRARY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/zlibd.lib)
     else()
-        set(ZLIB_LIBRARY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Release/zlib.lib)
+        set(ZLIB_LIBRARY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/zlib.lib)
     endif()
 elseif(MINGW)
     set(ZLIB_LIBRARY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libzlib.dll.a)
@@ -116,7 +116,6 @@ elseif (MSVC)
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
         set(MIRAGE_COMPILATION_FLAGS
                 /permissive
-                /W4
                 /w14242
                 /w14254
                 /w14263
