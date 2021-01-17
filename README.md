@@ -63,7 +63,9 @@ a kernel provide in the library.
 
 ##### Filter Results 
 
-![RubberWhale classic](readmefiles/rubberwhale.png) ![RubberWhale convolve](readmefiles/rubberwhale-convolve.png) 
+<p align="center">
+	<img src="readmefiles/rubberwhale.png" alt="RubberWhale classic"/> <img src="readmefiles/rubberwhale-convolve.png" alt="RubberWhale convolved"/> 
+</p>
 
 #### __Edges detection__
 
@@ -74,15 +76,21 @@ contour lines within m_a given image.
 
 Original : 
 
-![Dublin Classic](readmefiles/HouseDublin.jpg) 
+<p align="center">
+	<img src="readmefiles/HouseDublin.jpg" alt="Dublin Classic"/> 
+</p>
 
 Canny :
 
-![Dublin Canny](readmefiles/HouseDublin-Canny.jpg)
+<p align="center">
+	<img src="readmefiles/HouseDublin-Canny.jpg" alt="Dublin Canny"/> 
+</p>
 
 Sobel :
 
-![Dublin Canny](readmefiles/HouseDublin-Sobel.jpg) 
+<p align="center">
+	<img src="readmefiles/HouseDublin-Sobel.jpg" alt="Dublin Canny"/> 
+</p>
 
 #### __Histogram Equalization__
 
