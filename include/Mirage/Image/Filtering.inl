@@ -579,7 +579,7 @@ namespace mrg
         assert(IsPowerOf2(static_cast<uint32_t>(data.size())) && "Input array size should be a power of 2");
         const float inverted = inverse ? -1.f : 1.f;
 
-        uint8_t powerOf2 = FindPowerOf2(data.size());
+        uint8_t powerOf2 = FindPowerOf2(static_cast<uint32_t>(data.size()));
         std::deque<bool> toBeReversed = std::deque<bool>(powerOf2, 0);
 
         const auto numberToDeque = [](uint32_t number, std::deque<bool>& out)

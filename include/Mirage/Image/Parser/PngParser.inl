@@ -128,7 +128,8 @@ namespace mrg
 
             png_write_info(pngWriteStruct, infoStruct);
 
-            auto imageData = mat.DataInType<png_byte>();
+            const auto& rawImageData = mat.Data();
+            auto imageData = std::vector<png_byte>(rawImageData.begin(), rawImageData.end());
             for(std::size_t y = 0; y < mat.Height(); y++)
             {
                 png_write_row(pngWriteStruct, &imageData[y * mat.Width() * mat.Channel()]);
