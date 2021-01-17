@@ -25,12 +25,8 @@ namespace mrg
                 Write
             };
 
-            //bool Init(ActionType actionType);
-
             png_byte m_colorType;
             png_byte m_bitDepth;
-
-            //png_bytep* m_rowPointers = nullptr;
         };
     }
 }

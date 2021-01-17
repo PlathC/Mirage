@@ -28,8 +28,8 @@ namespace mrg
                 throw std::runtime_error("Can't read image information.");
             }
 
-            png_set_read_fn(pngReadStruct, &inStream, [](png_structp pngReadStruct, png_bytep data, png_size_t length) {
-                png_voidp fileDescriptor = png_get_io_ptr(pngReadStruct);
+            png_set_read_fn(pngReadStruct, &inStream, [](png_structp readStruct, png_bytep data, png_size_t length) {
+                png_voidp fileDescriptor = png_get_io_ptr(readStruct);
                 static_cast<std::istream*>(fileDescriptor)->read(reinterpret_cast<char*>(data),
                         static_cast<std::streamsize>(length));
             });
@@ -86,8 +86,8 @@ namespace mrg
 
             auto file = std::ofstream(fileName, std::ios::binary);
 
-            png_set_write_fn(pngWriteStruct, &file, [] (png_structp pngWriteStruct, png_bytep data, png_size_t length) {
-                png_voidp fileDescriptor = png_get_io_ptr(pngWriteStruct);
+            png_set_write_fn(pngWriteStruct, &file, [] (png_structp writeStruct, png_bytep data, png_size_t length) {
+                png_voidp fileDescriptor = png_get_io_ptr(writeStruct);
                 static_cast<std::ostream*>(fileDescriptor)->write(reinterpret_cast<char*>(data),
                                                                   static_cast<std::streamsize>(length));
             }, nullptr);
