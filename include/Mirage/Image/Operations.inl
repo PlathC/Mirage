@@ -74,7 +74,7 @@ namespace mrg
     template<class Type>
     Matrix<Type> Rotate(const Matrix<Type>& img, const double angle)
     {
-        assert(img.Width() == img.Height() && "This feature isn't available for non square image.")
+        assert(img.Width() == img.Height() && "This feature isn't available for non square image.");
         const auto& data = img.Data();
         auto nData = std::vector<Type>(data.size(), 0);
         const int32_t width = static_cast<int32_t>(img.Width());
