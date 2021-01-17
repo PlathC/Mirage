@@ -54,6 +54,5 @@ __Image processing features__
 
 This project has been tested with MSVC (VS2019).
 
-<h2 align="center">Examples</h2>
 
 
