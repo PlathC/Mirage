@@ -381,35 +381,341 @@ namespace mrg
     }
 
     template<class ImageType>
-    std::vector<std::complex<double>> DFT(const Matrix<ImageType>& img)
+    mrg::Matrix<std::complex<float>> DFT(const mrg::Matrix<ImageType>& img, bool inverse)
     {
-        assert(img.Channel() == 1 && "The DFT only work on single channel images.");
+        const float inverted = inverse ? 1.f : -1.f;
 
-        const auto& data = img.Data();
-        const auto imageSize = data.size();
-        auto result = std::vector<std::complex<double>>(imageSize);
-
-        for(size_t k = 0; k < imageSize; k++)
+        mrg::Matrix<ImageType> workingCopy = img;
+        if(inverse)
         {
-            std::complex<double> sum = {0, 0};
-
-            for(size_t t = 0; t < imageSize; t++)
-            {
-                double angle = 2 * mrg::Pi * static_cast<double>(t) * static_cast<double>(k) / static_cast<double>(imageSize);
-                std::complex<double> exponential = {
-                        mrg::Cos(angle),
-                        -mrg::Sin(angle)
-                };
-                std::complex<double> imageValue = {
-                        data[t],
-                        data[t]
-                };
-
-                sum += imageValue * exponential;
-            }
-            result[k] = sum;
+            IFFTShift(workingCopy);
         }
+
+        const auto& data = workingCopy.Data();
+        const auto width = workingCopy.Width();
+        const auto height = workingCopy.Height();
+        const int32_t iWidth = static_cast<int32_t>(workingCopy.Width());
+        const int32_t iHeight = static_cast<int32_t>(workingCopy.Height());
+
+        auto result = std::vector<std::complex<float>>(data.size());
+
+        const auto divider = inverse ? 1.f / static_cast<float>(width * height) : 1.f;
+
+        #pragma omp parallel for
+        for(int32_t u = 0; u < iWidth; u++)
+        {
+            for(int32_t v = 0; v < iHeight; v++)
+            {
+                std::complex<float> sum = {0.f, 0.f};
+                for(std::size_t x = 0; x < width; x++)
+                {
+                    for(std::size_t y = 0; y < height; y++)
+                    {
+                        const float angle = inverted * 2.f * static_cast<float>(mrg::Pi) *
+                                            ( u * static_cast<float>(x) / static_cast<float>(width)
+                                            + v * static_cast<float>(y) / static_cast<float>(height));
+                        const std::complex<float> exponential = {
+                                static_cast<float>(mrg::Cos(angle)),
+                                static_cast<float>(mrg::Sin(angle))
+                        };
+
+                        const auto dataSample = data[(x * height) + y];
+                        std::complex<float> currentData;
+                        if constexpr (std::is_same_v<std::complex<float>, ImageType>)
+                        {
+                            currentData = dataSample;
+                        }
+                        else
+                        {
+                            currentData = std::complex<float>(static_cast<float>(dataSample), 0);
+                        }
+
+                        sum += currentData * exponential;
+                    }
+                }
+                result[(u * height) + v] = sum * divider;
+            }
+        }
+
+        auto resultImage = mrg::Matrix<std::complex<float>>(result, width, height, 1);
+        if(!inverse)
+        {
+            FFTShift(resultImage);
+        }
+
+        return resultImage;
+    }
+
+    static std::tuple<uint32_t, uint32_t> FindPaddingSize(uint32_t paddingSize)
+    {
+        if(paddingSize % 2 == 0)
+        {
+            const auto half = static_cast<uint32_t>(paddingSize / 2.f);
+            return {half, half};
+        }
+        else
+        {
+            const auto firstHalf = static_cast<uint32_t>(std::floor(paddingSize / 2.f));
+            return {firstHalf, paddingSize - firstHalf};
+        }
+    };
+
+    template<class ImageType>
+    mrg::Matrix<ImageType> ZeroPadding(const mrg::Matrix<ImageType>& img, const uint32_t newWidth, const uint32_t newHeight)
+    {
+        assert(img.Channel() == 1 && "This function works only on grayscale images.");
+
+        const auto widthPaddingSize = (newWidth - img.Width());
+        const auto heightPaddingSize = (newHeight - img.Height());
+
+        auto [ bottomPadding, topPadding ] = FindPaddingSize(widthPaddingSize);
+        auto [ leftPadding, rightPadding ] = FindPaddingSize(heightPaddingSize);
+
+        std::vector<ImageType> newData = std::vector<ImageType>(newWidth * newHeight, 0);
+        for(uint32_t i = leftPadding; i < newWidth - rightPadding; i++)
+        {
+            for(uint32_t j = bottomPadding; j < newHeight - topPadding; j++)
+            {
+                newData[i * newHeight + j] = img.Get({i - leftPadding, j - bottomPadding}, 0);
+            }
+        }
+        return mrg::Matrix<ImageType>(newData, newWidth, newHeight, 1);
+    }
+
+    template<class ImageType>
+    mrg::Matrix<ImageType> CropZeroPadding(const mrg::Matrix<ImageType>& img, uint32_t oldWidth, uint32_t oldHeight)
+    {
+        assert(oldWidth < img.Width() && "Old width should be lesser than current width");
+        assert(oldHeight < img.Height() && "Old height should be lesser than current height");
+
+        const auto widthPaddingSize = (img.Width() - oldWidth);
+        const auto heightPaddingSize = (img.Height() - oldHeight);
+        auto [ bottomPadding, topPadding ] = FindPaddingSize(widthPaddingSize);
+        auto [ leftPadding, rightPadding ] = FindPaddingSize(heightPaddingSize);
+
+        auto recoveredData = std::vector<ImageType>(oldWidth * oldHeight);
+        const auto& toCropData = img.Data();
+
+        for(uint32_t i = leftPadding; i < img.Width() - rightPadding; i++)
+        {
+            for(uint32_t j = bottomPadding; j < img.Height() - topPadding; j++)
+            {
+                recoveredData[(i - leftPadding) * oldWidth + (j - bottomPadding)] = toCropData[i * img.Height() + j];
+            }
+        }
+
+        return mrg::Matrix<ImageType>(recoveredData, oldWidth, oldHeight, 1);
+    }
+
+    template<class ImageType>
+    mrg::Matrix<std::complex<float>> FFT2(const mrg::Matrix<ImageType>& img, bool inverse)
+    {
+        // Mainly based on http://paulbourke.net/miscellaneous/dft/
+        mrg::Matrix<ImageType> workingImg = img;
+        if(!IsPowerOf2(workingImg.Width()) || !IsPowerOf2(workingImg.Height()))
+        {
+            const auto newWidth = FindNextHighestPowerOf2(workingImg.Width());
+            const auto newHeight = FindNextHighestPowerOf2(workingImg.Height());
+
+            workingImg = ZeroPadding(workingImg, newWidth, newHeight);
+        }
+
+        if(inverse)
+        {
+            IFFTShift(workingImg);
+        }
+
+        auto resultData = std::vector<std::complex<float>>(workingImg.Width() * workingImg.Height());
+
+        // Rows fft
+        auto currentRow = std::vector<ImageType>(workingImg.Width());
+        for(uint32_t j = 0; j < workingImg.Height(); j++)
+        {
+            for(uint32_t i = 0; i < workingImg.Width(); i++)
+            {
+                currentRow[i] = workingImg.Get({i, j}, 0);
+            }
+
+            auto fftResult = FFT(currentRow, inverse);
+            for(uint32_t i = 0; i < workingImg.Width(); i++)
+            {
+                resultData[i * workingImg.Height() + j] = fftResult[i];
+            }
+        }
+
+        // Columns
+        auto currentColumn = std::vector<std::complex<float>>(workingImg.Height());
+        for(uint32_t i = 0; i < workingImg.Width(); i++)
+        {
+            for(uint32_t j = 0; j < workingImg.Height(); j++)
+            {
+                currentColumn[j] = resultData[i * workingImg.Height() + j];
+            }
+
+            auto fftResult = FFT(currentColumn, inverse);
+            for(uint32_t j = 0; j < workingImg.Height(); j++)
+            {
+                resultData[i * workingImg.Height() + j] = fftResult[j];
+            }
+        }
+
+        auto result = mrg::Matrix<std::complex<float>>(resultData, workingImg.Width(), workingImg.Height(), 1);
+
+        if(!inverse)
+        {
+            FFTShift(result);
+        }
+
+        if(!IsPowerOf2(img.Width()) || !IsPowerOf2(img.Height()))
+            result = CropZeroPadding(result, img.Width(), img.Height());
+
         return result;
+    }
+
+    template<class ImageType>
+    std::vector<std::complex<float>> FFT(const std::vector<ImageType>& data, bool inverse)
+    {
+        // Mainly based on https://en.wikipedia.org/wiki/Cooley%E2%80%93Tukey_FFT_algorithm
+        assert(IsPowerOf2(static_cast<uint32_t>(data.size())) && "Input array size should be a power of 2");
+        const float inverted = inverse ? -1.f : 1.f;
+
+        uint8_t powerOf2 = FindPowerOf2(data.size());
+        std::deque<bool> toBeReversed = std::deque<bool>(powerOf2, 0);
+
+        const auto numberToDeque = [](uint32_t number, std::deque<bool>& out)
+        {
+            for(std::size_t i = 0; i < out.size(); i++)
+            {
+                out[i] = number & 1;
+                number >>= 1;
+            }
+        };
+
+        const auto dequeToNumber = [](const std::deque<bool>& input) {
+            uint32_t result = 0;
+            for(std::size_t i = 0; i < input.size(); i++)
+            {
+                if(input[i])
+                {
+                    result += 1 << i;
+                }
+            }
+            return result;
+        };;
+        // Reverse bit copy
+        auto bitReversedInputComplex = std::vector<std::complex<float>>(data.size());
+        for(uint32_t k = 0; k < data.size(); k++)
+        {
+            numberToDeque(k, toBeReversed);
+            BitsetReverse(toBeReversed);
+            uint32_t reversedNumber = dequeToNumber(toBeReversed);
+            if constexpr (std::is_same_v<std::complex<float>, ImageType>)
+            {
+                bitReversedInputComplex[reversedNumber] = data[k];
+            }
+            else
+            {
+                bitReversedInputComplex[reversedNumber] = std::complex<float>(data[k], 0.f);
+            }
+        }
+
+        for(uint32_t s = 1; s <= std::log2(data.size()); s++)
+        {
+            const uint32_t m = 1 << s;
+            float angle = inverted * 2.f * static_cast<float>(mrg::Pi) / static_cast<float>(m);
+            std::complex<float> mExponential = {
+                    static_cast<float>(mrg::Cos(angle)),
+                    static_cast<float>(mrg::Sin(angle))
+            };
+
+            for(uint32_t k = 0; k < data.size(); k += m)
+            {
+                std::complex<float> currentExponential = {1.f, 0.f};
+                for(uint32_t j = 0; j < m / 2; j++)
+                {
+                    const std::complex<float> t = currentExponential * bitReversedInputComplex[k + j + (m / 2)];
+                    const std::complex<float> u = bitReversedInputComplex[k + j];
+                    bitReversedInputComplex[k + j] = u + t;
+                    bitReversedInputComplex[k + j + (m / 2)] = u - t;
+                    currentExponential = currentExponential * mExponential;
+                }
+            }
+        }
+
+        if(inverse)
+        {
+            for(auto& p : bitReversedInputComplex)
+                p /= std::complex<float>(static_cast<float>(data.size()));
+        }
+
+        return bitReversedInputComplex;
+    }
+
+    template<class ImageType>
+    void FFTShift(Matrix<ImageType>& img)
+    {
+        const auto width = img.Width();
+        const auto height = img.Height();
+        assert(img.Channel() == 1 && "FFTShift only works on grayscale images");
+
+        const uint32_t xShiftValue = static_cast<uint32_t>(std::ceil(width / 2.));
+        const uint32_t yShiftValue = static_cast<uint32_t>(std::ceil(height / 2.));
+
+        const auto save = img.Data();
+
+        for(uint32_t x = 0; x < width - xShiftValue; x++)
+        {
+            for(uint32_t y = 0; y < height - yShiftValue; y++)
+            {
+                ImageType value = img.Get({x, y}, 0);
+                img.Get({x, y}, 0) = img.Get({x + xShiftValue, y + yShiftValue}, 0);
+                img.Get({x + xShiftValue, y + yShiftValue}, 0) = value;
+            }
+        }
+
+        for(uint32_t x = 0; x < width - xShiftValue; x++)
+        {
+            for(uint32_t y = 0; y < height - yShiftValue; y++)
+            {
+                ImageType value = img.Get({x + xShiftValue, y}, 0);
+                img.Get({x + xShiftValue, y}, 0) = img.Get({x, y + yShiftValue}, 0);
+                img.Get({x, y + yShiftValue}, 0) = value;
+            }
+        }
+    }
+
+    template<class ImageType>
+    void IFFTShift(Matrix<ImageType>& img)
+    {
+        assert(img.Channel() == 1 && "IFFTShift only works on grayscale images");
+
+        const auto width = img.Width();
+        const auto height = img.Height();
+        const uint32_t xShiftValue = static_cast<uint32_t>(std::floor(width / 2.));
+        const uint32_t yShiftValue = static_cast<uint32_t>(std::floor(height / 2.));
+
+        const auto save = img.Data();
+
+        for(uint32_t x = 0; x < width - xShiftValue; x++)
+        {
+            for(uint32_t y = 0; y < height - yShiftValue; y++)
+            {
+                ImageType value = img.Get({x + xShiftValue, y + yShiftValue}, 0);
+                img.Get({x + xShiftValue, y + yShiftValue}, 0) = img.Get({x, y}, 0);
+                img.Get({x, y}, 0) = value;
+            }
+        }
+
+        for(uint32_t x = 0; x < width - xShiftValue; x++)
+        {
+            for(uint32_t y = 0; y < height - yShiftValue; y++)
+            {
+                ImageType value = img.Get({x, y + yShiftValue}, 0);
+                img.Get({x, y + yShiftValue}, 0) = img.Get({x + xShiftValue, y}, 0);
+                img.Get({x + xShiftValue, y}, 0) = value;
+            }
+        }
+
     }
 
     template<uint8_t kernelSize>

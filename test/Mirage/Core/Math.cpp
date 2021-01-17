@@ -1,5 +1,5 @@
 //
-// Created by Platholl on 04/06/2020.
+// Created by Cyprien Plateau--Holleville on 04/06/2020.
 //
 
 #define CATCH_CONFIG_MAIN

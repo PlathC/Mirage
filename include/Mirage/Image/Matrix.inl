@@ -117,5 +117,16 @@ namespace mrg {
         m_data[(position[0] * m_height + position[1]) * m_channelNumber + k] = t;
     }
 
+
+    template<class InputType, class ReturnType>
+    Matrix<ReturnType> Transform(const Matrix<InputType>& img, std::function<ReturnType(const InputType&)> transformation)
+    {
+        const auto& oldData = img.Data();
+        auto newData = std::vector<ReturnType>(oldData.size());
+        for(std::size_t i = 0; i < oldData.size(); i++)
+            newData[i] = transformation(oldData[i]);
+
+        return Matrix<ReturnType>(newData, img.Width(), img.Height(), img.Channel());
+    }
 }
 

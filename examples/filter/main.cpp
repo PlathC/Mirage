@@ -12,7 +12,7 @@ int main(int argc, char** argv)
 
     try
     {
-        Matrix<uint16_t> mat = ImageParser::FromFile<uint16_t>("./samples/rubberwhale.png", 4);
+        Matrix<uint16_t> mat = ImageParser::FromFile<uint16_t>("../samples/rubberwhale.png", 4);
 
         filterTimer.Start();
         Convolve(mat, mrg::averageKernel5x5);
@@ -22,14 +22,46 @@ int main(int argc, char** argv)
         );
 
         filterTimer.Stop();
-
         std::cout << "Filter compute time : " << filterTimer.Duration() << std::endl;
+        ImageParser::ToFile(mat, "..//rubberwhale-convolved.jpg");
 
-        ImageParser::ToFile(mat, "./rubberwhale-convolved.jpg");
+        Matrix<float> original = ToGrayScale<uint16_t, float>(ImageParser::FromFile<uint16_t>("../samples/lena.png", 3));
+
+        Timer dftTimer{};
+        dftTimer.Start();
+
+        // Discrete Fourier Transform
+        std::cout << "Compute DFT" << std::endl;
+        auto dftImage = mrg::FFT2(original);
+
+
+        ImageParser::ToFile(mrg::Transform<std::complex<float>, float>(dftImage, [](const std::complex<float>& p) -> float
+        {
+            return std::log(std::sqrt(p.real() * p.real() + p.imag() * p.imag())) * 10;
+        }), "./dftResult.jpg");
+
+        dftTimer.Stop();
+        std::cout << "DFT took " << dftTimer.Duration() << std::endl;
+
+        // IDFT
+        Timer invDftTimer{};
+        invDftTimer.Start();
+        std::cout << "Compute inverse DFT" << std::endl;
+
+        auto invDftImage = mrg::FFT2(dftImage, true);
+
+        ImageParser::ToFile(mrg::Transform<std::complex<float>, float>(invDftImage, [](const std::complex<float>& p) -> float
+        {
+            return p.real();
+        }), "./invDftResult.jpg");
+
+        invDftTimer.Stop();
+
+        std::cout << "Inv DFT took " << dftTimer.Duration() << std::endl;
     }
     catch(const std::exception& e)
     {
-        std::cerr << e.what() << std::endl;
+        std::cout << e.what() << std::endl;
         return EXIT_FAILURE;
     }
 

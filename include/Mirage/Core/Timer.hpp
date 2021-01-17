@@ -5,7 +5,7 @@
 #ifndef MIRAGE_TIMER_HPP
 #define MIRAGE_TIMER_HPP
 
-#include <ctime>
+#include <chrono>
 
 namespace mrg
 {
@@ -16,10 +16,10 @@ namespace mrg
 
         void Start();
         void Stop();
-        double Duration();
+        double Duration() const;
 
     private:
-        std::clock_t m_start;
+        std::chrono::time_point<std::chrono::high_resolution_clock> m_start;
         double m_duration;
     };
 }

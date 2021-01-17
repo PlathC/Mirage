@@ -1,5 +1,5 @@
 //
-// Created by Platholl on 12/06/2020.
+// Created by Cyprien Plateau--Holleville on 12/06/2020.
 //
 
 #include "catch.hpp"
@@ -25,8 +25,8 @@ TEST_CASE("Scale", "[algorithm]")
     {
         for(uint32_t j = 0; j < mat.Height(); ++j)
         {
-            std::size_t oldIndex = static_cast<std::size_t>(mrg::Floor(i / 2.) * fHeight
-                    + mrg::Floor(j / 2.));
+            const auto oldIndex = static_cast<std::size_t>(mrg::Floor(i / 2.) * fHeight
+                                                           + mrg::Floor(j / 2.));
             REQUIRE(d[(i * mat.Height() + j)] == pixels[oldIndex]);
         }
     }
@@ -40,9 +40,9 @@ TEST_CASE("Crop", "[algorithm]")
     mrg::Matrix<char> mat = mrg::Matrix<char>(pixels, 3, 4, 1);
 
     mrg::Crop(mat, 1, 1, 3, 3);
-    REQUIRE(mat.Width()       == 2);
-    REQUIRE(mat.Height()      == 2);
-    REQUIRE(mat.Data().size() == 4);
+    REQUIRE(mat.Width()         == 2);
+    REQUIRE(mat.Height()        == 2);
+    REQUIRE(mat.Data().size()   == 4);
     REQUIRE(mat.Get({0, 0}, 0)  == 6);
 }
 

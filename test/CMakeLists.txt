@@ -11,7 +11,8 @@ set(TESTS_SRC
     Mirage/Core/Math.cpp
     Mirage/Core/Vec.cpp
 
-        Mirage/Image/Operations.cpp
+    Mirage/Image/Filtering.cpp
+    Mirage/Image/Operations.cpp
     Mirage/Image/ImageParser.cpp
     Mirage/Image/Matrix.cpp
 

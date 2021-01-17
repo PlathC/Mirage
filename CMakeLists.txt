@@ -48,6 +48,17 @@ add_subdirectory(extern/libjpeg-turbo)
 list(APPEND JPEGTURBO_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/extern/libjpeg-turbo/")
 list(APPEND JPEGTURBO_INCLUDE_DIR "${CMAKE_BINARY_DIR}/extern/libjpeg-turbo/")
 
+# With OpenMP
+OPTION (WITH_OpenMP "Use OpenMP" ON)
+IF(WITH_OpenMP)
+    message("Build with OpenMP support.")
+    FIND_PACKAGE(OpenMP)
+    IF(OPENMP_FOUND)
+        SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+        SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+    ENDIF()
+ENDIF()
+
 # Based on https://github.com/lefticus/cppbestpractices/blob/master/02-Use_the_Tools_Available.md
 if (CMAKE_COMPILER_IS_GNUCC)
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -136,7 +147,6 @@ elseif (MSVC)
     else()
         set(MIRAGE_COMPILATION_FLAGS
                 /permissive
-                /W4
                 /w14242
                 /w14254
                 /w14263
@@ -154,10 +164,6 @@ elseif (MSVC)
                 /w14640
                 /w14826
                 /w14928)
-        set(MIRAGE_LINKER_FLAGS
-                ${MIRAGE_LINKER_FLAGS}
-                /SUBSYSTEM:windows
-                /ENTRY:mainCRTStartup)
     endif()
 endif ()
 
@@ -225,7 +231,7 @@ if (CMAKE_COMPILER_IS_GNUCC)
     target_link_libraries(${PROJECT_NAME} PRIVATE stdc++fs)
 elseif (MSVC)
     if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        target_link_options(${PROJECT_NAME} PRIVATE /SUBSYSTEM:windows /ENTRY:mainCRTStartup)
+        target_link_options(${PROJECT_NAME} PRIVATE /SUBSYSTEM:CONSOLE /ENTRY:mainCRTStartup)
     endif()
 endif ()
 
@@ -263,3 +269,9 @@ if(NOT MSVC)
 else()
     file(COPY samples DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${CMAKE_BUILD_TYPE})
 endif()
+
+file(GLOB SAMPLESFILES
+        "samples/*"
+        )
+file(COPY ${SAMPLESFILES} DESTINATION samples)
+

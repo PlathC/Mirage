@@ -7,24 +7,25 @@
 namespace mrg {
 
     Timer::Timer() :
-            m_start(0),
-            m_duration(0)
+            m_start(),
+            m_duration(0.)
     {
 
     }
 
     void Timer::Start()
     {
-        m_start = std::clock();
+        m_start = std::chrono::high_resolution_clock::now();
     }
 
     void Timer::Stop()
     {
-        m_duration = (static_cast<double>(std::clock()) - static_cast<double>(m_start))
-                / static_cast<double>(CLOCKS_PER_SEC);
+        m_duration = std::chrono::duration_cast<std::chrono::duration<double>>(
+                std::chrono::high_resolution_clock::now() - m_start
+                ).count();
     }
 
-    double Timer::Duration()
+    double Timer::Duration() const
     {
         return m_duration;
     }

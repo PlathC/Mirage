@@ -6,6 +6,7 @@
 #define MIRAGE_MATRIX_HPP
 
 #include <array>
+#include <functional>
 #include <type_traits>
 
 #include "Mirage/Core/Vec.hpp"
@@ -15,10 +16,6 @@ namespace mrg
     template<class Type>
     class Matrix
     {
-    // TODO: add only arithmetic types ==> Add Get<T> method and store only has
-    static_assert(std::is_arithmetic<Type>::value, "A matrix can only store arithmetic values.");
-    public:
-
     public:
         Matrix();
         Matrix(uint32_t width, uint32_t height, uint8_t channelNumber);
@@ -30,10 +27,10 @@ namespace mrg
         Matrix(std::initializer_list<Type> pixels, uint32_t width, uint32_t height, uint8_t channelNumber);
 
         Matrix(const Matrix&) = default;
-        Matrix(Matrix&&) = default;
+        Matrix(Matrix&&) noexcept = default;
 
         Matrix& operator=(const Matrix&) = default;
-        Matrix& operator=(Matrix&&) = default;
+        Matrix& operator=(Matrix&&) noexcept = default;
 
         [[nodiscard]] Type& Get(const Vec2<uint32_t>& position, uint8_t channel);
         [[nodiscard]] Type Get(const Vec2<uint32_t>& position, uint8_t channel) const;
@@ -49,13 +46,15 @@ namespace mrg
         [[nodiscard]] inline uint32_t Height() const noexcept { return m_height; }
         [[nodiscard]] inline uint8_t Channel() const noexcept { return m_channelNumber; }
 
-
     private:
         uint32_t m_width;
         uint32_t m_height;
         uint8_t m_channelNumber;
         std::vector<Type> m_data;
     };
+
+    template<class InputType, class ReturnType>
+    Matrix<ReturnType> Transform(const Matrix<InputType>& img, std::function<ReturnType(const InputType&)> transformation);
 }
 
 #include "Matrix.inl"

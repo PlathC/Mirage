@@ -1,5 +1,5 @@
 //
-// Created by Platholl on 03/06/2020.
+// Created by Cyprien Plateau--Holleville on 03/06/2020.
 //
 
 #ifndef MIRAGE_FILTERING_HPP
@@ -46,7 +46,27 @@ namespace mrg
     void HistogramEqualization(Matrix<ImageType>& img);
 
     template<class ImageType>
-    std::vector<std::complex<double>> DFT(const Matrix<ImageType>& img);
+    mrg::Matrix<std::complex<float>> DFT(const mrg::Matrix<ImageType>& img, bool inverse = false);
+
+    static std::tuple<uint32_t, uint32_t> FindPaddingSize(uint32_t paddingSize);
+
+    template<class ImageType>
+    mrg::Matrix<ImageType> ZeroPadding(const mrg::Matrix<ImageType>& img, uint32_t newWidth, uint32_t newHeight);
+
+    template<class ImageType>
+    mrg::Matrix<ImageType> CropZeroPadding(const mrg::Matrix<ImageType>& img, uint32_t oldWidth, uint32_t oldHeight);
+
+    template<class ImageType>
+    mrg::Matrix<std::complex<float>> FFT2(const Matrix<ImageType>& img, bool inverse = false);
+
+    template<class ImageType>
+    std::vector<std::complex<float>> FFT(const std::vector<ImageType>& data, bool inverse = false);
+
+    template<class ImageType>
+    void FFTShift(Matrix<ImageType>& img);
+
+    template<class ImageType>
+    void IFFTShift(Matrix<ImageType>& img);
 
     template<int kernelSize>
     Matrix<double> GenerateGaussianKernel(const int sigma);

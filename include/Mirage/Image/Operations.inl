@@ -74,22 +74,31 @@ namespace mrg
     template<class Type>
     Matrix<Type> Rotate(const Matrix<Type>& img, const double angle)
     {
+        assert(img.Width() == img.Height() && "This feature isn't available for non square image.")
         const auto& data = img.Data();
         auto nData = std::vector<Type>(data.size(), 0);
-        const uint32_t width = img.Width();
-        const uint32_t height = img.Height();
-        const uint32_t channel = img.Channel();
+        const int32_t width = static_cast<int32_t>(img.Width());
+        const int32_t height = static_cast<int32_t>(img.Height());
+        const uint8_t channel = img.Channel();
 
-        for(uint32_t i = 0; i < width; i++)
+        const int32_t xCenter = static_cast<int32_t>(mrg::Floor(img.Width()  / 2.));
+        const int32_t yCenter = static_cast<int32_t>(mrg::Floor(img.Height() / 2.));
+
+        const float cosValue = mrg::Cos(angle);
+        const float sinValue = mrg::Sin(angle);
+        for(int32_t i = 0; i < width; i++)
         {
-            for(uint32_t j = 0; j < height; j++)
+            for(int32_t j = 0; j < height; j++)
             {
+                int32_t currentX = (i - xCenter);
+                int32_t currentY = (j - yCenter);
+
                 int32_t nX = static_cast<int32_t>(
-                        mrg::Trunc(mrg::Cos(angle) * i - mrg::Sin(angle) * j)
+                        cosValue * currentX + sinValue * currentY + xCenter
                 );
 
                 int32_t nY = static_cast<int32_t>(
-                        mrg::Trunc(mrg::Sin(angle) * i + mrg::Cos(angle) * j)
+                        - sinValue * currentX + cosValue * currentY + yCenter
                 );
 
                 if(nX >= 0 && nX < width && nY >= 0 && nY < height)

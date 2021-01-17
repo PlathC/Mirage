@@ -17,25 +17,27 @@ __Library features__
 |-------------------|--------------------------------------------------------------|
 | Image structure   | Done                                                         |
 | Parser            | Done (PNG/JPEG)                                              |
-| Mirage Viewer     | In dev                                                       |
+| Mirage Viewer     | In progress                                                  |
 
 __Image processing features__ 
 
-| Feature                          | Progress             |
-|----------------------------------|----------------------|
-| Image structure                  | Done                 |
-| Filter                           | Done                 |
-| Sobel / Threshold                | Done                 |
-| Histogram Equalization           | Done                 |
-| Canny                            | Done                 |
-| Crop / Scale                     | Done                 |
-| Matrix transform                 | To do                |
-| Bit depth / Pixel type           | To do                |
-| DFT                              | To do                |
-| Adaptive Histogram Equalization  | To do                |
-| Floyd-Steinberg                  | To do                |
-| Video support                    | To do                |
-| Optimization (Realtime use)      | To do                |
+| Feature                                    | Progress             |
+|--------------------------------------------|----------------------|
+| Image structure                            | Done                 |
+| Filter (convolution)                       | Done                 |
+| Sobel / Threshold                          | Done                 |
+| Histogram Equalization                     | Done                 |
+| Canny                                      | Done                 |
+| Crop / Scale                               | Done                 |
+| Matrix transform                           | In progress          |
+| DFT                                        | Done                 |
+| FFT                                        | Done                 |
+| Mask operations                            | To do                |
+| Bit depth / Pixel type                     | To do                |
+| Adaptive Histogram Equalization            | To do                |
+| Floyd-Steinberg                            | To do                |
+| Video support                              | To do                |
+| Optimization (Realtime use, GPU - MT)      | To do                |
 
 <h2 align="center">Build</h2>
 
@@ -48,7 +50,7 @@ __Image processing features__
  
 ### Compiler
 
-This project has been tested with MinGW and MSVC (VS2019).
+This project has been tested with MSVC (VS2019).
 
 <h2 align="center">Examples</h2>
 
@@ -89,9 +91,23 @@ color image.
 
 ##### Histogram Equalization Results 
 
-![Lena Gray](readmefiles/lena-gray.jpg) ![Equalized Lena](readmefiles/lena-eq.jpg) 
+<p align="center">
+	<img src="readmefiles/lena-gray.jpg" alt="Lena Gray"/> <img src="readmefiles/lena-eq.jpg" alt="Equalized Lena"/>
+</p>
 
-![Lena Gray](samples/lena.png) ![Equalized Lena](readmefiles/lenaC-eq.png) 
+
+<p align="center">
+	<img src="samples/lena.png" alt="Lena Gray"/> <img src="readmefiles/lenaC-eq.png" alt="Equalized Lena"/>
+</p>
+
+### __Fourier transform__
+
+DFT and FFT 2D algorithms are implemented and provide the ability to work directly 
+in the frequency domain.
+
+<p align="center">
+	<img src="readmefiles/lena-gray.jpg" alt="Lena Gray"/> <img src="readmefiles/lena-fft.jpg" alt="Lena Gray"/>
+</p>
 
 ### __Viewer__
 
