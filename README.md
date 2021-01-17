@@ -70,7 +70,7 @@ a kernel provide in the library.
 #### __Edges detection__
 
 The library provides Canny and Sobel algorithm which allow to extract 
-contour lines within m_a given image.
+contour lines within a given image.
 
 ##### Edges detection Results
 
