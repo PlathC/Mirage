@@ -17,22 +17,12 @@ a kernel provide in the library.
 
 ##### Edges detection Results
 
-Original : 
+Original / Canny / Sobel 
 
 <p align="center">
 	<img src="readmefiles/HouseDublin.jpg" alt="Dublin Classic"/> 
-</p>
-
-Canny :
-
-<p align="center">
-	<img src="readmefiles/HouseDublin-Canny.jpg" alt="Dublin Canny"/> 
-</p>
-
-Sobel :
-
-<p align="center">
-	<img src="readmefiles/HouseDublin-Sobel.jpg" alt="Dublin Canny"/> 
+	<img src="readmefiles/HouseDublin-Canny.jpg" alt="Dublin Canny"/>
+	<img src="readmefiles/HouseDublin-Sobel.jpg" alt="Dublin Canny"/>  
 </p>
 
 #### __Histogram Equalization__
