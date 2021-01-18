@@ -33,8 +33,8 @@ See [__detailed features description__](Features.md)
 | Matrix transform                                                | In progress          |
 | DFT                                                             | Done                 |
 | FFT                                                             | Done                 |
-| Mask operations                                                 | In progress          |
-| Morpholigical operations                                        | To do                |
+| Mask operations                                                 | Done                 |
+| Morphological operations                                        | In progress          |
 | Adaptive Histogram Equalization                                 | To do                |
 | Floyd-Steinberg                                                 | To do                |
 | Video support                                                   | To do                |
