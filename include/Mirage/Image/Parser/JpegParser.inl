@@ -72,26 +72,17 @@ namespace mrg
                 throw std::runtime_error("Error on decompressing image file : " + std::string(tjGetErrorStr()));
             }
 
-            std::vector<T> resultData;
-            resultData.resize(width * height * channel);
-            for(uint32_t j = 0; j < height; j++)
+            auto resultData = std::vector<T>(width * height * channel);
+            std::transform(buffer.begin(), buffer.end(), resultData.begin(),
+                           [](unsigned char x) { return static_cast<T>(x);});
+            if(pixelFormat == TJPF_BGR)
             {
-                for(uint32_t i = 0; i < width; i++)
+                for(uint32_t x = 0; x < width; x++)
                 {
-                    if(pixelFormat == TJPF_BGR)
+                    for(uint32_t y = 0; y < height; y++)
                     {
-                        for(uint32_t c = 0; c < channel; c++)
-                        {
-                            resultData[(j * width + i) * channel + (channel - c - 1)] = buffer[(j * width + i) * channel + c];
-                        }
-                    }
-                    else
-                    {
-                        for(uint32_t c = 0; c < channel; c++)
-                        {
-
-                            resultData[(j * width + i) * channel + c] = buffer[(j * width + i) * channel + c];
-                        }
+                        std::swap(resultData[(x * height + y) * channel],
+                                resultData[(x * height + y) * channel + 2]);
                     }
                 }
             }
@@ -142,19 +133,10 @@ namespace mrg
 
             unsigned long jpegSize = 0;
 
-            std::vector<T> data = mat.template DataInType<T>();
-            std::vector<unsigned char> srcBuf = std::vector<unsigned char>(width * height * nbands);
-            for(uint32_t j = 0; j < height; j++)
-            {
-                for(uint32_t i = 0; i < width; i++)
-                {
-                    for(uint8_t c = 0; c < nbands; c++)
-                    {
-                        srcBuf[(j * width + i) * nbands + c] =
-                                static_cast<unsigned char>(data[(j * width + i) * nbands + c]);
-                    }
-                }
-            }
+            const std::vector<T>& data = mat.Data();
+            auto srcBuf = std::vector<unsigned char>(width * height * nbands);
+            std::transform(data.begin(), data.end(), srcBuf.begin(),
+                           [](T x) { return static_cast<unsigned char>(x);});
 
             int tj_stat = tjCompress2(handle, srcBuf.data(), static_cast<int>(width), static_cast<int>(pitch),
                                       static_cast<int>(height), pixelFormat, &(jpegBuf), &jpegSize, jpegSubsamp,

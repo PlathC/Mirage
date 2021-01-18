@@ -36,9 +36,6 @@ namespace mrg
     template<typename Type>
     void Scale(Matrix<Type>& img, const uint32_t nWidth, const uint32_t nHeight, const ScalingFunction<Type> algorithm);
 
-    template<typename Type>
-    void Crop(Matrix<Type>& img, const uint32_t bWidth, const uint32_t bHeight, const uint32_t eWidth, const uint32_t eHeight);
-
     template<class Type>
     Matrix<Type> Rotate(const Matrix<Type>& img, const double angle);
 }

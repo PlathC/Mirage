@@ -30,20 +30,17 @@ namespace mrg
 
         void OpenImage();
         void SaveImage();
+        void DrawImage();
 
         ~Viewer() override;
     private:
         Ui::Viewer* m_ui;
         mrg::Matrix<uint16_t> m_image;
+        QImage m_qImage;
         ImageModifier m_modifier;
 
-        static const mrg::Matrix<uchar> whiteImage;
+        static const mrg::Matrix<uint16_t> whiteImage;
     };
-
-    template<class T>
-    void DrawImage(QLabel* lbl, const Matrix<T>& image);
 }
 
-#include "Mirage/Viewer/Viewer.inl"
-
-#endif // MIRAGE_VIE    WER
+#endif // MIRAGE_VIEWER

@@ -12,6 +12,11 @@ int main(int argc, char** argv)
             auto temp = mrg::Matrix<uint16_t>(img);
             auto canny = mrg::Canny(temp);
             temp[canny == 255] = 255;
+
+            temp({temp.Width() / 4, temp.Height() / 4},
+                    { temp.Width() / 2 + temp.Width() / 4, temp.Height() / 2 + temp.Width() / 4}) = 0;
+
+            mrg::ImageParser::ToFile(temp, "./test.png");
             return temp;
         }
     );

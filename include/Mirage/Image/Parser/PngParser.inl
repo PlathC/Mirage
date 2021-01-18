@@ -45,18 +45,18 @@ namespace mrg
             if(m_bitDepth == 16)
                 png_set_strip_16(pngReadStruct);
 
-            // PNG_COLOR_TYPE_GRAY_ALPHA is always 8 or 16bit depth.
-            if(m_colorType == PNG_COLOR_TYPE_GRAY && m_bitDepth < 8)
-            {
-                png_set_expand_gray_1_2_4_to_8(pngReadStruct);
-            }
-
             switch(m_colorType)
             {
                 case PNG_COLOR_TYPE_GRAY:
+                    if(m_bitDepth < 8)
+                        png_set_expand_gray_1_2_4_to_8(pngReadStruct);
                     channel = 1;
                     break;
                 case PNG_COLOR_TYPE_RGB:
+                    channel = 3;
+                    break;
+                case PNG_COLOR_TYPE_PALETTE:
+                    png_set_palette_to_rgb(pngReadStruct);
                     channel = 3;
                     break;
                 case PNG_COLOR_TYPE_RGBA:
@@ -67,7 +67,10 @@ namespace mrg
             }
 
             if(png_get_valid(pngReadStruct, pngInfo, PNG_INFO_tRNS))
+            {
                 png_set_tRNS_to_alpha(pngReadStruct);
+                channel++;
+            }
 
             png_set_scale_16(pngReadStruct);
             png_read_update_info(pngReadStruct, pngInfo);
@@ -75,11 +78,9 @@ namespace mrg
             auto imageRowsPtr = std::vector<png_bytep>(height);
             auto imageData = std::vector<png_byte>(width * height * channel);
 
-            std::size_t maxHit = 0;
             for(unsigned int y = 0; y < height; y++)
             {
                 imageRowsPtr[y] = &imageData[y * width * channel];
-                maxHit = std::max(maxHit, static_cast<std::size_t>(y * width * channel));
             }
 
             png_read_image(pngReadStruct, imageRowsPtr.data());
@@ -87,6 +88,7 @@ namespace mrg
             png_destroy_read_struct(&pngReadStruct, nullptr, &pngInfo);
 
             auto convertedType = std::vector<T>(imageData.size());
+
             std::transform(imageData.begin(), imageData.end(), convertedType.begin(),
                     [](png_byte x) { return static_cast<T>(x);});
             return Matrix<T>(convertedType, width, height, channel);

@@ -1,11 +1,12 @@
 #include "Mirage/Viewer/Viewer.hpp"
 
 #include <utility>
+
 #include "ui_Viewer.h"
 
 namespace mrg
 {
-    const mrg::Matrix<uchar> Viewer::whiteImage = mrg::Matrix<uchar>({ 57, 62, 70 }, 1, 1, 3);
+    const mrg::Matrix<uint16_t> Viewer::whiteImage = mrg::Matrix<uint16_t>({ 57, 62, 70 }, 1, 1, 3);
 
     Viewer::Viewer(const ImageModifier modifier, QWidget* parent):
             QMainWindow(parent),
@@ -15,7 +16,8 @@ namespace mrg
         m_ui->setupUi(this);
         m_ui->m_lblImage->setMinimumSize(1,1);
 
-        DrawImage(m_ui->m_lblImage, whiteImage);
+        m_image = whiteImage;
+        DrawImage();
 
         QObject::connect(m_ui->m_pbOpen, &QPushButton::pressed, [&]()
         {
@@ -47,7 +49,7 @@ namespace mrg
             if(m_modifier)
                 m_image = m_modifier(m_image);
 
-            DrawImage(m_ui->m_lblImage, m_image);
+            DrawImage();
         }
         catch(const std::exception& e)
         {
@@ -62,6 +64,27 @@ namespace mrg
                                                         "",
                                                         tr("Images (*.png *.xpm *.jpg)"));
         ImageParser::ToFile(m_image, fileName.toStdString());
+    }
+
+    void Viewer::DrawImage()
+    {
+        auto uCharImage = mrg::Transform<uint16_t, uchar>(m_image, [](const uint16_t & p) -> uchar {
+            return static_cast<uchar>(p);
+        });
+
+        uint8_t channel = m_image.Channel();
+        QImage::Format channelFormat;
+        switch(channel)
+        {
+            case 1: channelFormat = QImage::Format_Grayscale8; break;
+            case 3: channelFormat = QImage::Format_RGB888; break;
+            default: channelFormat = QImage::Format_RGBA8888; break;
+        }
+
+        m_qImage = QImage(uCharImage.Data().data(), uCharImage.Width(), uCharImage.Height(), channelFormat);
+        m_ui->m_lblImage->setScaledContents(true);
+        auto img = QPixmap::fromImage(m_qImage);
+        m_ui->m_lblImage->setPixmap(img);
     }
 
     Viewer::~Viewer()

@@ -26,6 +26,15 @@ namespace mrg
     T& Vec3<T>::Z() { return m_z; }
 
     template<class T>
+    T Vec3<T>::X() const { return m_x; }
+
+    template<class T>
+    T Vec3<T>::Y() const { return m_y; }
+
+    template<class T>
+    T Vec3<T>::Z() const { return m_z; }
+
+    template<class T>
     Vec3<T>& Vec3<T>::operator=(const T value)
     {
         this->m_x = value;
@@ -475,7 +484,7 @@ namespace mrg
     }
 
     template<class Type, unsigned int Size>
-    Vec<Type, Size> Vec<Type, Size>::operator+(const Vec<Type, Size>& vec)
+    Vec<Type, Size> Vec<Type, Size>::operator+(const Vec<Type, Size>& vec) const
     {
         Vec<Type, Size> result;
         for(unsigned int i = 0; i < Size; i++)
@@ -486,7 +495,7 @@ namespace mrg
     }
 
     template<class Type, unsigned int Size>
-    Vec<Type, Size> Vec<Type, Size>::operator-(const Vec<Type, Size>& vec)
+    Vec<Type, Size> Vec<Type, Size>::operator-(const Vec<Type, Size>& vec) const
     {
         Vec<Type, Size> result;
         for(unsigned int i = 0; i < Size; i++)
@@ -497,7 +506,7 @@ namespace mrg
     }
 
     template<class Type, unsigned int Size>
-    Vec<Type, Size> Vec<Type, Size>::operator*(const Vec<Type, Size>& vec)
+    Vec<Type, Size> Vec<Type, Size>::operator*(const Vec<Type, Size>& vec) const
     {
         Vec<Type, Size> result;
         for(unsigned int i = 0; i < Size; i++)
@@ -508,7 +517,7 @@ namespace mrg
     }
 
     template<class Type, unsigned int Size>
-    Vec<Type, Size> Vec<Type, Size>::operator*(const Type t)
+    Vec<Type, Size> Vec<Type, Size>::operator*(const Type t) const
     {
         Vec<Type, Size> result;
         for(unsigned int i = 0; i < Size; i++)
@@ -519,7 +528,7 @@ namespace mrg
     }
 
     template<class Type, unsigned int Size>
-    Vec<Type, Size> Vec<Type, Size>::operator/(const Type t)
+    Vec<Type, Size> Vec<Type, Size>::operator/(const Type t) const
     {
         Vec<Type, Size> result;
         for(unsigned int i = 0; i < Size; i++)

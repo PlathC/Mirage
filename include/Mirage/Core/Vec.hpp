@@ -52,6 +52,10 @@ namespace mrg
         T& Y();
         T& Z();
 
+        T X() const;
+        T Y() const;
+        T Z() const;
+
         double Length();
         Vec3<T> Normalize() const;
 
@@ -142,11 +146,11 @@ namespace mrg
         Vec<Type, Size>& operator-=(const Vec<Type, Size>& vec);
         Vec<Type, Size>& operator-=(const Type t);
 
-        Vec<Type, Size> operator+(const Vec<Type, Size>& vec);
-        Vec<Type, Size> operator-(const Vec<Type, Size>& vec);
-        Vec<Type, Size> operator*(const Vec<Type, Size>& vec);
-        Vec<Type, Size> operator*(const Type t);
-        Vec<Type, Size> operator/(const Type t);
+        Vec<Type, Size> operator+(const Vec<Type, Size>& vec) const;
+        Vec<Type, Size> operator-(const Vec<Type, Size>& vec) const;
+        Vec<Type, Size> operator*(const Vec<Type, Size>& vec) const;
+        Vec<Type, Size> operator*(const Type t) const;
+        Vec<Type, Size> operator/(const Type t) const;
 
         [[nodiscard]] double Length() const;
         Vec<Type, Size> Normalize() const;

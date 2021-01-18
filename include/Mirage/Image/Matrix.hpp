@@ -53,16 +53,17 @@ namespace mrg
         std::vector<Vec2<uint32_t>> operator==(Type scalar);
 
         PixelArrayReference<Type> operator[](const std::vector<Vec2<uint32_t>>& indices);
+        PixelArrayReference<Type> operator()(const Vec2<uint32_t> p1, const Vec2<uint32_t> p2);
 
-        [[nodiscard]] Type& Get(const Vec2<uint32_t>& position, uint8_t channel = 0);
-        [[nodiscard]] Type Get(const Vec2<uint32_t>& position, uint8_t channel = 0) const;
+        Type& Get(const Vec2<uint32_t>& position, uint8_t channel = 0);
+        Type Get(const Vec2<uint32_t>& position, uint8_t channel = 0) const;
+        Type& Get(const Vec3<uint32_t>& position);
+        Type Get(const Vec3<uint32_t>& position) const;
+
         void Set(const Vec2<uint32_t>& position, uint8_t k, const Type& t);
 
         std::vector<Type>& Data();
         const std::vector<Type>& Data() const;
-
-        template<class ReturnType>
-        std::vector<ReturnType> DataInType() const;
 
         [[nodiscard]] inline uint32_t Width() const noexcept { return m_width; }
         [[nodiscard]] inline uint32_t Height() const noexcept { return m_height; }
