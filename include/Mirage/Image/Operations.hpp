@@ -37,7 +37,7 @@ namespace mrg
     void Scale(Matrix<Type>& img, const uint32_t nWidth, const uint32_t nHeight, const ScalingFunction<Type> algorithm);
 
     template<class Type>
-    Matrix<Type> Crop(const Matrix<Type>& img, const uint32_t bWidth, const uint32_t bHeight, const uint32_t eWidth, const uint32_t eHeight);
+    Matrix<Type> Crop(const Matrix<Type>& img, const Vec2<uint32_t>& p1, const Vec2<uint32_t>& p2);
 
     template<class Type>
     Matrix<Type> Rotate(const Matrix<Type>& img, const double angle);
