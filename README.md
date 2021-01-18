@@ -9,9 +9,7 @@ An image processing library for learning purpose in C++17.
 
 <h2 align="center">The library</h2>
 
-## __Tasks__
-
- ## __Library features__
+## __Library features__
 
 | Feature                                                         | Progress                                                     |
 |-----------------------------------------------------------------|--------------------------------------------------------------|
@@ -20,7 +18,7 @@ An image processing library for learning purpose in C++17.
 | Parser                                                          | Done (PNG/JPEG)                                              |
 | Mirage Viewer                                                   | In progress                                                  |
 
-__Image processing features__ 
+## Image processing features 
 
 See [__detailed features description__](Features.md)
 
