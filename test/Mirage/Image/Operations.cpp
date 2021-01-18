@@ -37,11 +37,11 @@ TEST_CASE("Crop", "[algorithm]")
     const std::vector<char> pixels = {1, 2,  3,  4,
                                       5, 6,  7,  8,
                                       9, 10, 11, 12};
-    mrg::Matrix<char> mat = mrg::Matrix<char>(pixels, 3, 4, 1);
+    mrg::Matrix<char> mat = mrg::Matrix<char>(pixels, 4, 3);
 
-    mrg::Crop(mat, 1, 1, 3, 3);
-    REQUIRE(mat.Width()         == 2);
-    REQUIRE(mat.Height()        == 2);
-    REQUIRE(mat.Data().size()   == 4);
-    REQUIRE(mat.Get({0, 0}, 0)  == 6);
+    mat = mrg::Crop(mat, {1, 1}, {3, 3});
+    REQUIRE(mat.Width()       == 2);
+    REQUIRE(mat.Height()      == 2);
+    REQUIRE(mat.Data().size() == 4);
+    REQUIRE(mat.Get(0, 0)     == 6);
 }

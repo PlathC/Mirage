@@ -110,7 +110,7 @@ namespace mrg {
                 {
                     for(uint8_t k = 0; k < m_channelNumber; k++)
                     {
-                        Get({i, j}, k) *= mask.Get({i, j}, k);
+                        Get(i, j, k) *= mask.Get(i, j, k);
                     }
                 }
                 else if(i >= mask.Width() && j >= mask.Height())
@@ -140,20 +140,13 @@ namespace mrg {
 
         Matrix<Type> result = Matrix<Type>(*this);
 
-        for(uint32_t i = 0; i < m_width; i++)
+        for(uint32_t i = 0; i < mask.Width(); i++)
         {
-            for(uint32_t j = 0; j < m_height; j++)
+            for(uint32_t j = 0; j < mask.Height(); j++)
             {
-                if(i < mask.Width() && j < mask.Height())
+                for(uint8_t k = 0; k < m_channelNumber; k++)
                 {
-                    for(uint8_t k = 0; k < m_channelNumber; k++)
-                    {
-                        result.Get({i, j}, k) += mask.Get({i, j}, k);
-                    }
-                }
-                else if(i >= mask.Width() && j >= mask.Height())
-                {
-                    break;
+                    result.Get(i, j, k) += mask.Get(i, j, k);
                 }
             }
         }
@@ -185,7 +178,7 @@ namespace mrg {
                 {
                     for(uint8_t k = 0; k < m_channelNumber; k++)
                     {
-                        Get({i, j}, k) += mask.Get({i, j}, k);
+                        Get(i, j, k) += mask.Get(i, j, k);
                     }
                 }
                 else if(i >= mask.Width() && j >= mask.Height())
@@ -218,7 +211,7 @@ namespace mrg {
                 Type currentValue{};
                 for(uint8_t k = 0; k < m_channelNumber; k++)
                 {
-                    currentValue += Get({i, j}, k);
+                    currentValue += Get(i, j, k);
                 }
                 currentValue /= m_channelNumber;
 
@@ -240,7 +233,7 @@ namespace mrg {
                 Type currentValue{};
                 for(uint8_t k = 0; k < m_channelNumber; k++)
                 {
-                    currentValue += Get({i, j}, k);
+                    currentValue += Get(i, j, k);
                 }
                 currentValue /= m_channelNumber;
 
@@ -262,7 +255,7 @@ namespace mrg {
                 Type currentValue{};
                 for(uint8_t k = 0; k < m_channelNumber; k++)
                 {
-                    currentValue += Get({i, j}, k);
+                    currentValue += Get(i, j, k);
                 }
                 currentValue /= m_channelNumber;
 
@@ -284,7 +277,7 @@ namespace mrg {
                 Type currentValue{};
                 for(uint8_t k = 0; k < m_channelNumber; k++)
                 {
-                    currentValue += Get({i, j}, k);
+                    currentValue += Get(i, j, k);
                 }
                 currentValue /= m_channelNumber;
 
@@ -306,7 +299,7 @@ namespace mrg {
                 Type currentValue{};
                 for(uint8_t k = 0; k < m_channelNumber; k++)
                 {
-                    currentValue += Get({i, j}, k);
+                    currentValue += Get(i, j, k);
                 }
                 currentValue /= m_channelNumber;
 
@@ -328,7 +321,7 @@ namespace mrg {
                 Type currentValue{};
                 for(uint8_t k = 0; k < m_channelNumber; k++)
                 {
-                    currentValue += Get({i, j}, k);
+                    currentValue += Get(i, j, k);
                 }
                 currentValue /= m_channelNumber;
 
@@ -410,7 +403,8 @@ namespace mrg {
         assert(position[0] < m_width);
         assert(position[1] < m_height);
         assert(channel < m_channelNumber);
-        return m_data[(position[1] * m_width * m_channelNumber) + (position[0] * m_channelNumber) + channel];
+        auto index = (position[1] * m_width * m_channelNumber) + (position[0] * m_channelNumber) + channel;
+        return m_data[index];
     }
 
     template<class Type>

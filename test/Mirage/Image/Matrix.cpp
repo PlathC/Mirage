@@ -26,15 +26,15 @@ TEST_CASE( "Matrix", "[matrix]" )
 
     SECTION("Pixel access")
     {
-        REQUIRE(mat.Get({0, 0}, 0) == 1);
-        REQUIRE(mat.Get({0, 1}, 0) == 2);
-        REQUIRE(mat.Get({0, 2}, 0) == 3);
-        REQUIRE(mat.Get({1, 0}, 0) == 4);
-        REQUIRE(mat.Get({1, 1}, 0) == 5);
-        REQUIRE(mat.Get({1, 2}, 0) == 6);
-        REQUIRE(mat.Get({2, 0}, 0) == 7);
-        REQUIRE(mat.Get({2, 1}, 0) == 8);
-        REQUIRE(mat.Get({2, 2}, 0) == 9);
+        REQUIRE(mat.Get(0, 0) == 1);
+        REQUIRE(mat.Get(1, 0) == 2);
+        REQUIRE(mat.Get(2, 0) == 3);
+        REQUIRE(mat.Get(0, 1) == 4);
+        REQUIRE(mat.Get(1, 1) == 5);
+        REQUIRE(mat.Get(2, 1) == 6);
+        REQUIRE(mat.Get(0, 2) == 7);
+        REQUIRE(mat.Get(1, 2) == 8);
+        REQUIRE(mat.Get(2, 2) == 9);
     }
 
     SECTION("Pixel modification")
@@ -69,7 +69,7 @@ TEST_CASE( "Matrix", "[matrix]" )
             for(uint32_t j = 0; j < mat1.Height(); j++)
             {
                 if(i < mask1.Width() && j < mask1.Height())
-                    REQUIRE(mat1.Get({i, j}) == 0);
+                    REQUIRE(mat1.Get(i, j) == 0);
                 else
                     REQUIRE(pixels[i * mat1.Height() + j] * 2);
             }
@@ -81,7 +81,7 @@ TEST_CASE( "Matrix", "[matrix]" )
         {
             for(uint32_t j = 0; j < mat1.Height(); j++)
             {
-                REQUIRE(mat1.Get({i, j}) == 0);
+                REQUIRE(mat1.Get(i, j) == 0);
             }
         }
     }
@@ -89,6 +89,7 @@ TEST_CASE( "Matrix", "[matrix]" )
 
     SECTION("Masks addition")
     {
+        mrg::Matrix<char> original {pixels, 3, 3};
         mrg::Matrix<char> mat1 {pixels,3, 3};
 
         mat1 += -1;
@@ -104,31 +105,27 @@ TEST_CASE( "Matrix", "[matrix]" )
             REQUIRE(data[i] == pixels[i] + 1);
         }
 
-        mrg::Matrix<char> mask1 {{1, 1, 1, 1, 1, 1}, 2, 3};
+        mrg::Matrix<char> mask1 {{1, 1, 1, 1, 1, 1, 1, 1, 1}, 3, 3};
         mat1 = mat1 + mask1;
         for(uint32_t i = 0; i < mat1.Width(); i++)
         {
             for(uint32_t j = 0; j < mat1.Height(); j++)
             {
-                if(i < mask1.Width() && j < mask1.Height())
-                    REQUIRE(data[(i * mat1.Height()) + j] == pixels[(i * mat1.Height()) + j] + 2);
-                else
-                    REQUIRE(data[(i * mat1.Height()) + j] == pixels[(i * mat1.Height()) + j] + 1);
+                REQUIRE(mat1.Get(i, j) == original.Get(i, j) + 2);
             }
         }
 
-        mrg::Matrix<char> mask2 {{1, 1, 1, 1, 1, 1, 1, 1, 1}, 3, 3};
+        mrg::Matrix<char> mask2 {{1, 1, 1, 1, 1, 1, 1, 1, 2}, 3, 3};
         mat1 += mask2;
         for(uint32_t i = 0; i < mat1.Width(); i++)
         {
-            for(uint32_t j = 0; j < mat1.Height(); j++)
+            for(uint32_t j = 0; j < mat1.Height() - 1; j++)
             {
-                if(i < mask1.Width() && j < mask1.Height())
-                    REQUIRE(data[(i * mat1.Height()) + j] == pixels[(i * mat1.Height()) + j] + 3);
-                else
-                    REQUIRE(data[(i * mat1.Height()) + j] == pixels[(i * mat1.Height()) + j] + 2);
+                REQUIRE(mat1.Get(i, j) == original.Get(i, j) + 3);
             }
         }
+
+        REQUIRE(data[data.size() - 1] == pixels[pixels.size() - 1] + 4);
     }
 
     SECTION("Vector operations")
@@ -136,12 +133,12 @@ TEST_CASE( "Matrix", "[matrix]" )
         mrg::Matrix<char> mat1 {pixels,3, 3};
 
         mat1[mat1 == 2] = 3;
-        REQUIRE(mat.Get({0, 1}) == 2);
+        REQUIRE(mat1.Get(1, 0) == 3);
 
         // Check = operator
         mrg::Matrix<char> mat2{{1, 0, 0, 0, 0, 0, 0, 0, 0}, 3, 3};
         mat2[mat2 == 0] = 2;
-        REQUIRE(mat.Get({0, 0}) == 1);
+        REQUIRE(mat2.Get(0, 0) == 1);
 
         const auto& data = mat2.Data();
         for(std::size_t i = 1; i < data.size(); i++)
@@ -149,7 +146,7 @@ TEST_CASE( "Matrix", "[matrix]" )
 
         // Check -= operator
         mat2[mat2 >= 2] -= 2;
-        REQUIRE(mat.Get({0, 0}) == 1);
+        REQUIRE(mat.Get(0, 0) == 1);
         for(std::size_t i = 1; i < data.size(); i++)
             REQUIRE(data[i] == 0);
 

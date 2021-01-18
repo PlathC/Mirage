@@ -39,29 +39,27 @@ namespace mrg
     }
 
     template<class Type>
-    Matrix<Type> Crop(const Matrix<Type>& img, const uint32_t bWidth, const uint32_t bHeight, const uint32_t eWidth, const uint32_t eHeight)
+    Matrix<Type> Crop(const Matrix<Type>& img, const Vec2<uint32_t>& p1, const Vec2<uint32_t>& p2)
     {
-        assert(bWidth  <= img.Width());
-        assert(bHeight <= img.Height());
-        assert(eWidth  <= img.Width());
-        assert(eHeight <= img.Height());
+        assert(p1[0]  <= img.Width());
+        assert(p1[1] <= img.Height());
+        assert(p2[0]  <= img.Width());
+        assert(p2[1] <= img.Height());
 
         uint32_t width   = img.Width();
         uint32_t height  = img.Height();
         uint8_t channel  = img.Channel();
-        const auto& data = img.Data();
 
-        uint32_t trueNewWidth  = eWidth - bWidth;
-        uint32_t trueNewHeight = eHeight - bHeight;
-        auto result = Matrix<Type>(std::vector<Type>(trueNewWidth * trueNewHeight * channel),
-                trueNewWidth, trueNewHeight, channel);
+        Vec2<uint32_t> newSize  = p2 - p1;
+        auto result = Matrix<Type>(std::vector<Type>(newSize[0] * newSize[1] * channel),
+                                   newSize[0], newSize[1], channel);
 
-        for(uint32_t x = 0; x < trueNewWidth; x++)
+        for(uint32_t x = 0; x < newSize[0]; x++)
         {
-            for(uint32_t y = 0; y < trueNewHeight; y++)
+            for(uint32_t y = 0; y < newSize[1]; y++)
             {
-                uint32_t oldX = x + bWidth;
-                uint32_t oldY = y + bHeight;
+                uint32_t oldX = x + p1[0];
+                uint32_t oldY = y + p1[1];
                 for(uint8_t k = 0; k < channel; k++)
                 {
                     result.Get(x, y, k) = img.Get(oldX, oldY, k);
