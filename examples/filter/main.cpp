@@ -15,7 +15,8 @@ int main(int argc, char** argv)
         Matrix<uint16_t> mat = ImageParser::FromFile<uint16_t>("../samples/rubberwhale.png");
 
         filterTimer.Start();
-        Convolve(mat, mrg::averageKernel5x5);
+        //mat = Convolve(mat, mrg::averageKernel5x5);
+        mat = Convolve<uint16_t>(mat, &mrg::KernelMax<uint16_t>, 17);
 
         Scale<uint16_t>(mat, mat.Width() * 2, mat.Height() * 2,
                         static_cast<mrg::ScalingFunction<uint16_t>>(&mrg::ScalingNearestNeighbor<uint16_t>)
@@ -23,7 +24,7 @@ int main(int argc, char** argv)
 
         filterTimer.Stop();
         std::cout << "Filter compute time : " << filterTimer.Duration() << std::endl;
-        ImageParser::ToFile(mat, "..//rubberwhale-convolved.jpg");
+        ImageParser::ToFile(mat, "./rubberwhale-convolved.jpg");
 
         Matrix<float> original = ToGrayScale<uint16_t, float>(ImageParser::FromFile<uint16_t>("../samples/lena.png"));
 

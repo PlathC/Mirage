@@ -37,7 +37,19 @@ namespace mrg
     Matrix<double> Canny(const Matrix<Type>& img);
 
     template<class ImageType, class KernelType>
-    void Convolve(Matrix<ImageType>& img, const Matrix<KernelType>& kernel);
+    Matrix<ImageType> Convolve(const Matrix<ImageType>& img, const Matrix<KernelType>& kernel);
+
+    template<class ImageType>
+    using ConvolvingFunction = std::function<ImageType(const Matrix<ImageType>&)>;
+
+    template<class ImageType>
+    ImageType KernelMax(const Matrix<ImageType>& kernel);
+
+    template<class ImageType>
+    ImageType KernelMin(const Matrix<ImageType>& kernel);
+
+    template <class ImageType>
+    Matrix<ImageType> Convolve(Matrix<ImageType>& img, const ConvolvingFunction<ImageType>& convolvingFunction, uint32_t kernelSize);
 
     template<class ImageType>
     void Threshold(Matrix<ImageType>& img);

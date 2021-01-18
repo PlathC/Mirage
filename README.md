@@ -34,7 +34,7 @@ See [__detailed features description__](Features.md)
 | DFT                                                             | Done                 |
 | FFT                                                             | Done                 |
 | Mask operations                                                 | Done                 |
-| Morphological operations                                        | In progress          |
+| Morphological operations                                        | Done                 |
 | Adaptive Histogram Equalization                                 | To do                |
 | Floyd-Steinberg                                                 | To do                |
 | Video support                                                   | To do                |

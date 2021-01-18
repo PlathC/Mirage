@@ -378,6 +378,24 @@ namespace mrg {
     }
 
     template<class Type>
+    Type& Matrix<Type>::Get(uint32_t x, uint32_t y, uint8_t channel)
+    {
+        assert(x < m_width);
+        assert(y < m_height);
+        assert(channel < m_channelNumber);
+        return m_data[(y * m_width * m_channelNumber) + (x * m_channelNumber) + channel];
+    }
+
+    template<class Type>
+    Type Matrix<Type>::Get(uint32_t x, uint32_t y, uint8_t channel) const
+    {
+        assert(x < m_width);
+        assert(y < m_height);
+        assert(channel < m_channelNumber);
+        return m_data[(y * m_width * m_channelNumber) + (x * m_channelNumber) + channel];
+    }
+
+    template<class Type>
     Type& Matrix<Type>::Get(const Vec2<uint32_t>& position, uint8_t channel)
     {
         assert(position[0] < m_width);

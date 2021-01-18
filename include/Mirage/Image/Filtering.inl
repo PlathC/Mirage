@@ -227,17 +227,18 @@ namespace mrg
     }
 
     template<class ImageType, class KernelType>
-    void Convolve(Matrix<ImageType>& img, const Matrix<KernelType>& kernel)
+    Matrix<ImageType> Convolve(const Matrix<ImageType>& img, const Matrix<KernelType>& kernel)
     {
         const uint32_t kernelCenter = static_cast<uint32_t>(mrg::Floor(kernel.Width() / 2));
         const uint32_t width  = img.Width();
         const uint32_t height = img.Height();
         const uint8_t channel = img.Channel();
+        auto result = Matrix<ImageType>(std::vector<ImageType>(width * height * channel),
+                                        width, height, channel);
 
-        auto& data = img.Data();
-        for(uint32_t i = 0 + kernelCenter; i < height - kernelCenter; i++)
+        for(uint32_t i = 0 + kernelCenter; i < width - kernelCenter; i++)
         {
-            for(uint32_t j = 0 + kernelCenter; j < width - kernelCenter; j++)
+            for(uint32_t j = 0 + kernelCenter; j < height - kernelCenter; j++)
             {
                 for(uint8_t k = 0; k < channel; k++)
                 {
@@ -249,14 +250,67 @@ namespace mrg
                             uint32_t xn = i + ik - kernelCenter;
                             uint32_t yn = j + jk - kernelCenter;
 
-                            uint32_t index = (xn * width + yn) * channel + k;
-                            value += static_cast<ImageType>(mrg::Floor(data[index] * kernel.Get({ik, jk}, 0)));
+                            value += static_cast<ImageType>(img.Get(xn, yn, k) * kernel.Get(ik, jk));
                         }
                     }
-                    data[(i * width + j) * channel + k] = value;
+                    result.Get(i, j, k) = value;
                 }
             }
         }
+        return result;
+    }
+
+    template<class ImageType>
+    ImageType KernelMax(const Matrix<ImageType>& kernel)
+    {
+        const auto& data = kernel.Data();
+        return *std::max_element(data.begin(), data.end());
+    }
+
+    template<class ImageType>
+    ImageType KernelMin(const Matrix<ImageType>& kernel)
+    {
+        const auto& data = kernel.Data();
+        return *std::min_element(data.begin(), data.end());
+    }
+
+    template <class ImageType>
+    Matrix<ImageType> Convolve(Matrix<ImageType>& img, const ConvolvingFunction<ImageType>& convolvingFunction, const uint32_t kernelSize)
+    {
+        assert(kernelSize < img.Width() && kernelSize < img.Height() && "Kernel size should be lesser than image size.");
+        assert(kernelSize % 2 == 1 && "Kernel size should be odd.");
+
+        const uint32_t kernelCenter = static_cast<uint32_t>(mrg::Floor(kernelSize / 2));
+        const uint32_t width  = img.Width();
+        const uint32_t height = img.Height();
+        const uint8_t channel = img.Channel();
+
+        auto result = Matrix<ImageType>(std::vector<ImageType>(width * height * channel),
+                                        width, height, channel);
+        auto kernel = Matrix<ImageType>(std::vector<ImageType>(kernelCenter * kernelCenter, 0),
+                                        kernelCenter, kernelCenter, 1);
+        for(uint32_t i = 0 + kernelCenter; i < width - kernelCenter; i++)
+        {
+            for(uint32_t j = 0 + kernelCenter; j < height - kernelCenter; j++)
+            {
+                for(uint8_t k = 0; k < channel; k++)
+                {
+                    ImageType value = ImageType(0);
+                    for(uint32_t ik = 0; ik < kernel.Width(); ik++)
+                    {
+                        for(uint32_t jk = 0; jk < kernel.Height(); jk++)
+                        {
+                            uint32_t xn = i + ik - kernelCenter;
+                            uint32_t yn = j + jk - kernelCenter;
+
+                            kernel.Get(ik, jk) = img.Get(xn, yn, k);
+                        }
+                    }
+                    result.Get(i, j, k) = convolvingFunction(kernel);
+                }
+            }
+        }
+        return result;
     }
 
     template<class ImageType>

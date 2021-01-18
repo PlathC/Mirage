@@ -55,6 +55,8 @@ namespace mrg
         PixelArrayReference<Type> operator[](const std::vector<Vec2<uint32_t>>& indices);
         PixelArrayReference<Type> operator()(const Vec2<uint32_t> p1, const Vec2<uint32_t> p2);
 
+        Type& Get(uint32_t x, uint32_t y, uint8_t channel = 0);
+        Type Get(uint32_t x, uint32_t y, uint8_t channel = 0) const;
         Type& Get(const Vec2<uint32_t>& position, uint8_t channel = 0);
         Type Get(const Vec2<uint32_t>& position, uint8_t channel = 0) const;
         Type& Get(const Vec3<uint32_t>& position);

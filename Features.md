@@ -2,15 +2,28 @@
 
 #### __Filter__ 
 
-One can use the Convolve function to filter an image with a kernel.
+##### Classic filters 
 
 The following example show how to apply a Gaussian Blur to an image using 
 a kernel provide in the library.
 
-##### Filter Results 
-
 <p align="center">
 	<img src="readmefiles/rubberwhale.png" alt="RubberWhale classic"/> <img src="readmefiles/rubberwhale-convolve.png" alt="RubberWhale convolved"/> 
+</p>
+
+##### Procedural filters 
+
+Another type of convolution is also implemented to ease the work directly with the kernel 
+as it can be needed for dilation or erosion.
+
+The following line of code apply a dilation on the `mat` object.
+
+```cpp
+mat = Convolve<uint16_t>(mat, &mrg::KernelMax<uint16_t>, 17);
+```
+
+<p align="center">
+	<img src="readmefiles/rubberwhale.png" alt="RubberWhale classic"/> <img src="readmefiles/rubberwhale-dilated.jpg" alt="RubberWhale convolved"/> 
 </p>
 
 #### __Edges detection__
