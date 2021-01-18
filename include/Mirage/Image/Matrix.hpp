@@ -13,6 +13,9 @@
 
 namespace mrg
 {
+    template<class ImageType>
+    class PixelArrayReference;
+
     template<class Type>
     class Matrix
     {
@@ -42,6 +45,15 @@ namespace mrg
         Matrix& operator+=(const Matrix& mask);
         Matrix& operator+=(Type scalar);
 
+        std::vector<Vec2<uint32_t>> operator>(Type scalar);
+        std::vector<Vec2<uint32_t>> operator<(Type scalar);
+        std::vector<Vec2<uint32_t>> operator>=(Type scalar);
+        std::vector<Vec2<uint32_t>> operator<=(Type scalar);
+        std::vector<Vec2<uint32_t>> operator!=(Type scalar);
+        std::vector<Vec2<uint32_t>> operator==(Type scalar);
+
+        PixelArrayReference<Type> operator[](const std::vector<Vec2<uint32_t>>& indices);
+
         [[nodiscard]] Type& Get(const Vec2<uint32_t>& position, uint8_t channel = 0);
         [[nodiscard]] Type Get(const Vec2<uint32_t>& position, uint8_t channel = 0) const;
         void Set(const Vec2<uint32_t>& position, uint8_t k, const Type& t);
@@ -65,6 +77,21 @@ namespace mrg
 
     template<class InputType, class ReturnType>
     Matrix<ReturnType> Transform(const Matrix<InputType>& img, std::function<ReturnType(const InputType&)> transformation);
+
+    template<class ImageType>
+    class PixelArrayReference
+    {
+    public:
+        PixelArrayReference(const std::vector<std::reference_wrapper<ImageType>>& data);
+
+        PixelArrayReference& operator*=(ImageType scalar);
+        PixelArrayReference& operator/=(ImageType scalar);
+        PixelArrayReference& operator+=(ImageType scalar);
+        PixelArrayReference& operator-=(ImageType scalar);
+        PixelArrayReference& operator=(ImageType scalar);
+    private:
+        std::vector<std::reference_wrapper<ImageType>> m_data;
+    };
 }
 
 #include "Matrix.inl"

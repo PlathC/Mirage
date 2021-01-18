@@ -15,9 +15,6 @@ a kernel provide in the library.
 
 #### __Edges detection__
 
-The library provides Canny and Sobel algorithm which allow to extract 
-contour lines within a given image.
-
 ##### Edges detection Results
 
 Original : 
@@ -40,9 +37,6 @@ Sobel :
 
 #### __Histogram Equalization__
 
-The library provide an histogram equalization function for grayscale and 
-color image.
-
 ##### Histogram Equalization Results 
 
 <p align="center">
@@ -56,7 +50,7 @@ color image.
 
 ### __Fourier transform__
 
-DFT and FFT 2D algorithms are implemented and provide the ability to work directly 
+DFT and FFT 2D algorithms provide the ability to work directly 
 in the frequency domain.
 
 <p align="center">
@@ -65,8 +59,7 @@ in the frequency domain.
 
 ### __Viewer__
 
-A viewer is implemented in order to provide an easy way to test each features with a
- visualization tool.
+The viewer provide an easy and fast way to visualize image processing algorithms.
  
 ```cpp
 #include <QApplication>
@@ -89,3 +82,22 @@ int main(int argc, char** argv)
     return app.exec();
 }
 ```
+
+### __Image vectorization operation__
+
+#### Threshold example 
+```cpp
+    mrg::Viewer viewer = mrg::Viewer([](const mrg::Matrix<uint16_t>& img) -> mrg::Matrix<uint16_t>
+        {
+            auto temp = mrg::Matrix<uint16_t>(img);
+            temp[temp < 100] = 0;
+            temp[temp >= 100] = 255;
+            return temp;
+        }
+    );
+    viewer.show();
+```
+
+<p align="center">
+	<img src="samples/lena-gray.png" alt="Lena Gray"/> <img src="readmefiles/viewer-threshold.png" alt="Thresholded"/>
+</p>

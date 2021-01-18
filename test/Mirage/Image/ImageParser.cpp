@@ -14,7 +14,7 @@ namespace fs = std::filesystem;
 TEST_CASE( "JPG", "[parser]" )
 {
     mrg::Matrix<uint16_t> img;
-    REQUIRE_NOTHROW(img = mrg::ImageParser::FromFile<uint16_t>("../samples/HouseDublin.jpg", 3));
+    REQUIRE_NOTHROW(img = mrg::ImageParser::FromFile<uint16_t>("../samples/HouseDublin.jpg"));
 
     CHECK(img.Width() == 1024);
     CHECK(img.Height() == 698);
@@ -30,7 +30,7 @@ TEST_CASE( "JPG", "[parser]" )
     REQUIRE_NOTHROW(mrg::ImageParser::ToFile<uint16_t>(img, filePath));
     CHECK(fs::exists(filePath));
 
-    REQUIRE_NOTHROW(img = mrg::ImageParser::FromFile<uint16_t>(filePath, 3));
+    REQUIRE_NOTHROW(img = mrg::ImageParser::FromFile<uint16_t>(filePath));
     CHECK(img.Width() == 1024);
     CHECK(img.Height() == 698);
 
@@ -40,7 +40,7 @@ TEST_CASE( "JPG", "[parser]" )
 TEST_CASE( "PNG", "[parser]" )
 {
     mrg::Matrix<uint16_t> img;
-    REQUIRE_NOTHROW(img = mrg::ImageParser::FromFile<uint16_t>("../samples/lena.png", 4));
+    REQUIRE_NOTHROW(img = mrg::ImageParser::FromFile<uint16_t>("../samples/lena.png"));
 
     CHECK(img.Width()  == 220);
     CHECK(img.Height() == 220);
@@ -56,7 +56,7 @@ TEST_CASE( "PNG", "[parser]" )
     REQUIRE_NOTHROW(mrg::ImageParser::ToFile<uint16_t>(img, filePath));
     CHECK(fs::exists(filePath));
 
-    REQUIRE_NOTHROW(img = mrg::ImageParser::FromFile<uint16_t>(filePath, 4));
+    REQUIRE_NOTHROW(img = mrg::ImageParser::FromFile<uint16_t>(filePath));
     CHECK(img.Width()  == 220);
     CHECK(img.Height() == 220);
 

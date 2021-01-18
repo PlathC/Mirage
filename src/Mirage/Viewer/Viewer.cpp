@@ -43,7 +43,7 @@ namespace mrg
 
         try
         {
-            m_image = ImageParser::FromFile<uint16_t>(fileName.toStdString(), 3);
+            m_image = ImageParser::FromFile<uint16_t>(fileName.toStdString());
             if(m_modifier)
                 m_image = m_modifier(m_image);
 

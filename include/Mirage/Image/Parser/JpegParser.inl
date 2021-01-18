@@ -11,7 +11,7 @@ namespace mrg
     namespace ImageParser
     {
         template<typename T>
-        Matrix<T> JpegParser<T>::Parse(const std::string& _fileName, const uint8_t channel)
+        Matrix<T> JpegParser<T>::Parse(const std::string& _fileName)
         {
             std::ifstream file = std::ifstream(_fileName, std::ios::binary);
 
@@ -30,34 +30,33 @@ namespace mrg
             int jpegSubsamp = 0;
             int tempWidth = 0;
             int tempHeight = 0;
-            int pixelFormat;
-            if(channel == 1)
+            int pixelFormat = TJPF_GRAY;
+
+            tjhandle _jpegDecompressor = tjInitDecompress();
+            if(tjDecompressHeader3(_jpegDecompressor,
+                    content.data(), static_cast<long unsigned int>(fsize),
+                    &tempWidth, &tempHeight, &jpegSubsamp, &pixelFormat) != 0)
             {
-                assert(channel <= 1);
-                pixelFormat = TJPF_GRAY;
+                tjDestroy(_jpegDecompressor);
+                throw std::runtime_error("Error on decompressing header : " + std::string(tjGetErrorStr()));
             }
-            else if(channel == 3)
+
+            uint8_t channel = 0;
+            if(pixelFormat == TJPF_GRAY)
             {
-                assert(channel <= 3);
-                pixelFormat = TJPF_RGB;
+                channel = 1;
             }
-            else if(channel == 4)
+            else if(pixelFormat == TJPF_RGB)
             {
-                assert(channel <= 4);
-                pixelFormat = TJPF_RGBA;
+                channel = 3;
+            }
+            else if(pixelFormat = TJPF_RGBA)
+            {
+                channel == 4;
             }
             else
             {
                 throw std::runtime_error("Unsupported format.");
-            }
-
-            tjhandle _jpegDecompressor = tjInitDecompress();
-            if(tjDecompressHeader2(_jpegDecompressor,
-                    content.data(), static_cast<long unsigned int>(fsize),
-                    &tempWidth, &tempHeight, &jpegSubsamp) != 0)
-            {
-                tjDestroy(_jpegDecompressor);
-                throw std::runtime_error("Error on decompressing header : " + std::string(tjGetErrorStr()));
             }
 
             uint32_t width = static_cast<uint32_t>(tempWidth);

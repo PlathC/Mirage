@@ -12,7 +12,7 @@ namespace mrg
         // Using https://gist.github.com/niw/5963798
 
         template<class T>
-        Matrix<T> PngParser<T>::Parse(const std::string& fileName, const uint8_t channel)
+        Matrix<T> PngParser<T>::Parse(const std::string& fileName)
         {
             std::ifstream inStream{fileName, std::ios::binary};
 
@@ -38,6 +38,7 @@ namespace mrg
 
             uint32_t width  = png_get_image_width(pngReadStruct, pngInfo);
             uint32_t height = png_get_image_height(pngReadStruct, pngInfo);
+            uint8_t channel = 0;
             m_colorType = png_get_color_type(pngReadStruct, pngInfo);
             m_bitDepth  = png_get_bit_depth(pngReadStruct, pngInfo);
 
@@ -46,7 +47,24 @@ namespace mrg
 
             // PNG_COLOR_TYPE_GRAY_ALPHA is always 8 or 16bit depth.
             if(m_colorType == PNG_COLOR_TYPE_GRAY && m_bitDepth < 8)
+            {
                 png_set_expand_gray_1_2_4_to_8(pngReadStruct);
+            }
+
+            switch(m_colorType)
+            {
+                case PNG_COLOR_TYPE_GRAY:
+                    channel = 1;
+                    break;
+                case PNG_COLOR_TYPE_RGB:
+                    channel = 3;
+                    break;
+                case PNG_COLOR_TYPE_RGBA:
+                    channel = 4;
+                    break;
+                default:
+                    throw std::runtime_error("Unsupported image format.");
+            }
 
             if(png_get_valid(pngReadStruct, pngInfo, PNG_INFO_tRNS))
                 png_set_tRNS_to_alpha(pngReadStruct);
@@ -129,7 +147,10 @@ namespace mrg
             png_write_info(pngWriteStruct, infoStruct);
 
             const auto& rawImageData = mat.Data();
-            auto imageData = std::vector<png_byte>(rawImageData.begin(), rawImageData.end());
+            auto imageData = std::vector<png_byte>(rawImageData.size());
+            std::transform(rawImageData.begin(), rawImageData.end(), imageData.begin(),
+                           [](T c) -> png_byte { return static_cast<png_byte>(c); });
+
             for(std::size_t y = 0; y < mat.Height(); y++)
             {
                 png_write_row(pngWriteStruct, &imageData[y * mat.Width() * mat.Channel()]);

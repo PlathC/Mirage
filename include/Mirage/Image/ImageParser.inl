@@ -13,7 +13,7 @@ namespace mrg
     namespace ImageParser
     {
         template<typename Type>
-        Matrix<Type> FromFile(const std::string& fileName, const uint8_t channel)
+        Matrix<Type> FromFile(const std::string& fileName)
         {
             static_assert(std::is_arithmetic<Type>::value, "Only arithmetic image can be loaded");
             std::unique_ptr<IParser<Type>> parser;
@@ -46,7 +46,7 @@ namespace mrg
                 {
                     parser = std::make_unique<JpegParser<Type>>();
                 }
-                result = parser->Parse(fileName, channel);
+                result = parser->Parse(fileName);
             }
 
             return result;

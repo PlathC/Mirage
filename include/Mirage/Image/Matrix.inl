@@ -207,6 +207,120 @@ namespace mrg {
     }
 
     template<class Type>
+    std::vector<Vec2<uint32_t>> Matrix<Type>::operator>(Type scalar)
+    {
+        std::vector<Vec2<uint32_t>> result;
+        for(uint32_t i = 0; i < m_width; i++)
+        {
+            for(uint32_t j = 0; j < m_height; j++)
+            {
+                if(Get({i, j}) > scalar)
+                {
+                    result.emplace_back(std::initializer_list<uint32_t>{i, j});
+                }
+            }
+        }
+        return result;
+    }
+
+    template<class Type>
+    std::vector<Vec2<uint32_t>> Matrix<Type>::operator<(Type scalar)
+    {
+        std::vector<Vec2<uint32_t>> result;
+        for(uint32_t i = 0; i < m_width; i++)
+        {
+            for(uint32_t j = 0; j < m_height; j++)
+            {
+                if(Get({i, j}) < scalar)
+                {
+                    result.emplace_back(std::initializer_list<uint32_t>{i, j});
+                }
+            }
+        }
+        return result;
+    }
+
+    template<class Type>
+    std::vector<Vec2<uint32_t>> Matrix<Type>::operator>=(Type scalar)
+    {
+        std::vector<Vec2<uint32_t>> result;
+        for(uint32_t i = 0; i < m_width; i++)
+        {
+            for(uint32_t j = 0; j < m_height; j++)
+            {
+                if(Get({i, j}) >= scalar)
+                {
+                    result.emplace_back(std::initializer_list<uint32_t>{i, j});
+                }
+            }
+        }
+        return result;
+    }
+
+    template<class Type>
+    std::vector<Vec2<uint32_t>> Matrix<Type>::operator<=(Type scalar)
+    {
+        std::vector<Vec2<uint32_t>> result;
+        for(uint32_t i = 0; i < m_width; i++)
+        {
+            for(uint32_t j = 0; j < m_height; j++)
+            {
+                if(Get({i, j}) <= scalar)
+                {
+                    result.emplace_back(std::initializer_list<uint32_t>{i, j});
+                }
+            }
+        }
+        return result;
+    }
+
+    template<class Type>
+    std::vector<Vec2<uint32_t>> Matrix<Type>::operator!=(Type scalar)
+    {
+        std::vector<Vec2<uint32_t>> result;
+        for(uint32_t i = 0; i < m_width; i++)
+        {
+            for(uint32_t j = 0; j < m_height; j++)
+            {
+                if(Get({i, j}) != scalar)
+                {
+                    result.emplace_back(std::initializer_list<uint32_t>{i, j});
+                }
+            }
+        }
+        return result;
+    }
+
+    template<class Type>
+    std::vector<Vec2<uint32_t>> Matrix<Type>::operator==(Type scalar)
+    {
+        std::vector<Vec2<uint32_t>> result;
+        for(uint32_t i = 0; i < m_width; i++)
+        {
+            for(uint32_t j = 0; j < m_height; j++)
+            {
+                if(Get({i, j}) == scalar)
+                {
+                    result.emplace_back(std::initializer_list<uint32_t>{i, j});
+                }
+            }
+        }
+        return result;
+    }
+
+    template<class Type>
+    PixelArrayReference<Type> Matrix<Type>::operator[](const std::vector<Vec2<uint32_t>>& indices)
+    {
+        auto pixels = std::vector<std::reference_wrapper<Type>>();
+        pixels.reserve(indices.size());
+        for(std::size_t i = 0; i < indices.size(); i++)
+        {
+            pixels.emplace_back(Get(indices[i]));
+        }
+        return PixelArrayReference<Type>(pixels);
+    }
+
+    template<class Type>
     Type& Matrix<Type>::Get(const Vec2<uint32_t>& position, uint8_t channel)
     {
         assert(position[0] < m_width);
@@ -276,6 +390,54 @@ namespace mrg {
             newData[i] = transformation(oldData[i]);
 
         return Matrix<ReturnType>(newData, img.Width(), img.Height(), img.Channel());
+    }
+
+    template<class ImageType>
+    PixelArrayReference<ImageType>::PixelArrayReference(const std::vector<std::reference_wrapper<ImageType>>& data) :
+        m_data(data)
+    {}
+
+    template<class ImageType>
+    PixelArrayReference<ImageType>& PixelArrayReference<ImageType>::operator*=(ImageType scalar)
+    {
+        for(auto& p : m_data)
+            p.get() *= scalar;
+
+        return *this;
+    }
+
+    template<class ImageType>
+    PixelArrayReference<ImageType>& PixelArrayReference<ImageType>::operator/=(ImageType scalar)
+    {
+        for(auto& p : m_data)
+            p.get() /= scalar;
+
+        return *this;
+    }
+
+    template<class ImageType>
+    PixelArrayReference<ImageType>& PixelArrayReference<ImageType>::operator+=(ImageType scalar)
+    {
+        for(auto& p : m_data)
+            p.get() += scalar;
+        return *this;
+    }
+
+    template<class ImageType>
+    PixelArrayReference<ImageType>& PixelArrayReference<ImageType>::operator-=(ImageType scalar)
+    {
+        for(auto& p : m_data)
+            p.get() -= scalar;
+        return *this;
+    }
+
+    template<class ImageType>
+    PixelArrayReference<ImageType>& PixelArrayReference<ImageType>::operator=(ImageType scalar)
+    {
+        for(auto& p : m_data)
+            p.get() = scalar;
+
+        return *this;
     }
 }
 

@@ -9,12 +9,10 @@ int main(int argc, char** argv)
 
     mrg::Viewer viewer = mrg::Viewer([](const mrg::Matrix<uint16_t>& img) -> mrg::Matrix<uint16_t>
         {
-            auto raw = mrg::FFT2(mrg::ToGrayScale<uint16_t, float>(img));
-            raw = mrg::FFT2(raw, true);
-            return mrg::Transform<std::complex<float>, uint16_t>(raw, [](const std::complex<float>& p) -> uint16_t
-            {
-                return static_cast<uint16_t>(p.real());
-            });
+            auto temp = mrg::Matrix<uint16_t>(img);
+            temp[temp < 100] = 0;
+            temp[temp >= 100] = 255;
+            return temp;
         }
     );
     viewer.show();

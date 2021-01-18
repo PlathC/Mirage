@@ -12,7 +12,7 @@ int main(int argc, char** argv)
 
     try
     {
-        Matrix<uint16_t> mat = ImageParser::FromFile<uint16_t>("../samples/rubberwhale.png", 4);
+        Matrix<uint16_t> mat = ImageParser::FromFile<uint16_t>("../samples/rubberwhale.png");
 
         filterTimer.Start();
         Convolve(mat, mrg::averageKernel5x5);
@@ -25,7 +25,7 @@ int main(int argc, char** argv)
         std::cout << "Filter compute time : " << filterTimer.Duration() << std::endl;
         ImageParser::ToFile(mat, "..//rubberwhale-convolved.jpg");
 
-        Matrix<float> original = ToGrayScale<uint16_t, float>(ImageParser::FromFile<uint16_t>("../samples/lena.png", 3));
+        Matrix<float> original = ToGrayScale<uint16_t, float>(ImageParser::FromFile<uint16_t>("../samples/lena.png"));
 
         Timer dftTimer{};
         dftTimer.Start();

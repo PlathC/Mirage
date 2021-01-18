@@ -15,7 +15,7 @@ namespace mrg
         template<typename T>
         class PngParser : public IParser<T> {
         public:
-            Matrix<T> Parse(const std::string& fileName, uint8_t channel) override;
+            Matrix<T> Parse(const std::string& fileName) override;
 
             void Write(const Matrix<T> &mat, const std::string& _fileName) override;
 

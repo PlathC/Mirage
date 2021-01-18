@@ -17,7 +17,7 @@ namespace mrg
         template<typename T>
         class JpegParser : public IParser<T> {
         public:
-            Matrix<T> Parse(const std::string& _fileName, const uint8_t channel) override;
+            Matrix<T> Parse(const std::string& _fileName) override;
 
             void Write(const Matrix<T>& mat, const std::string& _fileName) override;
         };

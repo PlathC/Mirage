@@ -37,7 +37,7 @@ namespace mrg
         };
 
         template<typename Type>
-        Matrix<Type> FromFile(const std::string& fileName, const uint8_t channel);
+        Matrix<Type> FromFile(const std::string& fileName);
 
         template<typename Type>
         void ToFile(const Matrix<Type>& mat, const std::string& fileName);

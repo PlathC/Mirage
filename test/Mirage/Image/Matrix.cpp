@@ -130,4 +130,42 @@ TEST_CASE( "Matrix", "[matrix]" )
             }
         }
     }
+
+    SECTION("Vector operations")
+    {
+        mrg::Matrix<char> mat1 {pixels,3, 3};
+
+        mat1[mat1 == 2] = 3;
+        REQUIRE(mat.Get({0, 1}) == 2);
+
+        // Check = operator
+        mrg::Matrix<char> mat2{{1, 0, 0, 0, 0, 0, 0, 0, 0}, 3, 3};
+        mat2[mat2 == 0] = 2;
+        REQUIRE(mat.Get({0, 0}) == 1);
+
+        const auto& data = mat2.Data();
+        for(std::size_t i = 1; i < data.size(); i++)
+            REQUIRE(data[i] == 2);
+
+        // Check -= operator
+        mat2[mat2 >= 2] -= 2;
+        REQUIRE(mat.Get({0, 0}) == 1);
+        for(std::size_t i = 1; i < data.size(); i++)
+            REQUIRE(data[i] == 0);
+
+        // Check -= operator
+        mat2[mat2 < 1] += 1;
+        for(char i : data)
+            REQUIRE(i == 1);
+
+        // Check *= operator
+        mat2[mat2 == 1] *= 2;
+        for(char i : data)
+            REQUIRE(i == 2);
+
+        // Check *= operator
+        mat2[mat2 == 2] /= 2;
+        for(char i : data)
+            REQUIRE(i == 1);
+    }
 }
