@@ -23,23 +23,24 @@ __Library features__
 
 __Image processing features__ 
 
-| Feature                                    | Progress             |
-|--------------------------------------------|----------------------|
-| Image structure                            | Done                 |
-| Filter (convolution)                       | Done                 |
-| Sobel / Threshold                          | Done                 |
-| Histogram Equalization                     | Done                 |
-| Canny                                      | Done                 |
-| Crop / Scale                               | Done                 |
-| Matrix transform                           | In progress          |
-| DFT                                        | Done                 |
-| FFT                                        | Done                 |
-| Mask operations                            | To do                |
-| Bit depth / Pixel type                     | To do                |
-| Adaptive Histogram Equalization            | To do                |
-| Floyd-Steinberg                            | To do                |
-| Video support                              | To do                |
-| Optimization (Realtime use, GPU - MT)      | To do                |
+| Feature                                                         | Progress             |
+|--------------------------------------------                     |----------------------|
+| Image structure                                                 | Done                 |
+| Vector operations (see [__Features description__](Features.md)) | Done                 |
+| Filter (convolution)                                            | Done                 |
+| Sobel / Threshold                                               | Done                 |
+| Histogram Equalization                                          | Done                 |
+| Canny                                                           | Done                 |
+| Crop / Scale                                                    | Done                 |
+| Matrix transform                                                | In progress          |
+| DFT                                                             | Done                 |
+| FFT                                                             | Done                 |
+| Mask operations                                                 | In progress          |
+| Morpholigical operations                                        | To do                |
+| Adaptive Histogram Equalization                                 | To do                |
+| Floyd-Steinberg                                                 | To do                |
+| Video support                                                   | To do                |
+| Optimization (Realtime use, GPU - MT)                           | To do                |
 
 <h2 align="center">Build</h2>
 

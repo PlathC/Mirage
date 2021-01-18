@@ -85,13 +85,14 @@ int main(int argc, char** argv)
 
 ### __Image vectorization operation__
 
-#### Threshold example 
+#### Canny mask example 
+
 ```cpp
     mrg::Viewer viewer = mrg::Viewer([](const mrg::Matrix<uint16_t>& img) -> mrg::Matrix<uint16_t>
         {
             auto temp = mrg::Matrix<uint16_t>(img);
-            temp[temp < 100] = 0;
-            temp[temp >= 100] = 255;
+            auto canny = mrg::Canny(temp);
+            temp[canny == 255] = 255;
             return temp;
         }
     );
@@ -99,5 +100,5 @@ int main(int argc, char** argv)
 ```
 
 <p align="center">
-	<img src="samples/lena-gray.png" alt="Lena Gray"/> <img src="readmefiles/viewer-threshold.png" alt="Thresholded"/>
+	<img src="samples/HouseDublin.jpg" alt="Lena Gray"/> <img src="readmefiles/viewer-canny.png" alt="Thresholded"/>
 </p>
