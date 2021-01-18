@@ -39,6 +39,39 @@ namespace mrg
     }
 
     template<class Type>
+    Matrix<Type> Crop(const Matrix<Type>& img, const uint32_t bWidth, const uint32_t bHeight, const uint32_t eWidth, const uint32_t eHeight)
+    {
+        assert(bWidth  <= img.Width());
+        assert(bHeight <= img.Height());
+        assert(eWidth  <= img.Width());
+        assert(eHeight <= img.Height());
+
+        uint32_t width   = img.Width();
+        uint32_t height  = img.Height();
+        uint8_t channel  = img.Channel();
+        const auto& data = img.Data();
+
+        uint32_t trueNewWidth  = eWidth - bWidth;
+        uint32_t trueNewHeight = eHeight - bHeight;
+        auto result = Matrix<Type>(std::vector<Type>(trueNewWidth * trueNewHeight * channel),
+                trueNewWidth, trueNewHeight, channel);
+
+        for(uint32_t x = 0; x < trueNewWidth; x++)
+        {
+            for(uint32_t y = 0; y < trueNewHeight; y++)
+            {
+                uint32_t oldX = x + bWidth;
+                uint32_t oldY = y + bHeight;
+                for(uint8_t k = 0; k < channel; k++)
+                {
+                    result.Get(x, y, k) = img.Get(oldX, oldY, k);
+                }
+            }
+        }
+        return result;
+    }
+
+    template<class Type>
     Matrix<Type> Rotate(const Matrix<Type>& img, const double angle)
     {
         assert(img.Width() == img.Height() && "This feature isn't available for non square image.");

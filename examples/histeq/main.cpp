@@ -10,8 +10,9 @@ int main(int argc, char** argv)
 
     try
     {
-        auto mat = ImageParser::FromFile<uint16_t>("./samples/lena.png");
-        Crop(mat, mat.Width() / 4 , mat.Height() / 4,  mat.Width() / 2, mat.Height() / 2);
+        auto mat = ImageParser::FromFile<uint16_t>("../samples/lena.png");
+        mat = Crop(mat, mat.Width() / 2  , mat.Height() / 2,
+                mat.Width(), mat.Height());
         Timer timer{};
 
         timer.Start();
