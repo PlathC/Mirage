@@ -53,7 +53,7 @@ __Image processing features__
  
 ### Compiler
 
-This project has been tested with MSVC (VS2019).
+This project is tested with MSVC (VS2019) and g++-9 (see [![Build Status](https://travis-ci.org/PlathC/Mirage.svg?branch=master)](https://travis-ci.org/PlathC/Mirage))
 
 
 
