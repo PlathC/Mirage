@@ -100,5 +100,5 @@ int main(int argc, char** argv)
 ```
 
 <p align="center">
-	<img src="samples/HouseDublin.jpg" alt="Lena Gray"/> <img src="readmefiles/viewer-canny.png" alt="Thresholded"/>
+	<img src="readmefiles/HouseDublin.jpg" alt="Lena Gray"/> <img src="readmefiles/viewer-canny.png" alt="Thresholded"/>
 </p>
