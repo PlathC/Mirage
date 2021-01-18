@@ -58,7 +58,156 @@ namespace mrg {
     }
 
     template<class Type>
-    Type Matrix<Type>::Get(const Vec2<uint32_t>& position, uint8_t channel) const
+    Matrix<Type> Matrix<Type>::operator*(const Matrix& mask)
+    {
+        assert(mask.Width( ) <= m_width  && "The mask shouldn't be bigger than the image");
+        assert(mask.Height() <= m_height && "The mask shouldn't be bigger than the image");
+
+        Matrix<Type> result = Matrix<Type>(*this);
+        for(uint32_t i = 0; i < m_width; i++)
+        {
+            for(uint32_t j = 0; j < m_height; j++)
+            {
+                if(i < mask.Width() && j < mask.Height())
+                {
+                    for(uint8_t k = 0; k < m_channelNumber; k++)
+                    {
+                        result.Get({i, j}, k) *= mask.Get({i, j}, k);
+                    }
+                }
+                else if(i >= mask.Width() && j >= mask.Height())
+                {
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+    template<class Type>
+    Matrix<Type> Matrix<Type>::operator*(Type scalar)
+    {
+        Matrix<Type> result = Matrix<Type>(*this);
+        for(auto& p : result.m_data)
+        {
+            p *= scalar;
+        }
+        return result;
+    }
+
+    template<class Type>
+    Matrix<Type>& Matrix<Type>::operator*=(const Matrix& mask)
+    {
+        assert(mask.Width( ) <= m_width  && "The mask shouldn't be bigger than the image");
+        assert(mask.Height() <= m_height && "The mask shouldn't be bigger than the image");
+
+        for(uint32_t i = 0; i < m_width; i++)
+        {
+            for(uint32_t j = 0; j < m_height; j++)
+            {
+                if(i < mask.Width() && j < mask.Height())
+                {
+                    for(uint8_t k = 0; k < m_channelNumber; k++)
+                    {
+                        Get({i, j}, k) *= mask.Get({i, j}, k);
+                    }
+                }
+                else if(i >= mask.Width() && j >= mask.Height())
+                {
+                    break;
+                }
+            }
+        }
+        return *this;
+    }
+
+    template<class Type>
+    Matrix<Type>& Matrix<Type>::operator*=(Type scalar)
+    {
+        for(auto& p : m_data)
+        {
+            p *= scalar;
+        }
+        return *this;
+    }
+
+    template<class Type>
+    Matrix<Type> Matrix<Type>::operator+(const Matrix& mask)
+    {
+        assert(mask.Width( ) <= m_width  && "The mask shouldn't be bigger than the image");
+        assert(mask.Height() <= m_height && "The mask shouldn't be bigger than the image");
+
+        Matrix<Type> result = Matrix<Type>(*this);
+
+        for(uint32_t i = 0; i < m_width; i++)
+        {
+            for(uint32_t j = 0; j < m_height; j++)
+            {
+                if(i < mask.Width() && j < mask.Height())
+                {
+                    for(uint8_t k = 0; k < m_channelNumber; k++)
+                    {
+                        result.Get({i, j}, k) += mask.Get({i, j}, k);
+                    }
+                }
+                else if(i >= mask.Width() && j >= mask.Height())
+                {
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+    template<class Type>
+    Matrix<Type> Matrix<Type>::operator+(Type scalar)
+    {
+        Matrix<Type> result = Matrix<Type>(*this);
+        for(auto& p : result.m_data)
+        {
+            p += scalar;
+        }
+        return result;
+    }
+
+    template<class Type>
+    Matrix<Type>& Matrix<Type>::operator+=(const Matrix<Type>& mask)
+    {
+        assert(mask.Width( ) <= m_width  && "The mask shouldn't be bigger than the image");
+        assert(mask.Height() <= m_height && "The mask shouldn't be bigger than the image");
+
+        for(uint32_t i = 0; i < m_width; i++)
+        {
+            for(uint32_t j = 0; j < m_height; j++)
+            {
+                if(i < mask.Width() && j < mask.Height())
+                {
+                    for(uint8_t k = 0; k < m_channelNumber; k++)
+                    {
+                        Get({i, j}, k) += mask.Get({i, j}, k);
+                    }
+                }
+                else if(i >= mask.Width() && j >= mask.Height())
+                {
+                    break;
+                }
+            }
+        }
+        return *this;
+    }
+
+    template<class Type>
+    Matrix<Type>& Matrix<Type>::operator+=(Type scalar)
+    {
+        for(auto& p : m_data)
+        {
+            p += scalar;
+        }
+        return *this;
+    }
+
+    template<class Type>
+    Type& Matrix<Type>::Get(const Vec2<uint32_t>& position, uint8_t channel)
     {
         assert(position[0] < m_width);
         assert(position[1] < m_height);
@@ -67,7 +216,7 @@ namespace mrg {
     }
 
     template<class Type>
-    Type& Matrix<Type>::Get(const Vec2<uint32_t>& position, uint8_t channel)
+    Type Matrix<Type>::Get(const Vec2<uint32_t>& position, uint8_t channel) const
     {
         assert(position[0] < m_width);
         assert(position[1] < m_height);

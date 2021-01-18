@@ -18,13 +18,13 @@ namespace mrg
     {
     public:
         Matrix();
-        Matrix(uint32_t width, uint32_t height, uint8_t channelNumber);
-        Matrix(Type fill, uint32_t width, uint32_t height, uint8_t channelNumber);
-        Matrix(const std::vector<Type>& pixels, uint32_t width, uint32_t height, uint8_t channelNumber);
+        Matrix(uint32_t width, uint32_t height, uint8_t channelNumber = 1);
+        Matrix(Type fill, uint32_t width, uint32_t height, uint8_t channelNumber = 1);
+        Matrix(const std::vector<Type>& pixels, uint32_t width, uint32_t height, uint8_t channelNumber = 1);
 
         template<std::size_t Size>
-        Matrix(const std::array<Type, Size>& pixels, uint32_t width, uint32_t height, uint8_t channelNumber);
-        Matrix(std::initializer_list<Type> pixels, uint32_t width, uint32_t height, uint8_t channelNumber);
+        Matrix(const std::array<Type, Size>& pixels, uint32_t width, uint32_t height, uint8_t channelNumber = 1);
+        Matrix(std::initializer_list<Type> pixels, uint32_t width, uint32_t height, uint8_t channelNumber = 1);
 
         Matrix(const Matrix&) = default;
         Matrix(Matrix&&) noexcept = default;
@@ -32,8 +32,18 @@ namespace mrg
         Matrix& operator=(const Matrix&) = default;
         Matrix& operator=(Matrix&&) noexcept = default;
 
-        [[nodiscard]] Type& Get(const Vec2<uint32_t>& position, uint8_t channel);
-        [[nodiscard]] Type Get(const Vec2<uint32_t>& position, uint8_t channel) const;
+        Matrix operator*(const Matrix& mask);
+        Matrix operator*(Type scalar);
+        Matrix& operator*=(const Matrix& mask);
+        Matrix& operator*=(Type scalar);
+
+        Matrix operator+(const Matrix& mask);
+        Matrix operator+(Type scalar);
+        Matrix& operator+=(const Matrix& mask);
+        Matrix& operator+=(Type scalar);
+
+        [[nodiscard]] Type& Get(const Vec2<uint32_t>& position, uint8_t channel = 0);
+        [[nodiscard]] Type Get(const Vec2<uint32_t>& position, uint8_t channel = 0) const;
         void Set(const Vec2<uint32_t>& position, uint8_t k, const Type& t);
 
         std::vector<Type>& Data();

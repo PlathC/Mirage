@@ -45,14 +45,3 @@ TEST_CASE("Crop", "[algorithm]")
     REQUIRE(mat.Data().size()   == 4);
     REQUIRE(mat.Get({0, 0}, 0)  == 6);
 }
-
-TEST_CASE("Rotate", "[algorithm]")
-{
-    const std::vector<char> pixels = {1, 2,  3,
-                                      4, 5,  6,
-                                      7, 8, 9};
-    mrg::Matrix<char> mat = mrg::Matrix<char>(pixels, 3, 3, 1);
-
-    mat = mrg::Rotate(mat, mrg::Pi/2);
-    REQUIRE(mat.Get({0, 0}, 0) == 6);
-}

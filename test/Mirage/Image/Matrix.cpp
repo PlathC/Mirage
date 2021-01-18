@@ -11,7 +11,7 @@ TEST_CASE( "Matrix", "[matrix]" )
     std::vector<char> pixels = {1 , 2 , 3,
                                 4,  5 , 6,
                                 7,  8,  9};
-    const mrg::Matrix<char> mat {pixels, 3, 3, 1};
+    const mrg::Matrix<char> mat {pixels, 3, 3};
 
     SECTION("Generic tests")
     {
@@ -39,9 +39,95 @@ TEST_CASE( "Matrix", "[matrix]" )
 
     SECTION("Pixel modification")
     {
-        mrg::Matrix<char> mat1 {pixels,3, 3, 1};
+        mrg::Matrix<char> mat1 {pixels,3, 3};
 
         mat1.Set({0, 0}, 0, -1);
         REQUIRE(mat1.Get({0, 0}, 0) == -1);
+    }
+
+    SECTION("Masks multiplication")
+    {
+        mrg::Matrix<char> mat1 {pixels,3, 3};
+
+        mat1 *= 2;
+        const auto& data = mat1.Data();
+        for(uint32_t i = 0; i < data.size(); i++)
+        {
+            REQUIRE(data[i] == pixels[i] * 2);
+        }
+
+        mat1 = mat1 * 2;
+        for(uint32_t i = 0; i < data.size(); i++)
+        {
+            REQUIRE(data[i] == pixels[i] * 4);
+        }
+
+        mrg::Matrix<char> mask1 {{0, 0, 0, 0, 0, 0}, 2, 3};
+        mat1 = mat1 * mask1;
+        for(uint32_t i = 0; i < mat1.Width(); i++)
+        {
+            for(uint32_t j = 0; j < mat1.Height(); j++)
+            {
+                if(i < mask1.Width() && j < mask1.Height())
+                    REQUIRE(mat1.Get({i, j}) == 0);
+                else
+                    REQUIRE(pixels[i * mat1.Height() + j] * 2);
+            }
+        }
+
+        mrg::Matrix<char> mask2 {{0, 0, 0, 0, 0, 0, 0, 0, 0}, 3, 3};
+        mat1 *= mask2;
+        for(uint32_t i = 0; i < mat1.Width(); i++)
+        {
+            for(uint32_t j = 0; j < mat1.Height(); j++)
+            {
+                REQUIRE(mat1.Get({i, j}) == 0);
+            }
+        }
+    }
+
+
+    SECTION("Masks addition")
+    {
+        mrg::Matrix<char> mat1 {pixels,3, 3};
+
+        mat1 += -1;
+        const auto& data = mat1.Data();
+        for(uint32_t i = 0; i < data.size(); i++)
+        {
+            REQUIRE(data[i] == pixels[i] - 1);
+        }
+
+        mat1 = mat1 + 2;
+        for(uint32_t i = 0; i < data.size(); i++)
+        {
+            REQUIRE(data[i] == pixels[i] + 1);
+        }
+
+        mrg::Matrix<char> mask1 {{1, 1, 1, 1, 1, 1}, 2, 3};
+        mat1 = mat1 + mask1;
+        for(uint32_t i = 0; i < mat1.Width(); i++)
+        {
+            for(uint32_t j = 0; j < mat1.Height(); j++)
+            {
+                if(i < mask1.Width() && j < mask1.Height())
+                    REQUIRE(data[(i * mat1.Height()) + j] == pixels[(i * mat1.Height()) + j] + 2);
+                else
+                    REQUIRE(data[(i * mat1.Height()) + j] == pixels[(i * mat1.Height()) + j] + 1);
+            }
+        }
+
+        mrg::Matrix<char> mask2 {{1, 1, 1, 1, 1, 1, 1, 1, 1}, 3, 3};
+        mat1 += mask2;
+        for(uint32_t i = 0; i < mat1.Width(); i++)
+        {
+            for(uint32_t j = 0; j < mat1.Height(); j++)
+            {
+                if(i < mask1.Width() && j < mask1.Height())
+                    REQUIRE(data[(i * mat1.Height()) + j] == pixels[(i * mat1.Height()) + j] + 3);
+                else
+                    REQUIRE(data[(i * mat1.Height()) + j] == pixels[(i * mat1.Height()) + j] + 2);
+            }
+        }
     }
 }
