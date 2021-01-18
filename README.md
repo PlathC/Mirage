@@ -22,23 +22,24 @@ An image processing library for learning purpose in C++17.
 
 See [__detailed features description__](Features.md)
 
-| Feature                                                         | Progress             |
-|-----------------------------------------------------------------|----------------------|
-| Image structure                                                 | Done                 |
-| Filter (convolution)                                            | Done                 |
-| Sobel / Threshold                                               | Done                 |
-| Histogram Equalization                                          | Done                 |
-| Canny                                                           | Done                 |
-| Crop / Scale                                                    | Done                 |
-| Matrix transform                                                | In progress          |
-| DFT                                                             | Done                 |
-| FFT                                                             | Done                 |
-| Mask operations                                                 | Done                 |
-| Morphological operations                                        | Done                 |
-| Adaptive Histogram Equalization                                 | To do                |
-| Floyd-Steinberg                                                 | To do                |
-| Video support                                                   | To do                |
-| Optimization (Realtime use, GPU - MT)                           | To do                |
+| Feature                                                         | Progress                          |
+|-----------------------------------------------------------------|-----------------------------------|
+| Image structure                                                 | Done                              |
+| Pixel type                                                      | To do                             |
+| Filter (convolution)                                            | Done                              |
+| Sobel / Threshold                                               | Done                              |
+| Histogram Equalization                                          | Done                              |
+| Canny                                                           | Done                              |
+| Crop / Scale                                                    | Done                              |
+| Rotation                                                        | Done (Square image)               |
+| DFT                                                             | Done                              |
+| FFT                                                             | Done                              |
+| Mask operations                                                 | Done                              |
+| Morphological operations                                        | Done                              |
+| Adaptive Histogram Equalization                                 | To do                             |
+| Floyd-Steinberg                                                 | Done (`examples/viewer/main.cpp`) |
+| Video support                                                   | To do                             |
+| Optimization (Realtime use, GPU - MT)                           | To do                             |
 
 <h2 align="center">Build</h2>
 

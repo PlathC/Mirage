@@ -63,21 +63,19 @@ in the frequency domain.
 ### __Viewer__
 
 The viewer provide an easy and fast way to visualize image processing algorithms.
- 
+  
 ```cpp
-#include <QApplication>
-
-#include <Mirage/Mirage.hpp>
-#include <Mirage/Viewer/Viewer.hpp>
-
 int main(int argc, char** argv)
 {
     QApplication app{argc, argv};
 
-    mrg::Viewer viewer = mrg::Viewer([](mrg::Matrix<uint16_t> img) -> mrg::Matrix<uint16_t>
+    mrg::Viewer viewer = mrg::Viewer([](const mrg::Matrix<uint16_t>& img) -> mrg::Matrix<uint16_t>
         {
-            auto raw = mrg::Canny(img);
-            return mrg::Matrix<uint16_t>(raw.DataInType<uint16_t>(), raw.Width(), raw.Height(), 1);
+            auto temp = mrg::Matrix<uint16_t>(img);
+            if(temp.Channel() > 1)
+                temp = mrg::ToGrayScale<uint16_t, uint16_t>(temp);
+
+            return FloydSteinberg(temp);
         }
     );
     viewer.show();
@@ -85,6 +83,8 @@ int main(int argc, char** argv)
     return app.exec();
 }
 ```
+
+For more details take a look at ~~`examples/viewer/main.cpp`~~
 
 ### __Image vectorization operation__
 
