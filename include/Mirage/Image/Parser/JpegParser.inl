@@ -46,13 +46,13 @@ namespace mrg
             {
                 channel = 1;
             }
-            else if(pixelFormat == TJPF_RGB)
+            else if(pixelFormat == TJPF_RGB || pixelFormat == TJPF_BGR)
             {
                 channel = 3;
             }
-            else if(pixelFormat = TJPF_RGBA)
+            else if(pixelFormat == TJPF_RGBA)
             {
-                channel == 4;
+                channel = 4;
             }
             else
             {
@@ -78,9 +78,20 @@ namespace mrg
             {
                 for(uint32_t i = 0; i < width; i++)
                 {
-                    for(uint32_t c = 0; c < channel; c++)
+                    if(pixelFormat == TJPF_BGR)
                     {
-                        resultData[(j * width + i) * channel + c] = buffer[(j * width + i) * channel + c];
+                        for(uint32_t c = 0; c < channel; c++)
+                        {
+                            resultData[(j * width + i) * channel + (channel - c - 1)] = buffer[(j * width + i) * channel + c];
+                        }
+                    }
+                    else
+                    {
+                        for(uint32_t c = 0; c < channel; c++)
+                        {
+
+                            resultData[(j * width + i) * channel + c] = buffer[(j * width + i) * channel + c];
+                        }
                     }
                 }
             }
