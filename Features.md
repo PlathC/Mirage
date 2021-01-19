@@ -84,7 +84,7 @@ int main(int argc, char** argv)
 }
 ```
 
-For more details take a look at ~~`examples/viewer/main.cpp`~~
+For more details take a look at `examples/viewer/main.cpp`
 
 ### __Image vectorization operation__
 
