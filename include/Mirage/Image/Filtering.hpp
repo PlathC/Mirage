@@ -13,10 +13,10 @@
 namespace mrg
 {
     template<class T>
-    std::map<T, int> ComputeHistogram(const std::vector<T> &channel);
+    std::vector<std::size_t> ComputeHistogram(const std::vector<T> &channel);
 
     template<class T>
-    std::map<T, double> ComputeNormalizedHistogram(const std::vector<T> &channel, uint32_t width, uint32_t height);
+    std::vector<double> ComputeNormalizedHistogram(const std::vector<T> &channel);
 
     template<std::size_t size>
     constexpr std::array<double, size> AverageKernelGenerator = [] {

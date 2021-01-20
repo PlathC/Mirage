@@ -1,29 +1,26 @@
 namespace mrg
 {
     template<class T>
-    std::map<T, int> ComputeHistogram(const std::vector<T> &channel)
+    std::vector<std::size_t> ComputeHistogram(const std::vector<T> &channel)
     {
-        std::map<T, int> hist;
-        for(auto pixel : channel)
+        auto maxElement = *std::max_element(channel.begin(), channel.end());
+        std::vector<std::size_t> hist = std::vector<std::size_t>(static_cast<std::size_t>(maxElement) + 1, 0);
+        for(std::size_t i = 0; i < channel.size(); i++)
         {
-            if(hist.count(pixel) <= 0)
-                hist[pixel] = 0;
-            hist[pixel]++;
+            hist[static_cast<std::size_t>(channel[i])]++;
         }
         return hist;
     }
 
     template<class T>
-    std::map<T, double> ComputeNormalizedHistogram(const std::vector<T> &channel, uint32_t width, uint32_t height)
+    std::vector<double> ComputeNormalizedHistogram(const std::vector<T> &channel)
     {
-        std::map<T, int> histogram = ComputeHistogram(channel);
-        uint32_t totalPixelNumber = height * width;
-        std::map<T, double> normHistogram;
+        std::vector<std::size_t> histogram = ComputeHistogram(channel);
+        auto normHistogram = std::vector<double>(histogram.size());
 
-        for (auto it = histogram.begin(); it != histogram.end(); it++ )
+        for(std::size_t i = 0; i < histogram.size(); i++)
         {
-            double newValue = static_cast<float>(it->second) / static_cast<float>(totalPixelNumber);
-            normHistogram[it->first] = newValue;
+            normHistogram[i] = histogram[i] / static_cast<double>(channel.size());
         }
         return normHistogram;
     }
@@ -338,18 +335,11 @@ namespace mrg
     template<class ImageType>
     void Otsu(Matrix<ImageType>& img)
     {
+        // Based http://www.labbookpages.co.uk/software/imgProc/otsuThreshold.html
         assert(img.Channel() == 1);
         auto& data = img.Data();
 
-        // http://www.labbookpages.co.uk/software/imgProc/otsuThreshold.html
-        //TODO: Change uint32_t to bit depth type
-        auto maxElement = *std::max_element(data.begin(), data.end());
-        std::vector<ImageType> hist = std::vector<ImageType>(static_cast<std::size_t>(maxElement) + 1, 0);
-        for(std::size_t i = 0; i < data.size(); i++)
-        {
-            hist[static_cast<std::size_t>(data[i])]++;
-        }
-
+        std::vector<std::size_t> hist = ComputeHistogram(data);
         double sum = 0;
         for (std::size_t i = 0; i < hist.size(); i++)
             sum += i * hist[i];
@@ -383,7 +373,6 @@ namespace mrg
 
         for(std::size_t i = 0; i < data.size(); i++)
         {
-            // TODO: Change 256 to image depth
             data[i] = (data[i] < threshold) ? 0 : 255;
         }
     }
@@ -415,15 +404,15 @@ namespace mrg
 
         auto computeEqualization = [=](std::vector<ImageType>& result) -> void
         {
-            std::map<ImageType, double> normHistogram = ComputeNormalizedHistogram(result, width, height);
-            std::map<ImageType, double> cumulativeHistogram;
+            std::vector<double> normHistogram = ComputeNormalizedHistogram(result);
+            auto cumulativeHistogram = std::vector<double>(normHistogram.size());
 
             // Compute cumulative histogram
             double sum = 0;
-            for (auto it = normHistogram.begin(); it != normHistogram.end(); it++ )
+            for (std::size_t i = 0; i < normHistogram.size(); i++)
             {
-                sum += normHistogram[it->first];
-                cumulativeHistogram[it->first] = sum;
+                sum += normHistogram[i];
+                cumulativeHistogram[i] = sum;
             }
 
             // Applying equalization
