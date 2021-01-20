@@ -36,6 +36,7 @@ namespace mrg
     private:
         Ui::Viewer* m_ui;
         mrg::Matrix<uint16_t> m_image;
+        mrg::Matrix<uchar> m_displayedImage;
         QImage m_qImage;
         ImageModifier m_modifier;
 

@@ -77,12 +77,12 @@ namespace mrg
                            [](unsigned char x) { return static_cast<T>(x);});
             if(pixelFormat == TJPF_BGR)
             {
-                for(uint32_t x = 0; x < width; x++)
+                for(uint32_t y = 0; y < height; y++)
                 {
-                    for(uint32_t y = 0; y < height; y++)
+                    for(uint32_t x = 0; x < width; x++)
                     {
-                        std::swap(resultData[(x * height + y) * channel],
-                                resultData[(x * height + y) * channel + 2]);
+                        std::swap(resultData[(y * width * channel) + (x * channel)],
+                                resultData[(y * width * channel) + (x * channel) + 2]);
                     }
                 }
             }

@@ -403,8 +403,7 @@ namespace mrg {
         assert(position[0] < m_width);
         assert(position[1] < m_height);
         assert(channel < m_channelNumber);
-        auto index = (position[1] * m_width * m_channelNumber) + (position[0] * m_channelNumber) + channel;
-        return m_data[index];
+        return m_data[(position[1] * m_width * m_channelNumber) + (position[0] * m_channelNumber) + channel];
     }
 
     template<class Type>
@@ -413,7 +412,7 @@ namespace mrg {
         assert(position.X() < m_width);
         assert(position.Y() < m_height);
         assert(position.Z() < m_channelNumber);
-        return m_data[(position.X() * m_height + position.Y()) * m_channelNumber + position.Z()];
+        return m_data[(position[1] * m_width * m_channelNumber) + (position[0] * m_channelNumber) + position[2]];
     }
 
     template<class Type>
@@ -422,7 +421,7 @@ namespace mrg {
         assert(position.X() < m_width);
         assert(position.Y() < m_height);
         assert(position.Z() < m_channelNumber);
-        return m_data[(position.X() * m_height + position.Y()) * m_channelNumber + position.Z()];
+        return m_data[(position[1] * m_width * m_channelNumber) + (position[0] * m_channelNumber) + position[3]];
     }
 
     template<class Type>

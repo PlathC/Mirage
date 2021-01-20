@@ -68,10 +68,9 @@ namespace mrg
 
     void Viewer::DrawImage()
     {
-        auto uCharImage = mrg::Transform<uint16_t, uchar>(m_image, [](const uint16_t & p) -> uchar {
+        m_displayedImage = mrg::Transform<uint16_t, uchar>(m_image, [](const uint16_t & p) -> uchar {
             return static_cast<uchar>(p);
         });
-
         uint8_t channel = m_image.Channel();
         QImage::Format channelFormat;
         switch(channel)
@@ -81,7 +80,9 @@ namespace mrg
             default: channelFormat = QImage::Format_RGBA8888; break;
         }
 
-        m_qImage = QImage(uCharImage.Data().data(), uCharImage.Width(), uCharImage.Height(), channelFormat);
+        m_qImage = QImage(m_displayedImage.Data().data(), m_displayedImage.Width(), m_displayedImage.Height(),
+                          static_cast<int>(m_displayedImage.Width() * m_displayedImage.Channel()), channelFormat);
+        m_qImage.save("test.png");
         m_ui->m_lblImage->setScaledContents(true);
         auto img = QPixmap::fromImage(m_qImage);
         m_ui->m_lblImage->setPixmap(img);

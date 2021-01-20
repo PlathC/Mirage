@@ -35,7 +35,7 @@ namespace mrg
         //const auto& data = .Data();
         std::vector<ReturnType> resultData;
         resultData.resize(width * height);
-
+        auto result = Matrix<ReturnType>(resultData, width, height);
         for(uint32_t y = 0; y < height; y++)
         {
             for(uint32_t x = 0; x < width; x++)
@@ -46,11 +46,11 @@ namespace mrg
                 {
                     pixel += img.Get(x, y, k);
                 }
-                resultData[y * width + x] = static_cast<ReturnType>(mrg::Floor(pixel / channel));
+                result.Get(x, y) = static_cast<ReturnType>(mrg::Floor(pixel / channel));
             }
         }
 
-        return Matrix<ReturnType>(resultData, width, height, 1);
+        return result;
     }
 
     template<class Type>
