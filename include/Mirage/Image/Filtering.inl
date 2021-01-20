@@ -418,14 +418,12 @@ namespace mrg
             // Applying equalization
             for(auto& pixel : result)
             {
-                // TODO: Change 256 to image depth
                 pixel = static_cast<ImageType>((256 - 1) * cumulativeHistogram[pixel]);
             }
         };
 
         for(uint8_t k = 0; k < channel; k++)
             computeEqualization(channelArrays[k]);
-
 
         for(unsigned int x = 0; x < width; x++)
         {
@@ -570,6 +568,8 @@ namespace mrg
     mrg::Matrix<std::complex<float>> FFT2(const mrg::Matrix<ImageType>& img, bool inverse)
     {
         // Mainly based on http://paulbourke.net/miscellaneous/dft/
+        assert(img.Channel() == 1 && "The FFT algorithm only performs on grayscale image");
+
         mrg::Matrix<ImageType> workingImg = img;
         if(!IsPowerOf2(workingImg.Width()) || !IsPowerOf2(workingImg.Height()))
         {

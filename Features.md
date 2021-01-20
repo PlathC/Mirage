@@ -93,10 +93,11 @@ For more details take a look at `examples/viewer/main.cpp`
 ```cpp
     mrg::Viewer viewer = mrg::Viewer([](const mrg::Matrix<uint16_t>& img) -> mrg::Matrix<uint16_t>
         {
-            auto temp = mrg::Matrix<uint16_t>(img);
-            auto canny = mrg::Canny(temp);
-            temp[canny == 255] = 255;
-            return temp;
+            mrg::Matrix<double> result = Sobel(img);
+            result[result < 128.] = 0;
+            return mrg::Transform<double, uint16_t>(result, [](const double p){
+                return static_cast<uint16_t>(p);
+            });
         }
     );
     viewer.show();
