@@ -16,7 +16,7 @@ An image processing library for learning purpose in C++17.
 | Image structure                                                 | Done                                                         |
 | Vector operations (see [__Features description__](Features.md)) | Done                                                         |
 | Parser                                                          | Done (PNG/JPEG)                                              |
-| Mirage Viewer                                                   | In progress                                                  |
+| Mirage Viewer                                                   | Done                                                         |
 
 ## Image processing features 
 
@@ -25,25 +25,29 @@ See [__detailed features description__](Features.md)
 | Feature                                                         | Progress                          |
 |-----------------------------------------------------------------|-----------------------------------|
 | Image structure                                                 | Done                              |
-| Pixel type                                                      | To do                             |
 | Filter (convolution)                                            | Done                              |
-| Sobel / Otsu                                               | Done                              |
+| Sobel / Canny                                                   | Done                              |
+| Pixel type                                                      | To do                             |
 | Histogram Equalization                                          | Done                              |
-| Canny                                                           | Done                              |
+| Threshold (Vectorized and Otsu)                                 | Done                              |
 | Crop / Scale                                                    | Done                              |
 | Rotation                                                        | Done (Square image)               |
 | DFT                                                             | Done                              |
 | FFT                                                             | Done                              |
 | Mask operations                                                 | Done                              |
 | Morphological operations                                        | Done                              |
-| Adaptive Histogram Equalization                                 | To do                             |
 | Floyd-Steinberg                                                 | Done (`examples/viewer/main.cpp`) |
+| Pixel type                                                      | To do                             |
+| Range indexing for matrix                                       | To do                             |
+| Adaptive Histogram Equalization                                 | To do                             |
 | Video support                                                   | To do                             |
 | Optimization (Realtime use, GPU - MT)                           | To do                             |
 
 <h2 align="center">Build</h2>
 
-## Dependencies 
+## External dependencies 
+
+This project embed most of its third party to ease the installation. However, Qt5 is needed to build the viewer.
 
 | Feature                          | Dependencies |
 |----------------------------------|--------------|
@@ -52,7 +56,7 @@ See [__detailed features description__](Features.md)
  
 ## Compiler
 
-This project is tested with MSVC (VS2019) and g++-9 (see [![Build Status](https://travis-ci.org/PlathC/Mirage.svg?branch=master)](https://travis-ci.org/PlathC/Mirage))
+It is mainly tested on MSVC (VS2019) and g++-9 (see [![Build Status](https://travis-ci.org/PlathC/Mirage.svg?branch=master)](https://travis-ci.org/PlathC/Mirage))
 
 
 
