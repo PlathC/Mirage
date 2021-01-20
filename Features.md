@@ -88,7 +88,7 @@ For more details take a look at `examples/viewer/main.cpp`
 
 ### __Image vectorization operation__
 
-#### Canny mask example 
+#### Sobel threshold example 
 
 ```cpp
     mrg::Viewer viewer = mrg::Viewer([](const mrg::Matrix<uint16_t>& img) -> mrg::Matrix<uint16_t>
