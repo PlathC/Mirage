@@ -346,7 +346,7 @@ namespace mrg {
     }
 
     template<class Type>
-    PixelArrayReference<Type> Matrix<Type>::operator()(const Vec2<uint32_t> p1, const Vec2<uint32_t> p2)
+    PixelArrayReference<Type> Matrix<Type>::operator()(const Vec2<uint32_t>& p1, const Vec2<uint32_t>& p2)
     {
         assert(p1[0] <= m_width && "First point x value should be within image bounds");
         assert(p1[1] <= m_height && "First point y value should be within image bounds");

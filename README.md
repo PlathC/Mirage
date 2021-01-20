@@ -15,6 +15,7 @@ An image processing library for learning purpose in C++17.
 |-----------------------------------------------------------------|--------------------------------------------------------------|
 | Image structure                                                 | Done                                                         |
 | Vector operations (see [__Features description__](Features.md)) | Done                                                         |
+| Range indexing for matrix                                       | To do                             |
 | Parser                                                          | Done (PNG/JPEG)                                              |
 | Mirage Viewer                                                   | Done                                                         |
 
@@ -36,9 +37,8 @@ See [__detailed features description__](Features.md)
 | Mask operations                                                 | Done                              |
 | Morphological operations                                        | Done                              |
 | Floyd-Steinberg                                                 | Done (`examples/viewer/main.cpp`) |
-| Pixel type                                                      | To do                             |
-| Range indexing for matrix                                       | To do                             |
 | Adaptive Histogram Equalization                                 | To do                             |
+| Pixel type                                                      | To do                             |
 | Video support                                                   | To do                             |
 | Optimization (Realtime use, GPU - MT)                           | To do                             |
 
