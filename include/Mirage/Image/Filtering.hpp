@@ -52,7 +52,7 @@ namespace mrg
     Matrix<ImageType> Convolve(Matrix<ImageType>& img, const ConvolvingFunction<ImageType>& convolvingFunction, uint32_t kernelSize);
 
     template<class ImageType>
-    void Threshold(Matrix<ImageType>& img);
+    void Otsu(Matrix<ImageType>& img);
 
     template<class ImageType>
     void HistogramEqualization(Matrix<ImageType>& img);

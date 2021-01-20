@@ -12,7 +12,7 @@ int main(int argc, char** argv)
 
         sobelTimer.Start();
         auto matSobel = Sobel(mat);
-        Threshold(matSobel);
+        Otsu(matSobel);
         sobelTimer.Stop();
 
         cannyTimer.Start();

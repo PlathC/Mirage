@@ -27,7 +27,7 @@ See [__detailed features description__](Features.md)
 | Image structure                                                 | Done                              |
 | Pixel type                                                      | To do                             |
 | Filter (convolution)                                            | Done                              |
-| Sobel / Threshold                                               | Done                              |
+| Sobel / Otsu                                               | Done                              |
 | Histogram Equalization                                          | Done                              |
 | Canny                                                           | Done                              |
 | Crop / Scale                                                    | Done                              |
