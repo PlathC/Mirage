@@ -57,6 +57,19 @@ namespace mrg
     }
 
     template<class T>
+    T Vec3<T>::operator[](const unsigned int index) const
+    {
+        assert(index <= 2);
+
+        switch(index)
+        {
+            case 0 : return m_x;
+            case 1 : return m_y;
+            default : return m_z;
+        }
+    }
+
+    template<class T>
     Vec3<T> Vec3<T>::operator+(const Vec3<T>& vec)
     {
         Vec3<T> result;

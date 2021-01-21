@@ -34,6 +34,7 @@ namespace mrg
         Vec3<T>& operator=(const T value);
 
         T& operator[](unsigned int index);
+        T operator[](unsigned int index) const;
 
         Vec3<T> operator+(const Vec3<T>& vec);
         Vec3<T> operator-(const Vec3<T>& vec);
