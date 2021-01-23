@@ -41,6 +41,7 @@ See [__detailed features description__](Features.md)
 | Pixel type                                                      | To do                             |
 | Video support                                                   | To do                             |
 | Optimization (Realtime use, GPU - MT)                           | To do                             |
+| Color spaces                                                    | To do                             |
 
 <h2 align="center">Build</h2>
 
