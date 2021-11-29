@@ -42,23 +42,10 @@ Original / Canny / Sobel
 
 ##### Histogram Equalization Results 
 
-<p align="center">
-	<img src="readmefiles/lena-gray.jpg" alt="Lena Gray"/> <img src="readmefiles/lena-eq.jpg" alt="Equalized Lena"/>
-</p>
-
-
-<p align="center">
-	<img src="samples/lena.png" alt="Lena Gray"/> <img src="readmefiles/lenaC-eq.png" alt="Equalized Lena"/>
-</p>
-
 ### __Fourier transform__
 
 DFT and FFT 2D algorithms provide the ability to work directly 
 in the frequency domain.
-
-<p align="center">
-	<img src="readmefiles/lena-gray.jpg" alt="Lena Gray"/> <img src="readmefiles/lena-fft.jpg" alt="Lena Gray"/>
-</p>
 
 ### __Viewer__
 
@@ -102,7 +89,3 @@ For more details take a look at `examples/viewer/main.cpp`
     );
     viewer.show();
 ```
-
-<p align="center">
-	<img src="readmefiles/HouseDublin.jpg" alt="Lena Gray"/> <img src="readmefiles/viewer-canny.png" alt="Thresholded"/>
-</p>
