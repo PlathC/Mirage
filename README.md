@@ -2,7 +2,6 @@
 
 An image processing library for learning purpose in C++17.
 
-[![Build Status](https://travis-ci.org/PlathC/Mirage.svg?branch=master)](https://travis-ci.org/PlathC/Mirage)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/e7674eb14f3a4636b98ded41d9cbb42c)](https://www.codacy.com/manual/PlathC/Mirage?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PlathC/Mirage&amp;utm_campaign=Badge_Grade) 
 [![Coverage Status](https://coveralls.io/repos/github/PlathC/Mirage/badge.svg?branch=master)](https://coveralls.io/github/PlathC/Mirage?branch=master)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -15,7 +14,7 @@ An image processing library for learning purpose in C++17.
 |-----------------------------------------------------------------|--------------------------------------------------------------|
 | Image structure                                                 | Done                                                         |
 | Vector operations (see [__Features description__](Features.md)) | Done                                                         |
-| Range indexing for matrix                                       | To do                             |
+| Range indexing for matrix                                       | Done                                                         |
 | Parser                                                          | Done (PNG/JPEG)                                              |
 | Mirage Viewer                                                   | Done                                                         |
 
@@ -37,11 +36,6 @@ See [__detailed features description__](Features.md)
 | Mask operations                                                 | Done                              |
 | Morphological operations                                        | Done                              |
 | Floyd-Steinberg                                                 | Done (`examples/viewer/main.cpp`) |
-| Adaptive Histogram Equalization                                 | To do                             |
-| Pixel type                                                      | To do                             |
-| Video support                                                   | To do                             |
-| Optimization (Realtime use, GPU - MT)                           | To do                             |
-| Color spaces                                                    | To do                             |
 
 <h2 align="center">Build</h2>
 
@@ -56,7 +50,4 @@ This project embed most of its third party to ease the installation. However, Qt
  
 ## Compiler
 
-It is mainly tested on MSVC (VS2019) and g++-9 (see [![Build Status](https://travis-ci.org/PlathC/Mirage.svg?branch=master)](https://travis-ci.org/PlathC/Mirage))
-
-
-
+The project has mainly been tested on MSVC (VS2019) and g++-9.

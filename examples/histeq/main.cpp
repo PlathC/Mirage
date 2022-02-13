@@ -10,7 +10,7 @@ int main(int argc, char** argv)
 
     try
     {
-        auto mat = ImageParser::FromFile<uint16_t>("../samples/lena.png");
+        auto mat = ImageParser::FromFile<uint16_t>("../samples/HouseDublin.png");
         mat = Crop(mat, {mat.Width() / 2  , mat.Height() / 2},
                    {mat.Width(), mat.Height()});
         Timer timer{};
@@ -21,7 +21,7 @@ int main(int argc, char** argv)
 
         std::cout << "Duration : " << timer.Duration() << std::endl;
 
-        ImageParser::ToFile(mat, "./lenaC-eq.png");
+        ImageParser::ToFile(mat, "./HouseDublinC-eq.png");
     }
     catch(const std::exception& e)
     {

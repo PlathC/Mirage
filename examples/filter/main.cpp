@@ -26,7 +26,7 @@ int main(int argc, char** argv)
         std::cout << "Filter compute time : " << filterTimer.Duration() << std::endl;
         ImageParser::ToFile(mat, "./rubberwhale-convolved.jpg");
 
-        Matrix<float> original = ToGrayScale<uint16_t, float>(ImageParser::FromFile<uint16_t>("../samples/lena.png"));
+        Matrix<float> original = ToGrayScale<uint16_t, float>(ImageParser::FromFile<uint16_t>("../samples/square1.png"));
 
         Timer dftTimer{};
         dftTimer.Start();

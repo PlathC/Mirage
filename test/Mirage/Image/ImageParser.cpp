@@ -36,29 +36,3 @@ TEST_CASE( "JPG", "[parser]" )
 
     fs::remove_all(testFolder);
 }
-
-TEST_CASE( "PNG", "[parser]" )
-{
-    mrg::Matrix<uint16_t> img;
-    REQUIRE_NOTHROW(img = mrg::ImageParser::FromFile<uint16_t>("../samples/lena.png"));
-
-    CHECK(img.Width()  == 220);
-    CHECK(img.Height() == 220);
-
-    constexpr std::string_view testFolder = "./tests_output";
-
-    if(!fs::exists(testFolder))
-    {
-        fs::create_directory(testFolder);
-    }
-
-    const std::string filePath = std::string(testFolder) + "/lena.png";
-    REQUIRE_NOTHROW(mrg::ImageParser::ToFile<uint16_t>(img, filePath));
-    CHECK(fs::exists(filePath));
-
-    REQUIRE_NOTHROW(img = mrg::ImageParser::FromFile<uint16_t>(filePath));
-    CHECK(img.Width()  == 220);
-    CHECK(img.Height() == 220);
-
-    fs::remove_all(testFolder);
-}
